@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="algorithm," />
 
 
 
@@ -84,15 +84,112 @@
 
 
 
-<meta name="description" content="C++/ Deep Learning/ Computer Vision">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Daniel Cai's Blog">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="#Assigment 1
+####一、用动态规划方法手工求解下面的问题：某工厂调查了解市场情况，估计在今后四个月内，市场对其产品的需求量如下表所示。 
+
+
+
+时期（月）
+需要量（产品单位）
+
+
+
+
+1
+2
+
+
+
+2
+3
+
+
+
+3
+2
+
+
+
+4
+4
+
+
+
+
+已知：对每个月来讲，生产一批产品的固定成本费为3 (千元)，若不生产，则为零。每生产单位产品的成本费为1(千元)。同时，在任何一个月内，生产能力">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Algorithm Assignment 1">
+<meta property="og:url" content="http://yoursite.com/2016/12/01/Assignment1/index.html">
 <meta property="og:site_name" content="Daniel Cai's Blog">
-<meta property="og:description" content="C++/ Deep Learning/ Computer Vision">
+<meta property="og:description" content="#Assigment 1
+####一、用动态规划方法手工求解下面的问题：某工厂调查了解市场情况，估计在今后四个月内，市场对其产品的需求量如下表所示。 
+
+
+
+时期（月）
+需要量（产品单位）
+
+
+
+
+1
+2
+
+
+
+2
+3
+
+
+
+3
+2
+
+
+
+4
+4
+
+
+
+
+已知：对每个月来讲，生产一批产品的固定成本费为3 (千元)，若不生产，则为零。每生产单位产品的成本费为1(千元)。同时，在任何一个月内，生产能力">
+<meta property="og:updated_time" content="2016-12-01T09:35:36.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Daniel Cai's Blog">
-<meta name="twitter:description" content="C++/ Deep Learning/ Computer Vision">
+<meta name="twitter:title" content="Algorithm Assignment 1">
+<meta name="twitter:description" content="#Assigment 1
+####一、用动态规划方法手工求解下面的问题：某工厂调查了解市场情况，估计在今后四个月内，市场对其产品的需求量如下表所示。 
+
+
+
+时期（月）
+需要量（产品单位）
+
+
+
+
+1
+2
+
+
+
+2
+3
+
+
+
+3
+2
+
+
+
+4
+4
+
+
+
+
+已知：对每个月来讲，生产一批产品的固定成本费为3 (千元)，若不生产，则为零。每生产单位产品的成本费为1(千元)。同时，在任何一个月内，生产能力">
 
 
 
@@ -120,13 +217,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/12/01/Assignment1/"/>
 
 
 
 
 
-  <title> Daniel Cai's Blog </title>
+  <title> Algorithm Assignment 1 | Daniel Cai's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -147,9 +244,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -238,9 +333,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -273,10 +368,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2016/12/01/Assignment1/" itemprop="url">
-                  Algorithm Assignment 1
-                </a>
+                Algorithm Assignment 1
               
             
           </h1>
@@ -343,9 +435,7 @@
       
 
       
-        
-          
-            <p>#Assigment 1</p>
+        <p>#Assigment 1</p>
 <p>####一、用动态规划方法手工求解下面的问题：<br>某工厂调查了解市场情况，估计在今后四个月内，市场对其产品的需求量如下表所示。 </p>
 <table>
 <thead>
@@ -718,37 +808,46 @@
 <p>##源代码</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> INF 99999</span></div><div class="line"><span class="keyword">int</span> C[(<span class="number">1</span>&lt;&lt;<span class="number">10</span>)+<span class="number">1</span>][<span class="number">10</span>];</div><div class="line"><span class="keyword">int</span> n =<span class="number">6</span>; <span class="comment">// the number of node</span></div><div class="line"><span class="keyword">int</span> decision[(<span class="number">1</span>&lt;&lt;<span class="number">10</span>)+<span class="number">1</span>][<span class="number">10</span>];</div><div class="line"><span class="keyword">int</span> last;  <span class="comment">//最后一步</span></div><div class="line"><span class="keyword">int</span> d[<span class="number">6</span>][<span class="number">6</span>] =&#123;  <span class="number">0</span>, <span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>,</div><div class="line">                <span class="number">12</span>, <span class="number">0</span>, <span class="number">18</span>, <span class="number">30</span>, <span class="number">25</span>, <span class="number">21</span>,</div><div class="line">                <span class="number">23</span>, <span class="number">19</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">10</span>, <span class="number">15</span>,</div><div class="line">                <span class="number">34</span>, <span class="number">32</span>, <span class="number">4</span>, <span class="number">0</span>, <span class="number">8</span>, <span class="number">16</span>,</div><div class="line">                <span class="number">45</span>, <span class="number">27</span>, <span class="number">11</span>, <span class="number">10</span>, <span class="number">0</span>, <span class="number">18</span>,</div><div class="line">                <span class="number">56</span>, <span class="number">22</span>, <span class="number">16</span>, <span class="number">20</span>, <span class="number">12</span>&#125;;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">TSP</span><span class="params">()</span></span>&#123;</div><div class="line">    <span class="keyword">int</span> ans,p,i,j,s;</div><div class="line">    <span class="keyword">for</span>(s=<span class="number">1</span>;s&lt;(<span class="number">1</span>&lt;&lt;n);s++)&#123;<span class="comment">//s表示所有的二进制表示集合，集合个数2^n-1</span></div><div class="line">        <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;n;i++)&#123;</div><div class="line">            <span class="keyword">if</span>(C[s][i]==<span class="number">-1</span>) <span class="keyword">continue</span>;  <span class="comment">//i在s中</span></div><div class="line">            <span class="keyword">for</span>(j=<span class="number">1</span>;j&lt;n;j++)&#123;</div><div class="line">                <span class="keyword">if</span>((s &amp; (<span class="number">1</span>&lt;&lt;j))!=<span class="number">0</span>) <span class="keyword">continue</span>;</div><div class="line">                p=(s | (<span class="number">1</span>&lt;&lt;j));       <span class="comment">//在s集合中添加节点j</span></div><div class="line">                <span class="keyword">if</span>(C[p][j]==<span class="number">-1</span>) C[p][j]=C[s][i]+d[i][j];</div><div class="line">                <span class="keyword">if</span>(C[p][j]&gt;=C[s][i]+d[i][j])&#123;</div><div class="line">                    C[p][j] = C[s][i]+d[i][j];</div><div class="line">                    decision[p][j] = i;    <span class="comment">//保存记录</span></div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    ans = INF;</div><div class="line">    <span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;n;i++)&#123;</div><div class="line">        <span class="keyword">if</span>(C[(<span class="number">1</span>&lt;&lt;n)<span class="number">-1</span>][i]&gt;<span class="number">0</span>)</div><div class="line">        <span class="keyword">if</span>(ans&gt;C[(<span class="number">1</span>&lt;&lt;n)<span class="number">-1</span>][i]+d[i][<span class="number">0</span>])&#123;</div><div class="line">            ans = C[(<span class="number">1</span>&lt;&lt;n)<span class="number">-1</span>][i]+d[i][<span class="number">0</span>];</div><div class="line">            last = i;  <span class="comment">//记录最后一步</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> ans;</div><div class="line">&#125;</div><div class="line"><span class="comment">//回溯寻找路径</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">Findtrace</span><span class="params">()</span></span>&#123;</div><div class="line">    <span class="keyword">int</span> trace[<span class="number">6</span>]=&#123;<span class="number">-1</span>&#125;;</div><div class="line">    <span class="keyword">int</span> i=<span class="number">0</span>;</div><div class="line">    <span class="keyword">int</span> S = (<span class="number">1</span>&lt;&lt;n)<span class="number">-1</span>;</div><div class="line">    trace[<span class="number">5</span>]= last;</div><div class="line">    <span class="keyword">for</span>(i=n<span class="number">-1</span>;i&gt;<span class="number">0</span>&amp;S&gt;<span class="number">0</span>;i--)&#123;</div><div class="line">        trace[i<span class="number">-1</span>] = decision[S][trace[i]];</div><div class="line">        S = S -(<span class="number">1</span>&lt;&lt;(decision[S][trace[i]]<span class="number">-1</span>));  <span class="comment">//删掉集合中的节点j</span></div><div class="line">    &#125;</div><div class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"0——&gt;"</span>;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)</div><div class="line">        <span class="built_in">cout</span>&lt;&lt;trace[i]+<span class="number">1</span>&lt;&lt;<span class="string">"——&gt;"</span>;</div><div class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"0"</span>&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</div><div class="line">    <span class="built_in">memset</span>(C,<span class="number">-1</span>,<span class="keyword">sizeof</span>(C));</div><div class="line">    C[<span class="number">1</span>][<span class="number">0</span>]=<span class="number">0</span>;</div><div class="line">    <span class="built_in">cout</span>&lt;&lt;TSP()&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    Findtrace();</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
-          
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
 
     <footer class="post-footer">
       
-
+        <div class="post-tags">
+          
+            <a href="/tags/algorithm/" rel="tag"># algorithm</a>
+          
+        </div>
       
 
       
+
       
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -756,6 +855,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -927,6 +1030,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
