@@ -1,0 +1,850 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Algorithms,Branch and Bound," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="用分支定界算法求以下问题:某公司于乙城市的销售点急需一批成品,该公司成品生产基地在甲城 市。甲城市与乙城市之间共有 n 座城市,互相以公路连通。甲城市、乙 城市以及其它各城市之间的公路连通情况及每段公路的长度由矩阵 M1 给出。 每段公路均由地方政府收取不同额度的养路费等费用,具体数额由矩 阵M2给出。请给出在需付养路费总额不超过 1500 的情况下,该公司货车运送其 产品从甲城市到乙城市的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Assignment2 分支限界问题">
+<meta property="og:url" content="http://yoursite.com/2016/12/23/Assignment2/index.html">
+<meta property="og:site_name" content="Daniel Cai's Blog">
+<meta property="og:description" content="用分支定界算法求以下问题:某公司于乙城市的销售点急需一批成品,该公司成品生产基地在甲城 市。甲城市与乙城市之间共有 n 座城市,互相以公路连通。甲城市、乙 城市以及其它各城市之间的公路连通情况及每段公路的长度由矩阵 M1 给出。 每段公路均由地方政府收取不同额度的养路费等费用,具体数额由矩 阵M2给出。请给出在需付养路费总额不超过 1500 的情况下,该公司货车运送其 产品从甲城市到乙城市的">
+<meta property="og:image" content="http://yoursite.com/Users/caishaofan/Desktop/result.PNG">
+<meta property="og:updated_time" content="2016-12-23T15:10:49.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Assignment2 分支限界问题">
+<meta name="twitter:description" content="用分支定界算法求以下问题:某公司于乙城市的销售点急需一批成品,该公司成品生产基地在甲城 市。甲城市与乙城市之间共有 n 座城市,互相以公路连通。甲城市、乙 城市以及其它各城市之间的公路连通情况及每段公路的长度由矩阵 M1 给出。 每段公路均由地方政府收取不同额度的养路费等费用,具体数额由矩 阵M2给出。请给出在需付养路费总额不超过 1500 的情况下,该公司货车运送其 产品从甲城市到乙城市的">
+<meta name="twitter:image" content="http://yoursite.com/Users/caishaofan/Desktop/result.PNG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/12/23/Assignment2/"/>
+
+
+
+
+
+  <title> Assignment2 分支限界问题 | Daniel Cai's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Daniel Cai's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">C++/ Deep Learning/ Computer Vision/ Java web</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/23/Assignment2/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Daniel Cai">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Daniel Cai's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Daniel Cai's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Assignment2 分支限界问题
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-23T00:00:00+08:00">
+                2016-12-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Homework/" itemprop="url" rel="index">
+                    <span itemprop="name">Homework</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/12/23/Assignment2/" class="leancloud_visitors" data-flag-title="Assignment2 分支限界问题">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">Visitors </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2>用分支定界算法求以下问题:某公司于乙城市的销售点急需一批成品,该公司成品生产基地在甲城 市。甲城市与乙城市之间共有 n 座城市,互相以公路连通。甲城市、乙 城市以及其它各城市之间的公路连通情况及每段公路的长度由矩阵 M1 给出。 每段公路均由地方政府收取不同额度的养路费等费用,具体数额由矩 阵M2给出。请给出在需付养路费总额不超过 1500 的情况下,该公司货车运送其 产品从甲城市到乙城市的最短运送路线。具体数据参见文件:M1.txt: 各城市之间的公路连通情况及每段公路的长度矩阵(有向 图); 甲城市为城市 Num.1,乙城市为城市 Num.50。M2.txt: 每段公路收取的费用矩阵(非对称)。</h2>
+<h4>解题思路：</h4>
+<p>读入公路的长度矩阵M1，解空间为${1,...,n} $,是一棵长度不唯一的排列树，对树进行<code>深度优先搜索</code>，再利用<code>代价函数</code>和<code>界函数</code>和<code>约束函数</code>对树进行剪枝缩小搜索空间。</p>
+<h3>变量</h3>
+<blockquote>
+<p>$dis[i][j]:$  城市i到城市j的长度<br>
+$cost[i][j]:$ 城市i到城市j公路收取的费用<br>
+$visited[i]:$ 城市i已经走过<br>
+$lowest:$ 表示当前可行解中最短运送路线的长度<br>
+$cur_dis:$  表示当前路线的长度<br>
+$cur_cost:$  表示当前路线已经收取的总费用<br>
+$min_dis[i][j]:$  城市$i$到城市$j$的最短距离，可以由Floyd算法求出</p>
+</blockquote>
+<h3>代价函数</h3>
+<p>$$cur_dis + min_dis[k][n] ＝ \sum_{i=1}c_i+min_dis[k][n]$$</p>
+<blockquote>
+<p>$c_i$表示走过的第i条路径的长度。其中k是当前所在的城市，$min_dis[k][n]$表示从城市k到城市n的最短距离</p>
+</blockquote>
+<h3>剪枝策略</h3>
+<p>$$cur_dis + min_dis[k][n]&gt;lowest$$
+$$cur_dis&gt;lowest$$
+$$cur_cost&gt;1500$$</p>
+<p>满足三个条件之一则进行剪枝</p>
+<h3>时间复杂度</h3>
+<p>计算代价函数时，需要用Floyd算法对矩阵进行预处理，时间复杂度为$O(n^3)$。采用了DFS对排列树进行了搜索，全部搜索需要访问$(n-1)!$个节点，由于采用了剪枝策略，所以实际访问的节点要远小于它。</p>
+<h3>运行结果</h3>
+<p><img src="/Users/caishaofan/Desktop/result.PNG" alt="Alt text"></p>
+<h3>源代码</h3>
+<p><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> citynum 50</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> INF 9999</span></div><div class="line"></div><div class="line"><span class="built_in">vector</span> &lt;<span class="keyword">int</span>&gt; trace;				<span class="comment">//当前路径</span></div><div class="line"><span class="built_in">vector</span> &lt;<span class="keyword">int</span>&gt; solution;	<span class="comment">//所有解</span></div><div class="line"><span class="keyword">int</span> dis[citynum][citynum];</div><div class="line"><span class="keyword">int</span> cost[citynum][citynum];</div><div class="line"><span class="keyword">int</span> min_dis[citynum][citynum];</div><div class="line"><span class="keyword">int</span> lowest = INF;</div><div class="line"><span class="keyword">int</span> visited[citynum];</div><div class="line"><span class="keyword">int</span> cost_now;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">floyd</span><span class="params">()</span> </span>&#123;</div><div class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; citynum; i++) &#123;</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; citynum; j++) &#123;</div><div class="line">			min_dis[i][j] = dis[i][j];</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; citynum; i++)</div><div class="line">		min_dis[i][i] = <span class="number">0</span>;</div><div class="line"></div><div class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; citynum; i++) &#123;</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; citynum; j++) &#123;</div><div class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; citynum; k++) &#123;</div><div class="line">				<span class="keyword">if</span> (min_dis[i][j] &gt; min_dis[i][k] + min_dis[k][j])</div><div class="line">					min_dis[i][j] = min_dis[i][k] + min_dis[k][j];</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">cal_bound</span><span class="params">(<span class="keyword">int</span> cur_dis, <span class="keyword">int</span> city_in)</span> </span>&#123;</div><div class="line">	<span class="keyword">int</span> bound = <span class="number">0</span>;</div><div class="line">	bound = cur_dis + min_dis[city_in][citynum - <span class="number">1</span>];</div><div class="line">	<span class="keyword">return</span> bound;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">search</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;trace,<span class="keyword">int</span> city_in)</span> </span>&#123;</div><div class="line">	visited[city_in] = <span class="number">1</span>;</div><div class="line">	trace.push_back(city_in);</div><div class="line"></div><div class="line">	<span class="keyword">int</span> cur_dis = <span class="number">0</span>;					<span class="comment">//当前路程</span></div><div class="line">	<span class="keyword">int</span> cur_cost = <span class="number">0</span>;					<span class="comment">//当前路费</span></div><div class="line"></div><div class="line"></div><div class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; trace.size(); i++) &#123;</div><div class="line">		cur_cost += cost[trace[i<span class="number">-1</span>]][trace[i]];</div><div class="line">		cur_dis += dis[trace[i - <span class="number">1</span>]][trace[i]];</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">//减枝</span></div><div class="line">	<span class="keyword">if</span> (cur_dis &gt; lowest || cur_cost &gt; <span class="number">1500</span> || cal_bound(cur_dis, city_in) &gt;= lowest) &#123;</div><div class="line">		trace.pop_back();</div><div class="line">		visited[city_in] = <span class="number">0</span>;</div><div class="line">		<span class="keyword">return</span>;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">if</span> (city_in == citynum - <span class="number">1</span>) &#123;</div><div class="line">		<span class="keyword">if</span> (cur_dis &lt; lowest) &#123;</div><div class="line">			lowest = cur_dis;</div><div class="line">			cost_now = cur_cost;</div><div class="line">			solution.clear();</div><div class="line">			</div><div class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; trace.size(); i++) &#123;</div><div class="line">				<span class="built_in">printf</span>(<span class="string">"%d "</span>, trace[i]);</div><div class="line">				solution.push_back(trace[i]);</div><div class="line">			&#125;</div><div class="line">			<span class="built_in">printf</span>(<span class="string">"cost = %d dis= %d\n"</span>, cur_cost, cur_dis);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//继续搜索</span></div><div class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; citynum; i++) &#123;</div><div class="line">		<span class="keyword">if</span> (visited[i] != <span class="number">1</span> &amp;&amp; dis[city_in][i] != INF) &#123;</div><div class="line">			search(trace, i);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	trace.pop_back();</div><div class="line">	visited[city_in] = <span class="number">0</span>;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</div><div class="line">	FILE *input1 = fopen(<span class="string">"m1.txt"</span>, <span class="string">"r"</span>);</div><div class="line">	FILE *input2 = fopen(<span class="string">"m2.txt"</span>, <span class="string">"r"</span>);</div><div class="line"></div><div class="line">	<span class="keyword">time_t</span> start, stop;</div><div class="line">	start = clock();</div><div class="line">	<span class="built_in">memset</span>(visited, <span class="number">0</span>, citynum);</div><div class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; citynum; i++) &#123;</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; citynum; j++) &#123;</div><div class="line">			<span class="built_in">fscanf</span>(input1, <span class="string">"%d"</span>, &amp;dis[i][j]);</div><div class="line">			<span class="built_in">fscanf</span>(input2, <span class="string">"%d"</span>, &amp;cost[i][j]);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	floyd();</div><div class="line">	search(trace,<span class="number">0</span>);</div><div class="line">	stop = clock();</div><div class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; solution.size(); i++) &#123;</div><div class="line">		<span class="built_in">printf</span>(<span class="string">"%d "</span>, solution[i]);</div><div class="line">	&#125;</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"cost=%d,dis= %d\n"</span>, cost_now, lowest);</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"Use Time:%ld ms\n"</span>, (stop - start));</div><div class="line"></div><div class="line">	getchar();</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Algorithms/" rel="tag"># Algorithms</a>
+          
+            <a href="/tags/Branch-and-Bound/" rel="tag"># Branch and Bound</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/19/Mac OS X_Caffe_install/" rel="next" title="Mac OS X 10.11 Caffe环境搭建(CPU ONLY)">
+                <i class="fa fa-chevron-left"></i> Mac OS X 10.11 Caffe环境搭建(CPU ONLY)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/23/htaccess_turiol/" rel="prev" title=".htaccess教程">
+                .htaccess教程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Daniel Cai" />
+          <p class="site-author-name" itemprop="name">Daniel Cai</p>
+          <p class="site-description motion-element" itemprop="description">C++/ Deep Learning/ Computer Vision</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">categories</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/csf0429" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">用分支定界算法求以下问题:某公司于乙城市的销售点急需一批成品,该公司成品生产基地在甲城 市。甲城市与乙城市之间共有 n 座城市,互相以公路连通。甲城市、乙 城市以及其它各城市之间的公路连通情况及每段公路的长度由矩阵 M1 给出。 每段公路均由地方政府收取不同额度的养路费等费用,具体数额由矩 阵M2给出。请给出在需付养路费总额不超过 1500 的情况下,该公司货车运送其 产品从甲城市到乙城市的最短运送路线。具体数据参见文件:M1.txt: 各城市之间的公路连通情况及每段公路的长度矩阵(有向 图); 甲城市为城市 Num.1,乙城市为城市 Num.50。M2.txt: 每段公路收取的费用矩阵(非对称)。</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#undefined"><span class="nav-number">1.0.1.</span> <span class="nav-text">解题思路：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.1.</span> <span class="nav-text">变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.2.</span> <span class="nav-text">代价函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.3.</span> <span class="nav-text">剪枝策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.4.</span> <span class="nav-text">时间复杂度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.5.</span> <span class="nav-text">运行结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.6.</span> <span class="nav-text">源代码</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Daniel Cai</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("DiCvk6wV6AqQ8vy8Q7gF70ag-gzGzoHsz", "UyqX9m0Upr0W9lwmeexLABKG");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  <!-- 背景动画 -->
+  <script type="text/javascript" src="/js/src/particle.js"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+</body>
+</html>
