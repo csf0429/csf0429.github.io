@@ -978,7 +978,8 @@ pre .javascript .function {
   bottom: 19px;
 }
 .header {
-  background: #fff;
+  background: url("../image/snowmountain.png");
+  background-size: 100% 215%;
 }
 .header-inner {
   position: relative;
@@ -1681,7 +1682,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #6be5ff;
+  background: #ff75ff;
 }
 .links-of-blogroll {
   font-size: 13px;
