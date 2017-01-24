@@ -84,24 +84,30 @@
 
 
 
-<meta name="description" content="Dignosing Bias vs. Variance训练误差将随着多项式次数$d$的增加而逐渐减少。
+<meta name="description" content="Dignosing Bias vs. Variance
+训练误差将随着多项式次数$d$的增加而逐渐减少。
 与此同时，在一定范围内，随着多项式次数$d$增加，交叉验证误差先减少，当$d$增加到某个值时，交叉验证误差也随着$d$的增加而增加，形成一个凸曲线。
-High bias (underfitting) : both $J{train}(Θ)$ and $J{CV}(Θ)$ will be high">
+High bias (underfitting) :
+both $ J_{train}(Θ) $ and $J_{CV}(Θ)$ will be">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CS229 学习笔记——Dignosing Bias vs. Variance">
 <meta property="og:url" content="http://yoursite.com/2017/01/24/BiasVsVariance/index.html">
 <meta property="og:site_name" content="Daniel Cai's Blog">
-<meta property="og:description" content="Dignosing Bias vs. Variance训练误差将随着多项式次数$d$的增加而逐渐减少。
+<meta property="og:description" content="Dignosing Bias vs. Variance
+训练误差将随着多项式次数$d$的增加而逐渐减少。
 与此同时，在一定范围内，随着多项式次数$d$增加，交叉验证误差先减少，当$d$增加到某个值时，交叉验证误差也随着$d$的增加而增加，形成一个凸曲线。
-High bias (underfitting) : both $J{train}(Θ)$ and $J{CV}(Θ)$ will be high">
+High bias (underfitting) :
+both $ J_{train}(Θ) $ and $J_{CV}(Θ)$ will be">
 <meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/2017012514852738305393.png">
 <meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170125148527369199108.png">
-<meta property="og:updated_time" content="2017-01-24T16:04:11.000Z">
+<meta property="og:updated_time" content="2017-01-24T16:27:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CS229 学习笔记——Dignosing Bias vs. Variance">
-<meta name="twitter:description" content="Dignosing Bias vs. Variance训练误差将随着多项式次数$d$的增加而逐渐减少。
+<meta name="twitter:description" content="Dignosing Bias vs. Variance
+训练误差将随着多项式次数$d$的增加而逐渐减少。
 与此同时，在一定范围内，随着多项式次数$d$增加，交叉验证误差先减少，当$d$增加到某个值时，交叉验证误差也随着$d$的增加而增加，形成一个凸曲线。
-High bias (underfitting) : both $J{train}(Θ)$ and $J{CV}(Θ)$ will be high">
+High bias (underfitting) :
+both $ J_{train}(Θ) $ and $J_{CV}(Θ)$ will be">
 <meta name="twitter:image" content="http://ok9r0tgbx.bkt.clouddn.com/2017012514852738305393.png">
 
 
@@ -357,18 +363,23 @@ High bias (underfitting) : both $J{train}(Θ)$ and $J{CV}(Θ)$ will be high">
       
 
       
-        <h2 id="Dignosing-Bias-vs-Variance"><a href="#Dignosing-Bias-vs-Variance" class="headerlink" title="Dignosing Bias vs. Variance"></a>Dignosing Bias vs. Variance</h2><p>训练误差将随着多项式次数$d$的增加而逐渐减少。</p>
+        <h2>Dignosing Bias vs. Variance</h2>
+<p>训练误差将随着多项式次数$d$的增加而逐渐减少。</p>
 <p>与此同时，在一定范围内，随着多项式次数$d$增加，交叉验证误差先减少，当$d$增加到某个值时，交叉验证误差也随着$d$的增加而增加，形成一个凸曲线。</p>
-<p><strong>High bias (underfitting)</strong> : both $J<em>{train}(Θ)$ and $J</em>{CV}(Θ)$ will be high. Also, $J<em>{CV}(Θ)≈J</em>{train}(Θ)$.</p>
-<p><strong>High variance (overfitting)</strong> : $J<em>{train}(Θ)$ will be low and $J</em>{CV}(Θ)$ will be much greater than $J_{train}(Θ)$.</p>
+<p><strong>High bias (underfitting)</strong> :
+both $ J_{train}(Θ) $ and $J_{CV}(Θ)$ will be high. Also, $J_{CV}(Θ)≈J_{train}(Θ)$.</p>
+<p><strong>High variance (overfitting)</strong> :
+$ J_{train}(Θ) $ will be low and $ J_{CV}(Θ)$ will be much greater than $J_{train}(Θ)$.</p>
 <p>The is summarized in the figure below:</p>
 <p><img src="http://ok9r0tgbx.bkt.clouddn.com/2017012514852738305393.png" alt="2017012514852738305393.png"></p>
-<h2 id="Regularization-and-Bias-Variance"><a href="#Regularization-and-Bias-Variance" class="headerlink" title="Regularization and Bias / Variance"></a>Regularization and Bias / Variance</h2><p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170125148527369199108.png" alt="20170125148527369199108.png"></p>
+<h2>Regularization and Bias / Variance</h2>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170125148527369199108.png" alt="20170125148527369199108.png"></p>
 <p>如上图所示，我们可以看出，随着正则项系数$λ$增加，将会导致<strong>underfitting</strong>. 反之，当$λ$的值减小，又会导致模型的<strong>overfitting</strong>.那么，如何选择一个合适的$λ$值呢？</p>
 <p>可以采取以下步骤：</p>
 <ol>
 <li>Create a list of lambdas (i.e. $λ$∈{0,0.01,0.02,0.04,0.08,0.16,0.32,0.64,1.28,2.56,5.12,10.24});</li>
-<li>Create a set of models with different degrees or any other variants.<br>Iterate through the $λ$s and for each $λ$ go through all the models to learn some $Θ$.</li>
+<li>Create a set of models with different degrees or any other variants.
+Iterate through the $λ$s and for each $λ$ go through all the models to learn some $Θ$.</li>
 <li>Learn the parameter Θ for the model selected, using $J_{train}(Θ)$ with the $λ$ selected.</li>
 <li>Compute the train error using the learned $Θ$ (computed with $λ$ ) on the $J_{train}(Θ)$ without regularization or $λ = 0$.</li>
 <li>Compute the cross validation error using the learned $Θ$ (computed with $λ$) on the $J_{CV}(Θ)$ without regularization or $λ = 0$.</li>
@@ -548,7 +559,7 @@ High bias (underfitting) : both $J{train}(Θ)$ and $J{CV}(Θ)$ will be high">
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Dignosing-Bias-vs-Variance"><span class="nav-number">1.</span> <span class="nav-text">Dignosing Bias vs. Variance</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Regularization-and-Bias-Variance"><span class="nav-number">2.</span> <span class="nav-text">Regularization and Bias / Variance</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">Dignosing Bias vs. Variance</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text">Regularization and Bias / Variance</span></a></li></ol></div>
             
 
           </div>
