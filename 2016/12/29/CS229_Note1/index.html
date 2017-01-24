@@ -84,22 +84,31 @@
 
 
 
-<meta name="description" content="概率解释在解决一个回归问题时，我们可能会想，为什么用linear regression,为什么用least-squares作为损失函数 $J$。在这一节，我们将给出一系列的概率假设，来证明least-squares是一个合理自然的算法。用以下等式来表示目标变量和输入变量之间的关系：$$y^{(i)}=\theta^Tx^{(i)}+\epsilon^{(i)}$$
+<meta name="description" content="概率解释
+在解决一个回归问题时，我们可能会想，为什么用linear regression,为什么用least-squares作为损失函数 $J$。在这一节，我们将给出一系列的概率假设，来证明least-squares是一个合理自然的算法。
+用以下等式来表示目标变量和输入变量之间的关系：
+$$y^{(i)}=\theta^Tx^{(i)}+\epsilon^{(i)}$$
 
-$\epsilon^{(i)}">
+$\epsilon^{(">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CS229 学习笔记(一)">
 <meta property="og:url" content="http://yoursite.com/2016/12/29/CS229_Note1/index.html">
 <meta property="og:site_name" content="Daniel Cai's Blog">
-<meta property="og:description" content="概率解释在解决一个回归问题时，我们可能会想，为什么用linear regression,为什么用least-squares作为损失函数 $J$。在这一节，我们将给出一系列的概率假设，来证明least-squares是一个合理自然的算法。用以下等式来表示目标变量和输入变量之间的关系：$$y^{(i)}=\theta^Tx^{(i)}+\epsilon^{(i)}$$
+<meta property="og:description" content="概率解释
+在解决一个回归问题时，我们可能会想，为什么用linear regression,为什么用least-squares作为损失函数 $J$。在这一节，我们将给出一系列的概率假设，来证明least-squares是一个合理自然的算法。
+用以下等式来表示目标变量和输入变量之间的关系：
+$$y^{(i)}=\theta^Tx^{(i)}+\epsilon^{(i)}$$
 
-$\epsilon^{(i)}">
-<meta property="og:updated_time" content="2016-12-29T05:56:47.000Z">
+$\epsilon^{(">
+<meta property="og:updated_time" content="2017-01-24T10:35:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CS229 学习笔记(一)">
-<meta name="twitter:description" content="概率解释在解决一个回归问题时，我们可能会想，为什么用linear regression,为什么用least-squares作为损失函数 $J$。在这一节，我们将给出一系列的概率假设，来证明least-squares是一个合理自然的算法。用以下等式来表示目标变量和输入变量之间的关系：$$y^{(i)}=\theta^Tx^{(i)}+\epsilon^{(i)}$$
+<meta name="twitter:description" content="概率解释
+在解决一个回归问题时，我们可能会想，为什么用linear regression,为什么用least-squares作为损失函数 $J$。在这一节，我们将给出一系列的概率假设，来证明least-squares是一个合理自然的算法。
+用以下等式来表示目标变量和输入变量之间的关系：
+$$y^{(i)}=\theta^Tx^{(i)}+\epsilon^{(i)}$$
 
-$\epsilon^{(i)}">
+$\epsilon^{(">
 
 
 
@@ -354,20 +363,45 @@ $\epsilon^{(i)}">
       
 
       
-        <h2 id="概率解释"><a href="#概率解释" class="headerlink" title="概率解释"></a>概率解释</h2><p>在解决一个回归问题时，我们可能会想，为什么用<code>linear regression</code>,为什么用<code>least-squares</code>作为损失函数 $J$。在这一节，我们将给出一系列的概率假设，来证明<code>least-squares</code>是一个合理自然的算法。<br>用以下等式来表示目标变量和输入变量之间的关系：<br>$$y^{(i)}=\theta^Tx^{(i)}+\epsilon^{(i)}$$</p>
+        <h2>概率解释</h2>
+<p>在解决一个回归问题时，我们可能会想，为什么用<code>linear regression</code>,为什么用<code>least-squares</code>作为损失函数 $J$。在这一节，我们将给出一系列的概率假设，来证明<code>least-squares</code>是一个合理自然的算法。
+用以下等式来表示目标变量和输入变量之间的关系：
+$$y^{(i)}=\theta^Tx^{(i)}+\epsilon^{(i)}$$</p>
 <blockquote>
 <p>$\epsilon^{(i)}$是一个误差术语，用来描述非模型方面的影响（例如有些feature用来预测房价非常合适，但是我们在回归问题中没有用到它）,或者是<code>random noise</code>。</p>
 </blockquote>
-<p>在这里我们假设$\epsilon^{(i)}$是独立同分布的，服从均值为0,误差为$\sigma^2$的<code>Gaussian distribution</code>(也叫做正态分布)。即<br>$\epsilon^{(i)}\sim \mathcal{N}(0,\sigma^2)$.接下来给出$\epsilon^{(i)}$的概率密度<br>$$p(\epsilon^{(i)})=\frac{1}{\sqrt{2\pi}\sigma}exp(-\frac{(\epsilon^{(i)})^2}{2\sigma^2})$$<br>这个式子的含义是<br>$$p(y^{(i)}|x^{(i)};\theta)=\frac{1}{\sqrt{2\pi}\sigma}exp(-\frac{(y^{(i)}-\theta^Tx^{(i)})^2}{2\sigma^2})$$</p>
+<p>在这里我们假设$\epsilon^{(i)}$是独立同分布的，服从均值为0,误差为$\sigma^2$的<code>Gaussian distribution</code>(也叫做正态分布)。即
+$\epsilon^{(i)}\sim \mathcal{N}(0,\sigma^2)$.接下来给出$\epsilon^{(i)}$的概率密度
+$$p(\epsilon^{(i)})=\frac{1}{\sqrt{2\pi}\sigma}exp(-\frac{(\epsilon^{(i)})^2}{2\sigma^2})$$
+这个式子的含义是
+$$p(y^{(i)}|x^{(i)};\theta)=\frac{1}{\sqrt{2\pi}\sigma}exp(-\frac{(y^{(i)}-\theta^Tx^{(i)})^2}{2\sigma^2})$$</p>
 <blockquote>
 <p>$p(y^{(i)}|x^{(i)};\theta)$表示在给定样本$x^{(i)}$，以$\theta$为参数所得到的$y^{(i)}$的分布。</p>
 </blockquote>
-<p>也可以写成<br>$$y^{(i)}|x^{(i)};\theta \sim \mathcal{N}(\theta^Tx^{(i)},\sigma^2)$$</p>
-<p>于是，如果我们已知训练样本$X$和参数向量$\theta$,该如何计算$y^{(i)}$的概率分布呢。它的概率分布可以表示成<br>$p(\vec{y}|X;\theta)$</p>
-<p>我们希望可以得到一个关于\theta的函数来表示它的概率分布,因此可以引入似然函数<br>$$L(\theta)=L(\theta;X,\vec{y})=p(\vec{y}|X;\theta)$$</p>
-<p>假设每个样本之间相互独立，似然函数可以写成<br>$$<br>\begin{align}<br>L(\theta) &amp; =\prod_{i=1}^mp(y^{(i)}|x^{(i)};\theta)\\<br>&amp;=\frac{1}{\sqrt{2\pi}\sigma}exp(-\frac{(y^{(i)}-\theta^Tx^{(i)})^2}{2\sigma^2})<br>\end{align}<br>$$</p>
-<p>根据最大似然估计，似然函数取得最大值表示相应的参数能够使得统计模型最为合理，因此目标函数变成了求$L(\theta)$的最大值，为了计算方便，我们对$L(\theta)$取log得到<code>log likelihood</code>$\ell(\theta)$<br>$$<br>\begin{align}<br>\ell(\theta)&amp;＝\log L(\theta)\\<br>&amp;=\log \frac{1}{\sqrt{2\pi}\sigma}exp(-\frac{(y^{(i)}-\theta^Tx^{(i)})^2}{2\sigma^2})\\<br>&amp;=\sum<em>{i=1}^m\log\frac{1}{\sqrt{2\pi}\sigma}exp(-\frac{(y^{(i)}-\theta^Tx^{(i)})^2}{2\sigma^2})\\<br>&amp;=m\log \frac{1}{\sqrt{2\pi}\sigma}-\frac{1}{\sigma^2} \cdot \frac{1}{2}\sum</em>{i=1}^m(y^{(i)}-\theta^Tx^{(i)})^2<br>\end{align}<br>$$</p>
-<p>因此，从上述式子我们可以看出最大化$\ell(\theta)$等价于最小化<br>$$\frac{1}{2}\sum_{i=1}^m(y^{(i)}-\theta^Tx^{(i)})^2$$<br>这便是我们所熟悉的$J(\theta)$,即<code>least-squares cost function</code>,总结一下就是说对损失函数进行最小化和最大化似然函数所做的事情其实是等价的。</p>
+<p>也可以写成
+$$y^{(i)}|x^{(i)};\theta \sim \mathcal{N}(\theta^Tx^{(i)},\sigma^2)$$</p>
+<p>于是，如果我们已知训练样本$X$和参数向量$\theta$,该如何计算$y^{(i)}$的概率分布呢。它的概率分布可以表示成
+$p(\vec{y}|X;\theta)$</p>
+<p>我们希望可以得到一个关于\theta的函数来表示它的概率分布,因此可以引入似然函数
+$$L(\theta)=L(\theta;X,\vec{y})=p(\vec{y}|X;\theta)$$</p>
+<p>假设每个样本之间相互独立，似然函数可以写成
+$$
+\begin{align}
+L(\theta) &amp; =\prod_{i=1}^mp(y^{(i)}|x^{(i)};\theta)\\
+&amp;=\frac{1}{\sqrt{2\pi}\sigma}exp(-\frac{(y^{(i)}-\theta^Tx^{(i)})^2}{2\sigma^2})
+\end{align}
+$$</p>
+<p>根据最大似然估计，似然函数取得最大值表示相应的参数能够使得统计模型最为合理，因此目标函数变成了求$L(\theta)$的最大值，为了计算方便，我们对$L(\theta)$取log得到<code>log likelihood</code>,记作
+$\ell(\theta)$.</p>
+<p>$$\begin{align}
+\ell(\theta)&amp;＝\log L(\theta)\\
+&amp;=\log \frac{1}{\sqrt{2\pi}\sigma}exp(-\frac{(y^{(i)}-\theta^Tx^{(i)})^2}{2\sigma^2})\\
+&amp;=\sum_{i=1}^m\log\frac{1} {\sqrt{2\pi}\sigma}exp(-\frac{(y^{(i)}-\theta^Tx^{(i)})^2} {2\sigma^2})\\
+&amp;=m\log \frac{1} {\sqrt{2\pi}\sigma}-\frac{1} {\sigma^2} \cdot \frac{1}{2}\sum_{i=1}^m(y^{(i)}-\theta^Tx^{(i)})^2
+\end{align}$$</p>
+<p>因此，从上述式子我们可以看出最大化$\ell(\theta)$等价于最小化
+$$\frac{1}{2}\sum_{i=1}^m(y^{(i)}-\theta^Tx^{(i)})^2$$
+这便是我们所熟悉的$J(\theta)$,即<code>least-squares cost function</code>,总结一下就是说对损失函数进行最小化和最大化似然函数所做的事情其实是等价的。</p>
 
       
     </div>
@@ -541,7 +575,7 @@ $\epsilon^{(i)}">
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概率解释"><span class="nav-number">1.</span> <span class="nav-text">概率解释</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">概率解释</span></a></li></ol></div>
             
 
           </div>
