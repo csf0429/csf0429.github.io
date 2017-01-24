@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Machine Learning,CS229," />
 
 
 
@@ -84,15 +84,25 @@
 
 
 
-<meta name="description" content="C++/ Deep Learning/ Computer Vision">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Daniel Cai's Blog">
-<meta property="og:url" content="http://yoursite.com/categories/Deep-Learning/index.html">
+<meta name="description" content="Dignosing Bias vs. Variance训练误差将随着多项式次数$d$的增加而逐渐减少。
+与此同时，在一定范围内，随着多项式次数$d$增加，交叉验证误差先减少，当$d$增加到某个值时，交叉验证误差也随着$d$的增加而增加，形成一个凸曲线。
+High bias (underfitting) : both $J{train}(Θ)$ and $J{CV}(Θ)$ will be high">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CS229 学习笔记——Dignosing Bias vs. Variance">
+<meta property="og:url" content="http://yoursite.com/2017/01/24/BiasVsVariance/index.html">
 <meta property="og:site_name" content="Daniel Cai's Blog">
-<meta property="og:description" content="C++/ Deep Learning/ Computer Vision">
+<meta property="og:description" content="Dignosing Bias vs. Variance训练误差将随着多项式次数$d$的增加而逐渐减少。
+与此同时，在一定范围内，随着多项式次数$d$增加，交叉验证误差先减少，当$d$增加到某个值时，交叉验证误差也随着$d$的增加而增加，形成一个凸曲线。
+High bias (underfitting) : both $J{train}(Θ)$ and $J{CV}(Θ)$ will be high">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/2017012514852738305393.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170125148527369199108.png">
+<meta property="og:updated_time" content="2017-01-24T16:04:11.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Daniel Cai's Blog">
-<meta name="twitter:description" content="C++/ Deep Learning/ Computer Vision">
+<meta name="twitter:title" content="CS229 学习笔记——Dignosing Bias vs. Variance">
+<meta name="twitter:description" content="Dignosing Bias vs. Variance训练误差将随着多项式次数$d$的增加而逐渐减少。
+与此同时，在一定范围内，随着多项式次数$d$增加，交叉验证误差先减少，当$d$增加到某个值时，交叉验证误差也随着$d$的增加而增加，形成一个凸曲线。
+High bias (underfitting) : both $J{train}(Θ)$ and $J{CV}(Θ)$ will be high">
+<meta name="twitter:image" content="http://ok9r0tgbx.bkt.clouddn.com/2017012514852738305393.png">
 
 
 
@@ -120,13 +130,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/categories/Deep-Learning/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/01/24/BiasVsVariance/"/>
 
 
 
 
 
-  <title> Category: Deep Learning | Daniel Cai's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> CS229 学习笔记——Dignosing Bias vs. Variance | Daniel Cai's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -147,7 +157,7 @@
     
   
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container one-collumn sidebar-position-left  ">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -237,47 +247,193 @@
           <div id="content" class="content">
             
 
-  <section id="posts" class="posts-collapse">
-    <div class="collection-title">
-      <h2 >
-        Deep Learning
-        <small>Category</small>
-      </h2>
-    </div>
-
+  <div id="posts" class="posts-expand">
     
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2016/12/19/Mac OS X_Caffe_install/" itemprop="url">
-              
-                <span itemprop="name">Mac OS X 10.11 Caffe环境搭建(CPU ONLY)</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-12-19T00:00:00+08:00"
-              content="2016-12-19" >
-          12-19
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-    
-  </section>
 
   
 
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/24/BiasVsVariance/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Daniel Cai">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Daniel Cai's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Daniel Cai's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                CS229 学习笔记——Dignosing Bias vs. Variance
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-24T00:00:00+08:00">
+                2017-01-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Machine-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">Machine Learning</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/01/24/BiasVsVariance/" class="leancloud_visitors" data-flag-title="CS229 学习笔记——Dignosing Bias vs. Variance">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">Visitors </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Dignosing-Bias-vs-Variance"><a href="#Dignosing-Bias-vs-Variance" class="headerlink" title="Dignosing Bias vs. Variance"></a>Dignosing Bias vs. Variance</h2><p>训练误差将随着多项式次数$d$的增加而逐渐减少。</p>
+<p>与此同时，在一定范围内，随着多项式次数$d$增加，交叉验证误差先减少，当$d$增加到某个值时，交叉验证误差也随着$d$的增加而增加，形成一个凸曲线。</p>
+<p><strong>High bias (underfitting)</strong> : both $J<em>{train}(Θ)$ and $J</em>{CV}(Θ)$ will be high. Also, $J<em>{CV}(Θ)≈J</em>{train}(Θ)$.</p>
+<p><strong>High variance (overfitting)</strong> : $J<em>{train}(Θ)$ will be low and $J</em>{CV}(Θ)$ will be much greater than $J_{train}(Θ)$.</p>
+<p>The is summarized in the figure below:</p>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/2017012514852738305393.png" alt="2017012514852738305393.png"></p>
+<h2 id="Regularization-and-Bias-Variance"><a href="#Regularization-and-Bias-Variance" class="headerlink" title="Regularization and Bias / Variance"></a>Regularization and Bias / Variance</h2><p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170125148527369199108.png" alt="20170125148527369199108.png"></p>
+<p>如上图所示，我们可以看出，随着正则项系数$λ$增加，将会导致<strong>underfitting</strong>. 反之，当$λ$的值减小，又会导致模型的<strong>overfitting</strong>.那么，如何选择一个合适的$λ$值呢？</p>
+<p>可以采取以下步骤：</p>
+<ol>
+<li>Create a list of lambdas (i.e. $λ$∈{0,0.01,0.02,0.04,0.08,0.16,0.32,0.64,1.28,2.56,5.12,10.24});</li>
+<li>Create a set of models with different degrees or any other variants.<br>Iterate through the $λ$s and for each $λ$ go through all the models to learn some $Θ$.</li>
+<li>Learn the parameter Θ for the model selected, using $J_{train}(Θ)$ with the $λ$ selected.</li>
+<li>Compute the train error using the learned $Θ$ (computed with $λ$ ) on the $J_{train}(Θ)$ without regularization or $λ = 0$.</li>
+<li>Compute the cross validation error using the learned $Θ$ (computed with $λ$) on the $J_{CV}(Θ)$ without regularization or $λ = 0$.</li>
+<li>Select the best combo that produces the lowest error on the cross validation set.</li>
+<li>Using the best combo $Θ$ and $λ$, apply it on $J_{test}(Θ)$ to see if it has a good generalization of the problem.</li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Machine-Learning/" rel="tag"># Machine Learning</a>
+          
+            <a href="/tags/CS229/" rel="tag"># CS229</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/29/CS229_Note1/" rel="next" title="CS229 学习笔记(一)">
+                <i class="fa fa-chevron-left"></i> CS229 学习笔记(一)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -285,6 +441,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -304,8 +464,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -369,6 +538,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Dignosing-Bias-vs-Variance"><span class="nav-number">1.</span> <span class="nav-text">Dignosing Bias vs. Variance</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Regularization-and-Bias-Variance"><span class="nav-number">2.</span> <span class="nav-text">Regularization and Bias / Variance</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
     </div>
@@ -467,6 +652,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
@@ -493,26 +682,6 @@
   
 
   
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
-
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
