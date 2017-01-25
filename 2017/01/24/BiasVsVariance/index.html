@@ -100,7 +100,9 @@ High bias (underfitting) :
 both $ J_{train}(Θ) $ and $J_{CV}(Θ)$ will be">
 <meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/2017012514852738305393.png">
 <meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170125148527369199108.png">
-<meta property="og:updated_time" content="2017-01-24T16:27:26.000Z">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170125148531602644427.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170125148531573154872.png">
+<meta property="og:updated_time" content="2017-01-25T03:54:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CS229 学习笔记——Dignosing Bias vs. Variance">
 <meta name="twitter:description" content="Dignosing Bias vs. Variance
@@ -386,6 +388,26 @@ Iterate through the $λ$s and for each $λ$ go through all the models to learn s
 <li>Select the best combo that produces the lowest error on the cross validation set.</li>
 <li>Using the best combo $Θ$ and $λ$, apply it on $J_{test}(Θ)$ to see if it has a good generalization of the problem.</li>
 </ol>
+<h2>Learning Curves</h2>
+<p>在样本数目很少的训练集上展开训练（比如样本数目为1，2，3），将会很容易找到一个二次函数拟合这些点，因此：</p>
+<ul>
+<li>当训练集中的样本数目越来越大，二次函数的误差将会逐渐增大。</li>
+<li>当训练样本数目大于某个值，记作$m$,误差将趋于稳定。</li>
+</ul>
+<p><strong>Experiencing high bias (欠拟合)：</strong>
+<img src="http://ok9r0tgbx.bkt.clouddn.com/20170125148531602644427.png" alt="20170125148531602644427.png"></p>
+<p><strong>Low training set size</strong>：
+causes $J_{train}(Θ)$ to be low and $J_{CV}(Θ)$ to be high.</p>
+<p><strong>Large training set size</strong>：
+causes both $J_{train}(Θ)$ and JCV(Θ) to be high with $J_{train}(Θ)≈J_{CV}(Θ)$.</p>
+<p><strong>结论</strong>:如果算法现在碰到了高偏差(欠拟合)问题，此时花费精力去获取更多的训练样本数据，不会有什么帮助。</p>
+<p><strong>Experiencing high variance(过拟合):</strong></p>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170125148531573154872.png" alt="20170125148531573154872.png"></p>
+<p><strong>Low training set size</strong>：
+$J_{train}(Θ)$ will be low and $J_{CV}(Θ)$ will be high.</p>
+<p><strong>Large training set size</strong>：
+$J_{train}(Θ)$ increases with training set size and $J_{CV}(Θ)$ continues to decrease without leveling off. Also, $J_{train}(Θ)$ &lt; $J_{CV}(Θ)$ but the difference between them remains significant.</p>
+<p><strong>结论</strong>:如果算法现在碰到了高方差(过拟合)问题，此时可以增加训练样本数目来提升效果。</p>
 
       
     </div>
@@ -559,7 +581,7 @@ Iterate through the $λ$s and for each $λ$ go through all the models to learn s
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">Dignosing Bias vs. Variance</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text">Regularization and Bias / Variance</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">Dignosing Bias vs. Variance</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text">Regularization and Bias / Variance</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">3.</span> <span class="nav-text">Learning Curves</span></a></li></ol></div>
             
 
           </div>
