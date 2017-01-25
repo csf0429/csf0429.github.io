@@ -84,32 +84,27 @@
 
 
 
-<meta name="description" content="Dignosing Bias vs. Variance
-训练误差将随着多项式次数$d$的增加而逐渐减少。
-与此同时，在一定范围内，随着多项式次数$d$增加，交叉验证误差先减少，当$d$增加到某个值时，交叉验证误差也随着$d$的增加而增加，形成一个凸曲线。
-High bias (underfitting) :
-both $ J_{train}(Θ) $ and $J_{CV}(Θ)$ will be">
+<meta name="description" content="Dignosing Bias vs. Variance训练误差将随着多项式次数$d$的增加而逐渐减少。
+与此同时，在一定范围内，随着多项式次数$d$增加，交叉验证误差先减少，当$d$增加到某个值时，交叉验证误差也随着$d$的增加而增加，形成一个凸曲线。  
+High bias (underfitting):both $ J_{train}(Θ) $ and $ J_{CV}(Θ) $ will b">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CS229 学习笔记——Dignosing Bias vs. Variance">
 <meta property="og:url" content="http://yoursite.com/2017/01/24/BiasVsVariance/index.html">
 <meta property="og:site_name" content="Daniel Cai's Blog">
-<meta property="og:description" content="Dignosing Bias vs. Variance
-训练误差将随着多项式次数$d$的增加而逐渐减少。
-与此同时，在一定范围内，随着多项式次数$d$增加，交叉验证误差先减少，当$d$增加到某个值时，交叉验证误差也随着$d$的增加而增加，形成一个凸曲线。
-High bias (underfitting) :
-both $ J_{train}(Θ) $ and $J_{CV}(Θ)$ will be">
+<meta property="og:description" content="Dignosing Bias vs. Variance训练误差将随着多项式次数$d$的增加而逐渐减少。
+与此同时，在一定范围内，随着多项式次数$d$增加，交叉验证误差先减少，当$d$增加到某个值时，交叉验证误差也随着$d$的增加而增加，形成一个凸曲线。  
+High bias (underfitting):both $ J_{train}(Θ) $ and $ J_{CV}(Θ) $ will b">
 <meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/2017012514852738305393.png">
 <meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170125148527369199108.png">
 <meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170125148531602644427.png">
 <meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170125148531573154872.png">
-<meta property="og:updated_time" content="2017-01-25T03:54:39.000Z">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170125148535901982075.png">
+<meta property="og:updated_time" content="2017-01-25T15:59:52.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CS229 学习笔记——Dignosing Bias vs. Variance">
-<meta name="twitter:description" content="Dignosing Bias vs. Variance
-训练误差将随着多项式次数$d$的增加而逐渐减少。
-与此同时，在一定范围内，随着多项式次数$d$增加，交叉验证误差先减少，当$d$增加到某个值时，交叉验证误差也随着$d$的增加而增加，形成一个凸曲线。
-High bias (underfitting) :
-both $ J_{train}(Θ) $ and $J_{CV}(Θ)$ will be">
+<meta name="twitter:description" content="Dignosing Bias vs. Variance训练误差将随着多项式次数$d$的增加而逐渐减少。
+与此同时，在一定范围内，随着多项式次数$d$增加，交叉验证误差先减少，当$d$增加到某个值时，交叉验证误差也随着$d$的增加而增加，形成一个凸曲线。  
+High bias (underfitting):both $ J_{train}(Θ) $ and $ J_{CV}(Θ) $ will b">
 <meta name="twitter:image" content="http://ok9r0tgbx.bkt.clouddn.com/2017012514852738305393.png">
 
 
@@ -365,49 +360,58 @@ both $ J_{train}(Θ) $ and $J_{CV}(Θ)$ will be">
       
 
       
-        <h2>Dignosing Bias vs. Variance</h2>
-<p>训练误差将随着多项式次数$d$的增加而逐渐减少。</p>
-<p>与此同时，在一定范围内，随着多项式次数$d$增加，交叉验证误差先减少，当$d$增加到某个值时，交叉验证误差也随着$d$的增加而增加，形成一个凸曲线。</p>
-<p><strong>High bias (underfitting)</strong> :
-both $ J_{train}(Θ) $ and $J_{CV}(Θ)$ will be high. Also, $J_{CV}(Θ)≈J_{train}(Θ)$.</p>
-<p><strong>High variance (overfitting)</strong> :
-$ J_{train}(Θ) $ will be low and $ J_{CV}(Θ)$ will be much greater than $J_{train}(Θ)$.</p>
+        <h2 id="Dignosing-Bias-vs-Variance"><a href="#Dignosing-Bias-vs-Variance" class="headerlink" title="Dignosing Bias vs. Variance"></a>Dignosing Bias vs. Variance</h2><p>训练误差将随着多项式次数$d$的增加而逐渐减少。</p>
+<p>与此同时，在一定范围内，随着多项式次数$d$增加，交叉验证误差先减少，当$d$增加到某个值时，交叉验证误差也随着$d$的增加而增加，形成一个凸曲线。  </p>
+<p><strong>High bias (underfitting):</strong><br>both $ J_{train}(Θ) $ and $ J_{CV}(Θ) $ will be high. Also, $J_{CV}(Θ)≈J_{train}(Θ)$.  </p>
+<p><strong>High variance (overfitting):</strong><br>$ J_{train}(Θ) $ will be low and $ J_{CV}(Θ)$ will be much greater than $J_{train}(Θ)$.</p>
 <p>The is summarized in the figure below:</p>
 <p><img src="http://ok9r0tgbx.bkt.clouddn.com/2017012514852738305393.png" alt="2017012514852738305393.png"></p>
-<h2>Regularization and Bias / Variance</h2>
-<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170125148527369199108.png" alt="20170125148527369199108.png"></p>
+<h2 id="Regularization-and-Bias-Variance"><a href="#Regularization-and-Bias-Variance" class="headerlink" title="Regularization and Bias / Variance"></a>Regularization and Bias / Variance</h2><p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170125148527369199108.png" alt="20170125148527369199108.png"></p>
 <p>如上图所示，我们可以看出，随着正则项系数$λ$增加，将会导致<strong>underfitting</strong>. 反之，当$λ$的值减小，又会导致模型的<strong>overfitting</strong>.那么，如何选择一个合适的$λ$值呢？</p>
 <p>可以采取以下步骤：</p>
 <ol>
 <li>Create a list of lambdas (i.e. $λ$∈{0,0.01,0.02,0.04,0.08,0.16,0.32,0.64,1.28,2.56,5.12,10.24});</li>
-<li>Create a set of models with different degrees or any other variants.
-Iterate through the $λ$s and for each $λ$ go through all the models to learn some $Θ$.</li>
+<li>Create a set of models with different degrees or any other variants.<br>Iterate through the $λ$s and for each $λ$ go through all the models to learn some $Θ$.</li>
 <li>Learn the parameter Θ for the model selected, using $J_{train}(Θ)$ with the $λ$ selected.</li>
 <li>Compute the train error using the learned $Θ$ (computed with $λ$ ) on the $J_{train}(Θ)$ without regularization or $λ = 0$.</li>
 <li>Compute the cross validation error using the learned $Θ$ (computed with $λ$) on the $J_{CV}(Θ)$ without regularization or $λ = 0$.</li>
 <li>Select the best combo that produces the lowest error on the cross validation set.</li>
 <li>Using the best combo $Θ$ and $λ$, apply it on $J_{test}(Θ)$ to see if it has a good generalization of the problem.</li>
 </ol>
-<h2>Learning Curves</h2>
-<p>在样本数目很少的训练集上展开训练（比如样本数目为1，2，3），将会很容易找到一个二次函数拟合这些点，因此：</p>
+<h2 id="Learning-Curves"><a href="#Learning-Curves" class="headerlink" title="Learning Curves"></a>Learning Curves</h2><p>在样本数目很少的训练集上展开训练（比如样本数目为1，2，3），将会很容易找到一个二次函数拟合这些点，因此：</p>
 <ul>
 <li>当训练集中的样本数目越来越大，二次函数的误差将会逐渐增大。</li>
 <li>当训练样本数目大于某个值，记作$m$,误差将趋于稳定。</li>
 </ul>
-<p><strong>Experiencing high bias (欠拟合)：</strong>
-<img src="http://ok9r0tgbx.bkt.clouddn.com/20170125148531602644427.png" alt="20170125148531602644427.png"></p>
-<p><strong>Low training set size</strong>：
-causes $J_{train}(Θ)$ to be low and $J_{CV}(Θ)$ to be high.</p>
-<p><strong>Large training set size</strong>：
-causes both $J_{train}(Θ)$ and JCV(Θ) to be high with $J_{train}(Θ)≈J_{CV}(Θ)$.</p>
+<p><strong>Experiencing high bias (欠拟合)：</strong><br><img src="http://ok9r0tgbx.bkt.clouddn.com/20170125148531602644427.png" alt="20170125148531602644427.png"></p>
+<p><strong>Low training set size</strong>：<br>causes $J_{train}(Θ)$ to be low and $J_{CV}(Θ)$ to be high.</p>
+<p><strong>Large training set size</strong>：<br>causes both $J_{train}(Θ)$ and JCV(Θ) to be high with $J_{train}(Θ)≈J_{CV}(Θ)$.</p>
 <p><strong>结论</strong>:如果算法现在碰到了高偏差(欠拟合)问题，此时花费精力去获取更多的训练样本数据，不会有什么帮助。</p>
 <p><strong>Experiencing high variance(过拟合):</strong></p>
 <p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170125148531573154872.png" alt="20170125148531573154872.png"></p>
-<p><strong>Low training set size</strong>：
-$J_{train}(Θ)$ will be low and $J_{CV}(Θ)$ will be high.</p>
-<p><strong>Large training set size</strong>：
-$J_{train}(Θ)$ increases with training set size and $J_{CV}(Θ)$ continues to decrease without leveling off. Also, $J_{train}(Θ)$ &lt; $J_{CV}(Θ)$ but the difference between them remains significant.</p>
+<p><strong>Low training set size</strong>：<br>$J_{train}(Θ)$ will be low and $J_{CV}(Θ)$ will be high.</p>
+<p><strong>Large training set size</strong>：<br>$J_{train}(Θ)$ increases with training set size and $J_{CV}(Θ)$ continues to decrease without leveling off. Also, $J_{train}(Θ)$ &lt; $J_{CV}(Θ)$ but the difference between them remains significant.</p>
 <p><strong>结论</strong>:如果算法现在碰到了高方差(过拟合)问题，此时可以增加训练样本数目来提升效果。</p>
+<h2 id="Deciding-What-to-Do-Next-Revisited"><a href="#Deciding-What-to-Do-Next-Revisited" class="headerlink" title="Deciding What to Do Next Revisited"></a>Deciding What to Do Next Revisited</h2><p>我们可以通过以下方式来提升学习算法的效果，并且我们需要知道这些决策要解决的问题是high bias 还是high variance.</p>
+<ul>
+<li><strong>Getting more training examples</strong>: Fixes high variance</li>
+<li><strong>Trying smaller sets of features</strong>: Fixes high variance</li>
+<li><strong>Adding features</strong>: Fixes high bias</li>
+<li><strong>Adding polynomial features</strong>: Fixes high bias</li>
+<li><strong>Decreasing λ</strong>: Fixes high bias</li>
+<li><strong>Increasing λ</strong>: Fixes high variance.</li>
+</ul>
+<h3 id="Dignosing-Neural-Network"><a href="#Dignosing-Neural-Network" class="headerlink" title="Dignosing Neural Network"></a>Dignosing Neural Network</h3><p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170125148535901982075.png" alt="20170125148535901982075.png"></p>
+<ul>
+<li>如果神经网络带有比较少的参数，那么更容易发生<code>欠拟合</code>。此时的计算开销比较小。</li>
+<li>如果神经网络带有很多的参数，那么更容易发生<code>过拟合</code>。此时的计算开销比较大，在这种情况下，我们可以通过修改正则项系数（increase $λ$）来解决过拟合问题。</li>
+</ul>
+<p>在选择神经网络结构，我们刚开始会采取单隐层的网络结构。我们可以可以搭建多个多隐层的网络结构，并将它们在交叉验证集上进行测试，然后选取 $J_{CV}(Θ)$ 最小，即表现效果最好的神经网络结构。</p>
+<h3 id="Model-Complexity-Effects"><a href="#Model-Complexity-Effects" class="headerlink" title="Model Complexity Effects:"></a>Model Complexity Effects:</h3><ul>
+<li>Lower-order polynomials (low model complexity) have high bias and low variance. In this case, the model fits poorly consistently.</li>
+<li>Higher-order polynomials (high model complexity) fit the training data extremely well and the test data extremely poorly. These have low bias on the training data, but very high variance.</li>
+<li>In reality, we would want to choose a model somewhere in between, that can generalize well but also fits the data reasonably well.</li>
+</ul>
 
       
     </div>
@@ -581,7 +585,7 @@ $J_{train}(Θ)$ increases with training set size and $J_{CV}(Θ)$ continues to d
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">Dignosing Bias vs. Variance</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text">Regularization and Bias / Variance</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">3.</span> <span class="nav-text">Learning Curves</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Dignosing-Bias-vs-Variance"><span class="nav-number">1.</span> <span class="nav-text">Dignosing Bias vs. Variance</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Regularization-and-Bias-Variance"><span class="nav-number">2.</span> <span class="nav-text">Regularization and Bias / Variance</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Learning-Curves"><span class="nav-number">3.</span> <span class="nav-text">Learning Curves</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Deciding-What-to-Do-Next-Revisited"><span class="nav-number">4.</span> <span class="nav-text">Deciding What to Do Next Revisited</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Dignosing-Neural-Network"><span class="nav-number">4.1.</span> <span class="nav-text">Dignosing Neural Network</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Model-Complexity-Effects"><span class="nav-number">4.2.</span> <span class="nav-text">Model Complexity Effects:</span></a></li></ol></li></ol></div>
             
 
           </div>
