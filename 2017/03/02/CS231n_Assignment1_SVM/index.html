@@ -1,0 +1,840 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CS231n Python," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="CS231n Assignment 1 ——Multiclass Support Vector Machine exerciseIntroductionCS231n Multiclass Support Vector Machine Learning Note.
+CIFAR-10 Data Loading
+Python Numpynumpy.reshape(a, newshape, order=’">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CS231n Assignment 1 Learning Note —— KNN">
+<meta property="og:url" content="http://yoursite.com/2017/03/02/CS231n_Assignment1_SVM/index.html">
+<meta property="og:site_name" content="Daniel Cai's Blog">
+<meta property="og:description" content="CS231n Assignment 1 ——Multiclass Support Vector Machine exerciseIntroductionCS231n Multiclass Support Vector Machine Learning Note.
+CIFAR-10 Data Loading
+Python Numpynumpy.reshape(a, newshape, order=’">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170302148846620130280.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170301148836516031610.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170301148836535530097.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/2017030214884376936347.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/2017030214884540193350.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170302148845744967038.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170302148845795187024.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170302148845803331305.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170302148845841036540.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170302148845850158059.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170302148846518666727.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170302148846512375569.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170302148846566381376.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170302148846596745301.png">
+<meta property="og:updated_time" content="2017-03-02T15:52:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CS231n Assignment 1 Learning Note —— KNN">
+<meta name="twitter:description" content="CS231n Assignment 1 ——Multiclass Support Vector Machine exerciseIntroductionCS231n Multiclass Support Vector Machine Learning Note.
+CIFAR-10 Data Loading
+Python Numpynumpy.reshape(a, newshape, order=’">
+<meta name="twitter:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170302148846620130280.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6392010462904452000',
+      author: 'Daniel Cai'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/03/02/CS231n_Assignment1_SVM/"/>
+
+
+
+
+
+  <title> CS231n Assignment 1 Learning Note —— KNN | Daniel Cai's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Daniel Cai's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">C++/ Deep Learning/ Computer Vision/ Java web</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/02/CS231n_Assignment1_SVM/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Daniel Cai">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/uploads/batman.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Daniel Cai's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Daniel Cai's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                CS231n Assignment 1 Learning Note —— KNN
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-02T00:00:00+08:00">
+                2017-03-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Deep-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">Deep Learning</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/03/02/CS231n_Assignment1_SVM/" class="leancloud_visitors" data-flag-title="CS231n Assignment 1 Learning Note —— KNN">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">Visitors </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="CS231n-Assignment-1-——Multiclass-Support-Vector-Machine-exercise"><a href="#CS231n-Assignment-1-——Multiclass-Support-Vector-Machine-exercise" class="headerlink" title="CS231n Assignment 1 ——Multiclass Support Vector Machine exercise"></a>CS231n Assignment 1 ——Multiclass Support Vector Machine exercise</h1><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>CS231n Multiclass Support Vector Machine Learning Note.</p>
+<h2 id="CIFAR-10-Data-Loading"><a href="#CIFAR-10-Data-Loading" class="headerlink" title="CIFAR-10 Data Loading"></a>CIFAR-10 Data Loading</h2><p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170302148846620130280.png" alt="20170302148846620130280.png"></p>
+<h2 id="Python-Numpy"><a href="#Python-Numpy" class="headerlink" title="Python Numpy"></a>Python Numpy</h2><h3 id="numpy-reshape-a-newshape-order-’C’"><a href="#numpy-reshape-a-newshape-order-’C’" class="headerlink" title="numpy.reshape(a, newshape, order=’C’)"></a>numpy.reshape(a, newshape, order=’C’)</h3><p>官方文档：<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.reshape.html" target="_blank" rel="external">https://docs.scipy.org/doc/numpy/reference/generated/numpy.reshape.html</a></p>
+<p>不改变数据的情况下，根据newshape来重建数组a</p>
+<p>Examples:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>a = np.array([[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>], [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]])</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>np.reshape(a, (<span class="number">3</span>,<span class="number">-1</span>))  <span class="comment"># the unspecified value is inferred to be 2</span></div><div class="line">array([[<span class="number">1</span>, <span class="number">2</span>],</div><div class="line">       [<span class="number">3</span>, <span class="number">4</span>],</div><div class="line">       [<span class="number">5</span>, <span class="number">6</span>]])</div></pre></td></tr></table></figure>
+<p>-1表示懒得计算该填什么数字，可以通过数组a和newshape中的参数计算得出。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 下面是两张2*3大小的照片(不知道有重建后有几张照片可以用-1代替)，如何把所有二维照片给摊平成一维</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>image = np.array([[[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>], [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]], [[<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>], [<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>]]])</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>image.shape</div><div class="line">(<span class="number">2</span>, <span class="number">2</span>, <span class="number">3</span>)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>np.reshape(image,(<span class="number">-1</span>, <span class="number">6</span>))</div><div class="line">array([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>],</div><div class="line">       [<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>]])</div></pre></td></tr></table></figure>
+<h2 id="reshape-the-image-data-into-rows"><a href="#reshape-the-image-data-into-rows" class="headerlink" title="reshape the image data into rows"></a>reshape the image data into rows</h2><p>将 $32<em>32</em>32$ 的图片拉长成一维</p>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170301148836516031610.png" alt="20170301148836516031610.png"></p>
+<h2 id="Preprocessing"><a href="#Preprocessing" class="headerlink" title="Preprocessing"></a>Preprocessing</h2><h3 id="1-compute-the-image-mean-based-on-the-training-data"><a href="#1-compute-the-image-mean-based-on-the-training-data" class="headerlink" title="1. compute the image mean based on the training data"></a>1. compute the image mean based on the training data</h3><p>对于训练集中的所有图片求平均值，即对49000张图片的每一个像素求平均值，得到平均图像</p>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170301148836535530097.png" alt="20170301148836535530097.png"></p>
+<h3 id="2-subtract-the-mean-image-from-train-and-test-data"><a href="#2-subtract-the-mean-image-from-train-and-test-data" class="headerlink" title="2. subtract the mean image from train and test data"></a>2. subtract the mean image from train and test data</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># second: subtract the mean image from train and test data</span></div><div class="line">X_train -= mean_image</div><div class="line">X_val -= mean_image</div><div class="line">X_test -= mean_image</div><div class="line">X_dev -= mean_image</div></pre></td></tr></table></figure>
+<h3 id="3-append-the-bias-dimension-of-ones-i-e-bias-trick"><a href="#3-append-the-bias-dimension-of-ones-i-e-bias-trick" class="headerlink" title="3. append the bias dimension of ones(i.e. bias trick)"></a>3. append the bias dimension of ones(i.e. bias trick)</h3><p>添加bias列，即在图片右边增加一列都是1的向量，目的是在于优化SVM的参数是只需要优化矩阵$W$，而不需要考虑残差项 $b$</p>
+<h2 id="SVM-Classifier"><a href="#SVM-Classifier" class="headerlink" title="SVM Classifier"></a>SVM Classifier</h2><h3 id="naive-implementation"><a href="#naive-implementation" class="headerlink" title="naive implementation"></a>naive implementation</h3><p><img src="http://ok9r0tgbx.bkt.clouddn.com/2017030214884376936347.png" alt="2017030214884376936347.png"></p>
+<h3 id="vectorized-implementation"><a href="#vectorized-implementation" class="headerlink" title="vectorized implementation"></a>vectorized implementation</h3><p><img src="http://ok9r0tgbx.bkt.clouddn.com/2017030214884540193350.png" alt="2017030214884540193350.png"></p>
+<h2 id="Stomchastic-Gradient-Descent"><a href="#Stomchastic-Gradient-Descent" class="headerlink" title="Stomchastic Gradient Descent"></a>Stomchastic Gradient Descent</h2><p>随机梯度下降（SGD），是梯度下降中的随机取出batch_size数量的样本，每次更新都利用一个batch的数据来进行梯度下降，而非整个训练集。即：</p>
+<h2 id="Train"><a href="#Train" class="headerlink" title="Train"></a>Train</h2><h4 id="Sample-batch-size-elements-from-training-data-and-their-corresponding-labels-to-use-in-this-round-gradient-descent"><a href="#Sample-batch-size-elements-from-training-data-and-their-corresponding-labels-to-use-in-this-round-gradient-descent" class="headerlink" title="Sample batch_size elements from training data and their corresponding labels to use in this round gradient descent"></a>Sample batch_size elements from training data and their corresponding labels to use in this round gradient descent</h4><p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170302148845744967038.png" alt="20170302148845744967038.png"></p>
+<h4 id="iteration"><a href="#iteration" class="headerlink" title="iteration:"></a>iteration:</h4><p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170302148845795187024.png" alt="20170302148845795187024.png"></p>
+<h4 id="plot-the-loss-as-a-function-of-iteration-number"><a href="#plot-the-loss-as-a-function-of-iteration-number" class="headerlink" title="plot the loss as a function of iteration number"></a>plot the loss as a function of iteration number</h4><p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170302148845803331305.png" alt="20170302148845803331305.png"></p>
+<h2 id="Predict"><a href="#Predict" class="headerlink" title="Predict"></a>Predict</h2><p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170302148845841036540.png" alt="20170302148845841036540.png"></p>
+<h4 id="training-accuracy-amp-validation-accuracy"><a href="#training-accuracy-amp-validation-accuracy" class="headerlink" title="training accuracy &amp; validation accuracy"></a>training accuracy &amp; validation accuracy</h4><p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170302148845850158059.png" alt="20170302148845850158059.png"></p>
+<h2 id="Validation-Set"><a href="#Validation-Set" class="headerlink" title="Validation Set"></a>Validation Set</h2><h4 id="Use-the-validation-set-to-tune-hyperparameters-regularization-strength-and-learning-rate"><a href="#Use-the-validation-set-to-tune-hyperparameters-regularization-strength-and-learning-rate" class="headerlink" title="Use the validation set to tune hyperparameters(regularization strength and learning rate)"></a>Use the validation set to tune hyperparameters(regularization strength and learning rate)</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">learning_rates = [<span class="number">1e-8</span>, <span class="number">1e-7</span>, <span class="number">2e-7</span>]</div><div class="line">regularization_strengths = [<span class="number">1e4</span>, <span class="number">2e4</span>, <span class="number">3e4</span>, <span class="number">4e4</span>, <span class="number">5e4</span>, <span class="number">6e4</span>, <span class="number">7e4</span>, <span class="number">8e4</span>, <span class="number">1e5</span>]</div></pre></td></tr></table></figure>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170302148846518666727.png" alt="20170302148846518666727.png"><br><img src="http://ok9r0tgbx.bkt.clouddn.com/20170302148846512375569.png" alt="20170302148846512375569.png"></p>
+<h2 id="Visualize-the-cross-validation-results"><a href="#Visualize-the-cross-validation-results" class="headerlink" title="Visualize the cross-validation results"></a>Visualize the cross-validation results</h2><p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170302148846566381376.png" alt="20170302148846566381376.png"></p>
+<h2 id="Visualize-the-learned-weights-for-each-class"><a href="#Visualize-the-learned-weights-for-each-class" class="headerlink" title="Visualize the learned weights for each class."></a>Visualize the learned weights for each class.</h2><p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170302148846596745301.png" alt="20170302148846596745301.png"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CS231n-Python/" rel="tag"># CS231n Python</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/27/CS231n_Assignment1_KNN/" rel="next" title="CS231n Assignment 1 Learning Note —— KNN">
+                <i class="fa fa-chevron-left"></i> CS231n Assignment 1 Learning Note —— KNN
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/batman.png"
+               alt="Daniel Cai" />
+          <p class="site-author-name" itemprop="name">Daniel Cai</p>
+          <p class="site-description motion-element" itemprop="description">C++/ Deep Learning/ Computer Vision</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">categories</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/csf0429" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CS231n-Assignment-1-——Multiclass-Support-Vector-Machine-exercise"><span class="nav-number">1.</span> <span class="nav-text">CS231n Assignment 1 ——Multiclass Support Vector Machine exercise</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction"><span class="nav-number">1.1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CIFAR-10-Data-Loading"><span class="nav-number">1.2.</span> <span class="nav-text">CIFAR-10 Data Loading</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Python-Numpy"><span class="nav-number">1.3.</span> <span class="nav-text">Python Numpy</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#numpy-reshape-a-newshape-order-’C’"><span class="nav-number">1.3.1.</span> <span class="nav-text">numpy.reshape(a, newshape, order=’C’)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reshape-the-image-data-into-rows"><span class="nav-number">1.4.</span> <span class="nav-text">reshape the image data into rows</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Preprocessing"><span class="nav-number">1.5.</span> <span class="nav-text">Preprocessing</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-compute-the-image-mean-based-on-the-training-data"><span class="nav-number">1.5.1.</span> <span class="nav-text">1. compute the image mean based on the training data</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-subtract-the-mean-image-from-train-and-test-data"><span class="nav-number">1.5.2.</span> <span class="nav-text">2. subtract the mean image from train and test data</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-append-the-bias-dimension-of-ones-i-e-bias-trick"><span class="nav-number">1.5.3.</span> <span class="nav-text">3. append the bias dimension of ones(i.e. bias trick)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SVM-Classifier"><span class="nav-number">1.6.</span> <span class="nav-text">SVM Classifier</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#naive-implementation"><span class="nav-number">1.6.1.</span> <span class="nav-text">naive implementation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vectorized-implementation"><span class="nav-number">1.6.2.</span> <span class="nav-text">vectorized implementation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Stomchastic-Gradient-Descent"><span class="nav-number">1.7.</span> <span class="nav-text">Stomchastic Gradient Descent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Train"><span class="nav-number">1.8.</span> <span class="nav-text">Train</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Sample-batch-size-elements-from-training-data-and-their-corresponding-labels-to-use-in-this-round-gradient-descent"><span class="nav-number">1.8.0.1.</span> <span class="nav-text">Sample batch_size elements from training data and their corresponding labels to use in this round gradient descent</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#iteration"><span class="nav-number">1.8.0.2.</span> <span class="nav-text">iteration:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#plot-the-loss-as-a-function-of-iteration-number"><span class="nav-number">1.8.0.3.</span> <span class="nav-text">plot the loss as a function of iteration number</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Predict"><span class="nav-number">1.9.</span> <span class="nav-text">Predict</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#training-accuracy-amp-validation-accuracy"><span class="nav-number">1.9.0.1.</span> <span class="nav-text">training accuracy & validation accuracy</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Validation-Set"><span class="nav-number">1.10.</span> <span class="nav-text">Validation Set</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Use-the-validation-set-to-tune-hyperparameters-regularization-strength-and-learning-rate"><span class="nav-number">1.10.0.1.</span> <span class="nav-text">Use the validation set to tune hyperparameters(regularization strength and learning rate)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Visualize-the-cross-validation-results"><span class="nav-number">1.11.</span> <span class="nav-text">Visualize the cross-validation results</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Visualize-the-learned-weights-for-each-class"><span class="nav-number">1.12.</span> <span class="nav-text">Visualize the learned weights for each class.</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Daniel Cai</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("DiCvk6wV6AqQ8vy8Q7gF70ag-gzGzoHsz", "UyqX9m0Upr0W9lwmeexLABKG");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  <!-- 背景动画 -->
+  <script type="text/javascript" src="/js/src/particle.js"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+</body>
+</html>
