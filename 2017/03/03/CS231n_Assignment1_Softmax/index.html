@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="－ htaccess － Apache － PHP," />
+  <meta name="keywords" content="CS231n Python," />
 
 
 
@@ -84,18 +84,40 @@
 
 
 
-<meta name="description" content="Introduction.htaccess是一个纯文本文件，存放着Apache服务器配置的一些指令，类似于Apache站点的配置文件.当.htaccess文件放置在一个需要通过Apache载入的项目目录下，.htaccess将会被Apache Web Server监测到并且执行。我们可以通过修改.htaccess文件来进行Apache Web Server的相关配置。它支持重定向、URL重写以及访">
+<meta name="description" content="IntroductionCS231n Assignment1 ——Softmax Learning Note。本次实验的难点是Softmax的梯度推导，敲公式不容易啊～具体的数学证明下次补上。
+Softmax ClassifierCalculate loss
+Calculate gradient
+gradient check
+softmax_loss_vectorized
+ 检验loss 和 gr">
 <meta property="og:type" content="article">
-<meta property="og:title" content=".htaccess教程">
-<meta property="og:url" content="http://yoursite.com/2016/12/23/htaccess_turiol/index.html">
+<meta property="og:title" content="CS231n Assignment 1 Learning Note —— Softmax">
+<meta property="og:url" content="http://yoursite.com/2017/03/03/CS231n_Assignment1_Softmax/index.html">
 <meta property="og:site_name" content="Daniel Cai's Blog">
-<meta property="og:description" content="Introduction.htaccess是一个纯文本文件，存放着Apache服务器配置的一些指令，类似于Apache站点的配置文件.当.htaccess文件放置在一个需要通过Apache载入的项目目录下，.htaccess将会被Apache Web Server监测到并且执行。我们可以通过修改.htaccess文件来进行Apache Web Server的相关配置。它支持重定向、URL重写以及访">
-<meta property="og:image" content="http://p1.bqimg.com/4851/f55a40e55b5109dd.png">
-<meta property="og:updated_time" content="2016-12-23T16:53:33.000Z">
+<meta property="og:description" content="IntroductionCS231n Assignment1 ——Softmax Learning Note。本次实验的难点是Softmax的梯度推导，敲公式不容易啊～具体的数学证明下次补上。
+Softmax ClassifierCalculate loss
+Calculate gradient
+gradient check
+softmax_loss_vectorized
+ 检验loss 和 gr">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170303148851916766024.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170303148852914324949.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170303148852918128298.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170303148853711696467.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170303148853718226691.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170303148853891556532.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/201703031488538966693.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170303148853899840412.png">
+<meta property="og:updated_time" content="2017-03-04T12:54:14.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content=".htaccess教程">
-<meta name="twitter:description" content="Introduction.htaccess是一个纯文本文件，存放着Apache服务器配置的一些指令，类似于Apache站点的配置文件.当.htaccess文件放置在一个需要通过Apache载入的项目目录下，.htaccess将会被Apache Web Server监测到并且执行。我们可以通过修改.htaccess文件来进行Apache Web Server的相关配置。它支持重定向、URL重写以及访">
-<meta name="twitter:image" content="http://p1.bqimg.com/4851/f55a40e55b5109dd.png">
+<meta name="twitter:title" content="CS231n Assignment 1 Learning Note —— Softmax">
+<meta name="twitter:description" content="IntroductionCS231n Assignment1 ——Softmax Learning Note。本次实验的难点是Softmax的梯度推导，敲公式不容易啊～具体的数学证明下次补上。
+Softmax ClassifierCalculate loss
+Calculate gradient
+gradient check
+softmax_loss_vectorized
+ 检验loss 和 gr">
+<meta name="twitter:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170303148851916766024.png">
 
 
 
@@ -123,13 +145,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/12/23/htaccess_turiol/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/03/03/CS231n_Assignment1_Softmax/"/>
 
 
 
 
 
-  <title> .htaccess教程 | Daniel Cai's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> CS231n Assignment 1 Learning Note —— Softmax | Daniel Cai's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -250,7 +272,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/23/htaccess_turiol/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/03/CS231n_Assignment1_Softmax/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Daniel Cai">
@@ -274,7 +296,7 @@
             
             
               
-                .htaccess教程
+                CS231n Assignment 1 Learning Note —— Softmax
               
             
           </h1>
@@ -287,8 +309,8 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-23T00:00:00+08:00">
-                2016-12-23
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-03T00:00:00+08:00">
+                2017-03-03
               </time>
             
 
@@ -306,8 +328,8 @@
               <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Web/" itemprop="url" rel="index">
-                    <span itemprop="name">Web</span>
+                  <a href="/categories/Deep-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">Deep Learning</span>
                   </a>
                 </span>
 
@@ -325,7 +347,7 @@
 
           
           
-             <span id="/2016/12/23/htaccess_turiol/" class="leancloud_visitors" data-flag-title=".htaccess教程">
+             <span id="/2017/03/03/CS231n_Assignment1_Softmax/" class="leancloud_visitors" data-flag-title="CS231n Assignment 1 Learning Note —— Softmax">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -350,27 +372,16 @@
       
 
       
-        <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p><code>.htaccess</code>是一个纯文本文件，存放着<code>Apache</code>服务器配置的一些指令，类似于Apache站点的配置文件.当.htaccess文件放置在一个需要通过Apache载入的项目目录下，.htaccess将会被Apache Web Server监测到并且执行。我们可以通过修改<code>.htaccess</code>文件来进行<code>Apache Web Server</code>的相关配置。它支持重定向、URL重写以及访问验证登功能。</p>
-<h2 id="htacess访问控制：-Allow-Deny"><a href="#htacess访问控制：-Allow-Deny" class="headerlink" title=".htacess访问控制：(Allow/Deny)"></a>.htacess访问控制：(Allow/Deny)</h2><h3 id="1-访问控制基础"><a href="#1-访问控制基础" class="headerlink" title="1. 访问控制基础"></a>1. 访问控制基础</h3><p>为了限制用户访问一些关键目录，<code>.htaccess</code>可以提供目录访问限制。你需要做的只是在该目录中，添加<code>.htaccess</code>文件：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Deny from All</div></pre></td></tr></table></figure>
-<p>如果只允许部分IP通过浏览器访问该目录，可以通过如下配置允许制定IP地址的访问：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Order Allow,Deny</div><div class="line">Deny from All</div><div class="line">Allow from allow_ip_address</div></pre></td></tr></table></figure>
-<h3 id="Order命令"><a href="#Order命令" class="headerlink" title="Order命令"></a>Order命令</h3><p>Order命令在apache配置中很常见，它决定了Apache处理访问规则的顺序。  </p>
-<ul>
-<li>Order Allow,Deny，Apache首先找到并应用Allow命令，然后应用Deny命令，以阻止所有访问。</li>
-<li>Order Deny,Allow，Apache首先找到并应用Deny命令，然后应用Allow命令，以允许所有访问。</li>
-</ul>
-<h3 id="2-过滤域名或网络主机-Allow-Deny"><a href="#2-过滤域名或网络主机-Allow-Deny" class="headerlink" title="2. 过滤域名或网络主机(Allow/Deny)"></a>2. 过滤域名或网络主机(Allow/Deny)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Order Allow,Deny</div><div class="line">Allow from all</div><div class="line">Deny from .*domain\.com.*</div></pre></td></tr></table></figure>
-<h3 id="3-禁止访问指定文件-Files"><a href="#3-禁止访问指定文件-Files" class="headerlink" title="3. 禁止访问指定文件(Files)"></a>3. 禁止访问指定文件(Files)</h3><p>保护<code>.htaccess</code>不被访问</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"># secure htaccess file</div><div class="line">&lt;Files .htaccess&gt;</div><div class="line"> Order Allow,Deny</div><div class="line"> Deny from all</div><div class="line">&lt;/Files&gt;</div></pre></td></tr></table></figure>
-<h3 id="4-禁止访问指定文件类型-FilesMatch"><a href="#4-禁止访问指定文件类型-FilesMatch" class="headerlink" title="4. 禁止访问指定文件类型(FilesMatch)"></a>4. 禁止访问指定文件类型(FilesMatch)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;FilesMatch &quot;.(log|exe)$&quot;&gt;</div><div class="line"> Order allow,deny</div><div class="line"> Deny from all</div><div class="line">&lt;/FilesMatch&gt;</div></pre></td></tr></table></figure>
-<p>据说还有正则表达解析功能，碰到了再说。</p>
-<h2 id="目录浏览与主页"><a href="#目录浏览与主页" class="headerlink" title="目录浏览与主页"></a>目录浏览与主页</h2><p>有时候在浏览器下直接输入URL，该目录下的文件便一览无余了。。像这样的问题也可以通过<code>.htaccess</code>设置来解决.</p>
-<p><img src="http://p1.bqimg.com/4851/f55a40e55b5109dd.png" alt="Alt text"></p>
-<h3 id="1-禁用目录浏览"><a href="#1-禁用目录浏览" class="headerlink" title="1. 禁用目录浏览"></a>1. 禁用目录浏览</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Options All -Indexes</div></pre></td></tr></table></figure>
-<p>或者通过<code>IndexIgnore</code>来禁用指定类型文件浏览：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">IndexIgnore *.wmv *.mp4 *.avi *.etc</div></pre></td></tr></table></figure>
-<p>暂时只碰到了这些问题，其他的以后再补咯。</p>
+        <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>CS231n Assignment1 ——Softmax Learning Note。本次实验的难点是Softmax的梯度推导，敲公式不容易啊～具体的数学证明下次补上。</p>
+<h2 id="Softmax-Classifier"><a href="#Softmax-Classifier" class="headerlink" title="Softmax Classifier"></a>Softmax Classifier</h2><h3 id="Calculate-loss"><a href="#Calculate-loss" class="headerlink" title="Calculate loss"></a>Calculate loss</h3><p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170303148851916766024.png" alt="20170303148851916766024.png"></p>
+<h3 id="Calculate-gradient"><a href="#Calculate-gradient" class="headerlink" title="Calculate gradient"></a>Calculate gradient</h3><p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170303148852914324949.png" alt="20170303148852914324949.png"></p>
+<h3 id="gradient-check"><a href="#gradient-check" class="headerlink" title="gradient check"></a>gradient check</h3><p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170303148852918128298.png" alt="20170303148852918128298.png"></p>
+<h3 id="softmax-loss-vectorized"><a href="#softmax-loss-vectorized" class="headerlink" title="softmax_loss_vectorized"></a>softmax_loss_vectorized</h3><p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170303148853711696467.png" alt="20170303148853711696467.png"></p>
+<p> 检验loss 和 gradient是否与loop版本保持一致<br><img src="http://ok9r0tgbx.bkt.clouddn.com/20170303148853718226691.png" alt="20170303148853718226691.png"></p>
+<h2 id="Cross-validation"><a href="#Cross-validation" class="headerlink" title="Cross-validation"></a>Cross-validation</h2><h3 id="学习率与回归系数设置"><a href="#学习率与回归系数设置" class="headerlink" title="学习率与回归系数设置"></a>学习率与回归系数设置</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">learning_rates = [<span class="number">1e-7</span>, <span class="number">2e-7</span>, <span class="number">3e-7</span>, <span class="number">5e-5</span>, <span class="number">8e-7</span>]</div><div class="line">regularization_strengths = [<span class="number">1e4</span>, <span class="number">2e4</span>, <span class="number">3e4</span>, <span class="number">4e4</span>, <span class="number">5e4</span>, <span class="number">6e4</span>, <span class="number">7e4</span>, <span class="number">8e4</span>, <span class="number">1e5</span>]</div></pre></td></tr></table></figure>
+<p> 取得最好的accuracy是0.39800<br><img src="http://ok9r0tgbx.bkt.clouddn.com/20170303148853891556532.png" alt="20170303148853891556532.png"></p>
+<h2 id="Evaluate-the-best-softmax-on-test-set"><a href="#Evaluate-the-best-softmax-on-test-set" class="headerlink" title="Evaluate the best softmax on test set"></a>Evaluate the best softmax on test set</h2><p><img src="http://ok9r0tgbx.bkt.clouddn.com/201703031488538966693.png" alt="201703031488538966693.png"></p>
+<h2 id="Visualize-the-learned-weights-for-each-class"><a href="#Visualize-the-learned-weights-for-each-class" class="headerlink" title="Visualize the learned weights for each class"></a>Visualize the learned weights for each class</h2><p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170303148853899840412.png" alt="20170303148853899840412.png"></p>
 
       
     </div>
@@ -394,7 +405,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/－-htaccess-－-Apache-－-PHP/" rel="tag"># － htaccess － Apache － PHP</a>
+            <a href="/tags/CS231n-Python/" rel="tag"># CS231n Python</a>
           
         </div>
       
@@ -403,8 +414,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/12/19/Mac OS X_Caffe_install/" rel="next" title="Mac OS X 10.11 Caffe环境搭建(CPU ONLY)">
-                <i class="fa fa-chevron-left"></i> Mac OS X 10.11 Caffe环境搭建(CPU ONLY)
+              <a href="/2017/03/02/CS231n_Assignment1_SVM/" rel="next" title="CS231n Assignment 1 Learning Note —— SVM">
+                <i class="fa fa-chevron-left"></i> CS231n Assignment 1 Learning Note —— SVM
               </a>
             
           </div>
@@ -413,8 +424,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/12/23/Assignment2/" rel="prev" title="Assignment2 分支限界问题">
-                Assignment2 分支限界问题 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/03/05/CS231n_Assignment1_NeuralNetwork/" rel="prev" title="CS231n Assignment 1 Learning Note —— Neural Network">
+                CS231n Assignment 1 Learning Note —— Neural Network <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -546,7 +557,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#htacess访问控制：-Allow-Deny"><span class="nav-number">2.</span> <span class="nav-text">.htacess访问控制：(Allow/Deny)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-访问控制基础"><span class="nav-number">2.1.</span> <span class="nav-text">1. 访问控制基础</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Order命令"><span class="nav-number">2.2.</span> <span class="nav-text">Order命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-过滤域名或网络主机-Allow-Deny"><span class="nav-number">2.3.</span> <span class="nav-text">2. 过滤域名或网络主机(Allow/Deny)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-禁止访问指定文件-Files"><span class="nav-number">2.4.</span> <span class="nav-text">3. 禁止访问指定文件(Files)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-禁止访问指定文件类型-FilesMatch"><span class="nav-number">2.5.</span> <span class="nav-text">4. 禁止访问指定文件类型(FilesMatch)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目录浏览与主页"><span class="nav-number">3.</span> <span class="nav-text">目录浏览与主页</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-禁用目录浏览"><span class="nav-number">3.1.</span> <span class="nav-text">1. 禁用目录浏览</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Softmax-Classifier"><span class="nav-number">2.</span> <span class="nav-text">Softmax Classifier</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Calculate-loss"><span class="nav-number">2.1.</span> <span class="nav-text">Calculate loss</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Calculate-gradient"><span class="nav-number">2.2.</span> <span class="nav-text">Calculate gradient</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gradient-check"><span class="nav-number">2.3.</span> <span class="nav-text">gradient check</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#softmax-loss-vectorized"><span class="nav-number">2.4.</span> <span class="nav-text">softmax_loss_vectorized</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cross-validation"><span class="nav-number">3.</span> <span class="nav-text">Cross-validation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#学习率与回归系数设置"><span class="nav-number">3.1.</span> <span class="nav-text">学习率与回归系数设置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Evaluate-the-best-softmax-on-test-set"><span class="nav-number">4.</span> <span class="nav-text">Evaluate the best softmax on test set</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Visualize-the-learned-weights-for-each-class"><span class="nav-number">5.</span> <span class="nav-text">Visualize the learned weights for each class</span></a></li></ol></div>
             
 
           </div>
