@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="－ htaccess － Apache － PHP," />
+  <meta name="keywords" content="CS231n Python," />
 
 
 
@@ -84,18 +84,60 @@
 
 
 
-<meta name="description" content="Introduction.htaccess是一个纯文本文件，存放着Apache服务器配置的一些指令，类似于Apache站点的配置文件.当.htaccess文件放置在一个需要通过Apache载入的项目目录下，.htaccess将会被Apache Web Server监测到并且执行。我们可以通过修改.htaccess文件来进行Apache Web Server的相关配置。它支持重定向、URL重写以及访">
+<meta name="description" content="Batch Normalization: Forward
+
+
+Batch Normalization: Backward
+Batch Normalization: alternative backward
+Fully Connected Nets with Batch Normalization
+
+
+Batchnorm for deep networks
+with and without batc">
 <meta property="og:type" content="article">
-<meta property="og:title" content=".htaccess教程">
-<meta property="og:url" content="http://yoursite.com/2016/12/23/htaccess_turiol/index.html">
+<meta property="og:title" content="CS231n Assignment 2 Learning Note —— Batch Normalization">
+<meta property="og:url" content="http://yoursite.com/2017/03/15/CS231n_Assignment2_BatchNormalization/index.html">
 <meta property="og:site_name" content="Daniel Cai's Blog">
-<meta property="og:description" content="Introduction.htaccess是一个纯文本文件，存放着Apache服务器配置的一些指令，类似于Apache站点的配置文件.当.htaccess文件放置在一个需要通过Apache载入的项目目录下，.htaccess将会被Apache Web Server监测到并且执行。我们可以通过修改.htaccess文件来进行Apache Web Server的相关配置。它支持重定向、URL重写以及访">
-<meta property="og:image" content="http://p1.bqimg.com/4851/f55a40e55b5109dd.png">
-<meta property="og:updated_time" content="2016-12-23T16:53:33.000Z">
+<meta property="og:description" content="Batch Normalization: Forward
+
+
+Batch Normalization: Backward
+Batch Normalization: alternative backward
+Fully Connected Nets with Batch Normalization
+
+
+Batchnorm for deep networks
+with and without batc">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170317148974398392827.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170317148974400849732.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170309148906894596848.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170317148974405324686.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170311148922298021586.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170311148922288147747.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170317148974429897898.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170317148974445092579.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170311148923024926828.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170311148923464367502.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/2017031114892347368038.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170311148923487778824.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170311148923490469981.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170311148923544862469.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170311148923549028690.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170311148923554887877.png">
+<meta property="og:updated_time" content="2017-03-17T12:17:58.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content=".htaccess教程">
-<meta name="twitter:description" content="Introduction.htaccess是一个纯文本文件，存放着Apache服务器配置的一些指令，类似于Apache站点的配置文件.当.htaccess文件放置在一个需要通过Apache载入的项目目录下，.htaccess将会被Apache Web Server监测到并且执行。我们可以通过修改.htaccess文件来进行Apache Web Server的相关配置。它支持重定向、URL重写以及访">
-<meta name="twitter:image" content="http://p1.bqimg.com/4851/f55a40e55b5109dd.png">
+<meta name="twitter:title" content="CS231n Assignment 2 Learning Note —— Batch Normalization">
+<meta name="twitter:description" content="Batch Normalization: Forward
+
+
+Batch Normalization: Backward
+Batch Normalization: alternative backward
+Fully Connected Nets with Batch Normalization
+
+
+Batchnorm for deep networks
+with and without batc">
+<meta name="twitter:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170317148974398392827.png">
 
 
 
@@ -123,13 +165,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/12/23/htaccess_turiol/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/03/15/CS231n_Assignment2_BatchNormalization/"/>
 
 
 
 
 
-  <title> .htaccess教程 | Daniel Cai's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> CS231n Assignment 2 Learning Note —— Batch Normalization | Daniel Cai's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -250,7 +292,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/23/htaccess_turiol/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/15/CS231n_Assignment2_BatchNormalization/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Daniel Cai">
@@ -274,7 +316,7 @@
             
             
               
-                .htaccess教程
+                CS231n Assignment 2 Learning Note —— Batch Normalization
               
             
           </h1>
@@ -287,8 +329,8 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-23T00:00:00+08:00">
-                2016-12-23
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-15T00:00:00+08:00">
+                2017-03-15
               </time>
             
 
@@ -306,8 +348,8 @@
               <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Web/" itemprop="url" rel="index">
-                    <span itemprop="name">Web</span>
+                  <a href="/categories/Deep-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">Deep Learning</span>
                   </a>
                 </span>
 
@@ -325,7 +367,7 @@
 
           
           
-             <span id="/2016/12/23/htaccess_turiol/" class="leancloud_visitors" data-flag-title=".htaccess教程">
+             <span id="/2017/03/15/CS231n_Assignment2_BatchNormalization/" class="leancloud_visitors" data-flag-title="CS231n Assignment 2 Learning Note —— Batch Normalization">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -350,27 +392,21 @@
       
 
       
-        <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p><code>.htaccess</code>是一个纯文本文件，存放着<code>Apache</code>服务器配置的一些指令，类似于Apache站点的配置文件.当.htaccess文件放置在一个需要通过Apache载入的项目目录下，.htaccess将会被Apache Web Server监测到并且执行。我们可以通过修改<code>.htaccess</code>文件来进行<code>Apache Web Server</code>的相关配置。它支持重定向、URL重写以及访问验证登功能。</p>
-<h2 id="htacess访问控制：-Allow-Deny"><a href="#htacess访问控制：-Allow-Deny" class="headerlink" title=".htacess访问控制：(Allow/Deny)"></a>.htacess访问控制：(Allow/Deny)</h2><h3 id="1-访问控制基础"><a href="#1-访问控制基础" class="headerlink" title="1. 访问控制基础"></a>1. 访问控制基础</h3><p>为了限制用户访问一些关键目录，<code>.htaccess</code>可以提供目录访问限制。你需要做的只是在该目录中，添加<code>.htaccess</code>文件：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Deny from All</div></pre></td></tr></table></figure>
-<p>如果只允许部分IP通过浏览器访问该目录，可以通过如下配置允许制定IP地址的访问：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Order Allow,Deny</div><div class="line">Deny from All</div><div class="line">Allow from allow_ip_address</div></pre></td></tr></table></figure>
-<h3 id="Order命令"><a href="#Order命令" class="headerlink" title="Order命令"></a>Order命令</h3><p>Order命令在apache配置中很常见，它决定了Apache处理访问规则的顺序。  </p>
-<ul>
-<li>Order Allow,Deny，Apache首先找到并应用Allow命令，然后应用Deny命令，以阻止所有访问。</li>
-<li>Order Deny,Allow，Apache首先找到并应用Deny命令，然后应用Allow命令，以允许所有访问。</li>
-</ul>
-<h3 id="2-过滤域名或网络主机-Allow-Deny"><a href="#2-过滤域名或网络主机-Allow-Deny" class="headerlink" title="2. 过滤域名或网络主机(Allow/Deny)"></a>2. 过滤域名或网络主机(Allow/Deny)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Order Allow,Deny</div><div class="line">Allow from all</div><div class="line">Deny from .*domain\.com.*</div></pre></td></tr></table></figure>
-<h3 id="3-禁止访问指定文件-Files"><a href="#3-禁止访问指定文件-Files" class="headerlink" title="3. 禁止访问指定文件(Files)"></a>3. 禁止访问指定文件(Files)</h3><p>保护<code>.htaccess</code>不被访问</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"># secure htaccess file</div><div class="line">&lt;Files .htaccess&gt;</div><div class="line"> Order Allow,Deny</div><div class="line"> Deny from all</div><div class="line">&lt;/Files&gt;</div></pre></td></tr></table></figure>
-<h3 id="4-禁止访问指定文件类型-FilesMatch"><a href="#4-禁止访问指定文件类型-FilesMatch" class="headerlink" title="4. 禁止访问指定文件类型(FilesMatch)"></a>4. 禁止访问指定文件类型(FilesMatch)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;FilesMatch &quot;.(log|exe)$&quot;&gt;</div><div class="line"> Order allow,deny</div><div class="line"> Deny from all</div><div class="line">&lt;/FilesMatch&gt;</div></pre></td></tr></table></figure>
-<p>据说还有正则表达解析功能，碰到了再说。</p>
-<h2 id="目录浏览与主页"><a href="#目录浏览与主页" class="headerlink" title="目录浏览与主页"></a>目录浏览与主页</h2><p>有时候在浏览器下直接输入URL，该目录下的文件便一览无余了。。像这样的问题也可以通过<code>.htaccess</code>设置来解决.</p>
-<p><img src="http://p1.bqimg.com/4851/f55a40e55b5109dd.png" alt="Alt text"></p>
-<h3 id="1-禁用目录浏览"><a href="#1-禁用目录浏览" class="headerlink" title="1. 禁用目录浏览"></a>1. 禁用目录浏览</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Options All -Indexes</div></pre></td></tr></table></figure>
-<p>或者通过<code>IndexIgnore</code>来禁用指定类型文件浏览：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">IndexIgnore *.wmv *.mp4 *.avi *.etc</div></pre></td></tr></table></figure>
-<p>暂时只碰到了这些问题，其他的以后再补咯。</p>
+        <h2 id="Batch-Normalization-Forward"><a href="#Batch-Normalization-Forward" class="headerlink" title="Batch Normalization: Forward"></a>Batch Normalization: Forward</h2><p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170317148974398392827.png" alt="20170317148974398392827.png"></p>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170317148974400849732.png" alt="20170317148974400849732.png"></p>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170309148906894596848.png" alt="20170309148906894596848.png"></p>
+<h2 id="Batch-Normalization-Backward"><a href="#Batch-Normalization-Backward" class="headerlink" title="Batch Normalization: Backward"></a>Batch Normalization: Backward</h2><p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170317148974405324686.png" alt="20170317148974405324686.png"><br><img src="http://ok9r0tgbx.bkt.clouddn.com/20170311148922298021586.png" alt="20170311148922298021586.png"></p>
+<h3 id="Batch-Normalization-alternative-backward"><a href="#Batch-Normalization-alternative-backward" class="headerlink" title="Batch Normalization: alternative backward"></a>Batch Normalization: alternative backward</h3><p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170311148922288147747.png" alt="20170311148922288147747.png"></p>
+<h2 id="Fully-Connected-Nets-with-Batch-Normalization"><a href="#Fully-Connected-Nets-with-Batch-Normalization" class="headerlink" title="Fully Connected Nets with Batch Normalization"></a>Fully Connected Nets with Batch Normalization</h2><p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170317148974429897898.png" alt="20170317148974429897898.png"></p>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170317148974445092579.png" alt="20170317148974445092579.png"></p>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170311148923024926828.png" alt="20170311148923024926828.png"></p>
+<h2 id="Batchnorm-for-deep-networks"><a href="#Batchnorm-for-deep-networks" class="headerlink" title="Batchnorm for deep networks"></a>Batchnorm for deep networks</h2><p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170311148923464367502.png" alt="20170311148923464367502.png"></p>
+<h3 id="with-and-without-batch-normalization"><a href="#with-and-without-batch-normalization" class="headerlink" title="with and without batch normalization"></a>with and without batch normalization</h3><p><img src="http://ok9r0tgbx.bkt.clouddn.com/2017031114892347368038.png" alt="2017031114892347368038.png"></p>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170311148923487778824.png" alt="20170311148923487778824.png"></p>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170311148923490469981.png" alt="20170311148923490469981.png"></p>
+<h2 id="Batch-normalization-and-initialization"><a href="#Batch-normalization-and-initialization" class="headerlink" title="Batch normalization and initialization"></a>Batch normalization and initialization</h2><p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170311148923544862469.png" alt="20170311148923544862469.png"></p>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170311148923549028690.png" alt="20170311148923549028690.png"></p>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170311148923554887877.png" alt="20170311148923554887877.png"></p>
 
       
     </div>
@@ -394,7 +430,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/－-htaccess-－-Apache-－-PHP/" rel="tag"># － htaccess － Apache － PHP</a>
+            <a href="/tags/CS231n-Python/" rel="tag"># CS231n Python</a>
           
         </div>
       
@@ -403,8 +439,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/12/23/Assignment2/" rel="next" title="Assignment2 分支限界问题">
-                <i class="fa fa-chevron-left"></i> Assignment2 分支限界问题
+              <a href="/2017/03/14/CS231n_Assignment2_Dropout/" rel="next" title="CS231n Assignment 2 Learning Note —— Dropout">
+                <i class="fa fa-chevron-left"></i> CS231n Assignment 2 Learning Note —— Dropout
               </a>
             
           </div>
@@ -413,8 +449,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/12/29/CS229_Note1/" rel="prev" title="CS229 学习笔记(一)">
-                CS229 学习笔记(一) <i class="fa fa-chevron-right"></i>
+              <a href="/2017/03/16/CS231n_Assignment2_Convolutional Networks/" rel="prev" title="CS231n Assignment 2 Learning Note —— Convolutional Networks">
+                CS231n Assignment 2 Learning Note —— Convolutional Networks <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -546,7 +582,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#htacess访问控制：-Allow-Deny"><span class="nav-number">2.</span> <span class="nav-text">.htacess访问控制：(Allow/Deny)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-访问控制基础"><span class="nav-number">2.1.</span> <span class="nav-text">1. 访问控制基础</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Order命令"><span class="nav-number">2.2.</span> <span class="nav-text">Order命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-过滤域名或网络主机-Allow-Deny"><span class="nav-number">2.3.</span> <span class="nav-text">2. 过滤域名或网络主机(Allow/Deny)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-禁止访问指定文件-Files"><span class="nav-number">2.4.</span> <span class="nav-text">3. 禁止访问指定文件(Files)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-禁止访问指定文件类型-FilesMatch"><span class="nav-number">2.5.</span> <span class="nav-text">4. 禁止访问指定文件类型(FilesMatch)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目录浏览与主页"><span class="nav-number">3.</span> <span class="nav-text">目录浏览与主页</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-禁用目录浏览"><span class="nav-number">3.1.</span> <span class="nav-text">1. 禁用目录浏览</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Batch-Normalization-Forward"><span class="nav-number">1.</span> <span class="nav-text">Batch Normalization: Forward</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Batch-Normalization-Backward"><span class="nav-number">2.</span> <span class="nav-text">Batch Normalization: Backward</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Batch-Normalization-alternative-backward"><span class="nav-number">2.1.</span> <span class="nav-text">Batch Normalization: alternative backward</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fully-Connected-Nets-with-Batch-Normalization"><span class="nav-number">3.</span> <span class="nav-text">Fully Connected Nets with Batch Normalization</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Batchnorm-for-deep-networks"><span class="nav-number">4.</span> <span class="nav-text">Batchnorm for deep networks</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#with-and-without-batch-normalization"><span class="nav-number">4.1.</span> <span class="nav-text">with and without batch normalization</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Batch-normalization-and-initialization"><span class="nav-number">5.</span> <span class="nav-text">Batch normalization and initialization</span></a></li></ol></div>
             
 
           </div>

@@ -84,60 +84,44 @@
 
 
 
-<meta name="description" content="Batch Normalization: Forward
-
-
-Batch Normalization: Backward
-Batch Normalization: alternative backward
-Fully Connected Nets with Batch Normalization
-
-
-Batchnorm for deep networks
-with and without batc">
+<meta name="description" content="Convolutional Networks
+本次实验实现了卷积层的前向传播和后向传播，构建一个三层的简单卷积神经网络。最后的一个Experiment是修改Network architecture,修改filter number或者filter size,以及采用batch normalization和dropout来取得更高的accuracy和获得更高的收敛速度，训练的过程在CPU上跑的比较慢，">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CS231n Assignment 2 Learning Note —— Batch Normalization">
-<meta property="og:url" content="http://yoursite.com/2017/03/16/CS231n_Assignment2_BatchNormalization/index.html">
+<meta property="og:title" content="CS231n Assignment 2 Learning Note —— Convolutional Networks">
+<meta property="og:url" content="http://yoursite.com/2017/03/16/CS231n_Assignment2_Convolutional Networks/index.html">
 <meta property="og:site_name" content="Daniel Cai's Blog">
-<meta property="og:description" content="Batch Normalization: Forward
-
-
-Batch Normalization: Backward
-Batch Normalization: alternative backward
-Fully Connected Nets with Batch Normalization
-
-
-Batchnorm for deep networks
-with and without batc">
-<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170317148974398392827.png">
-<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170317148974400849732.png">
-<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170309148906894596848.png">
-<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170317148974405324686.png">
-<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170311148922298021586.png">
-<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170311148922288147747.png">
-<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170317148974429897898.png">
-<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170317148974445092579.png">
-<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170311148923024926828.png">
-<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170311148923464367502.png">
-<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/2017031114892347368038.png">
-<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170311148923487778824.png">
-<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170311148923490469981.png">
-<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170311148923544862469.png">
-<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170311148923549028690.png">
-<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170311148923554887877.png">
-<meta property="og:updated_time" content="2017-03-17T10:01:14.000Z">
+<meta property="og:description" content="Convolutional Networks
+本次实验实现了卷积层的前向传播和后向传播，构建一个三层的简单卷积神经网络。最后的一个Experiment是修改Network architecture,修改filter number或者filter size,以及采用batch normalization和dropout来取得更高的accuracy和获得更高的收敛速度，训练的过程在CPU上跑的比较慢，">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170317148975196724584.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170315148958560326710.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170315148958570381330.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170317148975203969086.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170316148963253378843.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170316148963406224678.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170316148963428353723.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170316148964258326970.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170316148964254251995.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170316148964727232111.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170316148964735397570.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/2017031614896476034704.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170316148964763124871.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170316148965264443958.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170316148965353310217.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170316148965363584288.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170316148965366688647.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170316148965444360505.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170316148965452092005.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170317148975217149952.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170316148966101146255.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170316148966120271964.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170317148975219193400.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170316148966168571884.png">
+<meta property="og:updated_time" content="2017-03-17T12:16:34.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CS231n Assignment 2 Learning Note —— Batch Normalization">
-<meta name="twitter:description" content="Batch Normalization: Forward
-
-
-Batch Normalization: Backward
-Batch Normalization: alternative backward
-Fully Connected Nets with Batch Normalization
-
-
-Batchnorm for deep networks
-with and without batc">
-<meta name="twitter:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170317148974398392827.png">
+<meta name="twitter:title" content="CS231n Assignment 2 Learning Note —— Convolutional Networks">
+<meta name="twitter:description" content="Convolutional Networks
+本次实验实现了卷积层的前向传播和后向传播，构建一个三层的简单卷积神经网络。最后的一个Experiment是修改Network architecture,修改filter number或者filter size,以及采用batch normalization和dropout来取得更高的accuracy和获得更高的收敛速度，训练的过程在CPU上跑的比较慢，">
+<meta name="twitter:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170317148975196724584.png">
 
 
 
@@ -165,13 +149,13 @@ with and without batc">
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/03/16/CS231n_Assignment2_BatchNormalization/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/03/16/CS231n_Assignment2_Convolutional Networks/"/>
 
 
 
 
 
-  <title> CS231n Assignment 2 Learning Note —— Batch Normalization | Daniel Cai's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> CS231n Assignment 2 Learning Note —— Convolutional Networks | Daniel Cai's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -292,7 +276,7 @@ with and without batc">
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/CS231n_Assignment2_BatchNormalization/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/CS231n_Assignment2_Convolutional Networks/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Daniel Cai">
@@ -316,7 +300,7 @@ with and without batc">
             
             
               
-                CS231n Assignment 2 Learning Note —— Batch Normalization
+                CS231n Assignment 2 Learning Note —— Convolutional Networks
               
             
           </h1>
@@ -367,7 +351,7 @@ with and without batc">
 
           
           
-             <span id="/2017/03/16/CS231n_Assignment2_BatchNormalization/" class="leancloud_visitors" data-flag-title="CS231n Assignment 2 Learning Note —— Batch Normalization">
+             <span id="/2017/03/16/CS231n_Assignment2_Convolutional Networks/" class="leancloud_visitors" data-flag-title="CS231n Assignment 2 Learning Note —— Convolutional Networks">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -392,21 +376,55 @@ with and without batc">
       
 
       
-        <h2 id="Batch-Normalization-Forward"><a href="#Batch-Normalization-Forward" class="headerlink" title="Batch Normalization: Forward"></a>Batch Normalization: Forward</h2><p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170317148974398392827.png" alt="20170317148974398392827.png"></p>
-<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170317148974400849732.png" alt="20170317148974400849732.png"></p>
-<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170309148906894596848.png" alt="20170309148906894596848.png"></p>
-<h2 id="Batch-Normalization-Backward"><a href="#Batch-Normalization-Backward" class="headerlink" title="Batch Normalization: Backward"></a>Batch Normalization: Backward</h2><p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170317148974405324686.png" alt="20170317148974405324686.png"><br><img src="http://ok9r0tgbx.bkt.clouddn.com/20170311148922298021586.png" alt="20170311148922298021586.png"></p>
-<h3 id="Batch-Normalization-alternative-backward"><a href="#Batch-Normalization-alternative-backward" class="headerlink" title="Batch Normalization: alternative backward"></a>Batch Normalization: alternative backward</h3><p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170311148922288147747.png" alt="20170311148922288147747.png"></p>
-<h2 id="Fully-Connected-Nets-with-Batch-Normalization"><a href="#Fully-Connected-Nets-with-Batch-Normalization" class="headerlink" title="Fully Connected Nets with Batch Normalization"></a>Fully Connected Nets with Batch Normalization</h2><p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170317148974429897898.png" alt="20170317148974429897898.png"></p>
-<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170317148974445092579.png" alt="20170317148974445092579.png"></p>
-<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170311148923024926828.png" alt="20170311148923024926828.png"></p>
-<h2 id="Batchnorm-for-deep-networks"><a href="#Batchnorm-for-deep-networks" class="headerlink" title="Batchnorm for deep networks"></a>Batchnorm for deep networks</h2><p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170311148923464367502.png" alt="20170311148923464367502.png"></p>
-<h3 id="with-and-without-batch-normalization"><a href="#with-and-without-batch-normalization" class="headerlink" title="with and without batch normalization"></a>with and without batch normalization</h3><p><img src="http://ok9r0tgbx.bkt.clouddn.com/2017031114892347368038.png" alt="2017031114892347368038.png"></p>
-<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170311148923487778824.png" alt="20170311148923487778824.png"></p>
-<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170311148923490469981.png" alt="20170311148923490469981.png"></p>
-<h2 id="Batch-normalization-and-initialization"><a href="#Batch-normalization-and-initialization" class="headerlink" title="Batch normalization and initialization"></a>Batch normalization and initialization</h2><p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170311148923544862469.png" alt="20170311148923544862469.png"></p>
-<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170311148923549028690.png" alt="20170311148923549028690.png"></p>
-<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170311148923554887877.png" alt="20170311148923554887877.png"></p>
+        <h2>Convolutional Networks</h2>
+<p>本次实验实现了卷积层的前向传播和后向传播，构建一个三层的简单卷积神经网络。最后的一个Experiment是修改<code>Network architecture</code>,修改<code>filter number</code>或者<code>filter size</code>,以及采用<code>batch normalization</code>和<code>dropout</code>来取得更高的accuracy和获得更高的收敛速度，训练的过程在CPU上跑的比较慢，因此就只应用了batch_norm 和 dropout。</p>
+<p>具体 code 可以见 Solver 中的 TestConv：<a href="https://github.com/csf0429/cs231n" target="_blank" rel="external">https://github.com/csf0429/cs231n</a></p>
+<h2>Convolutional: Naive forward pass</h2>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170317148975196724584.png" alt="20170317148975196724584.png"></p>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170315148958560326710.png" alt="20170315148958560326710.png"></p>
+<h2>Aside: Image processing via convolutions</h2>
+<p><strong>grayscale conversion &amp; edge detection</strong></p>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170315148958570381330.png" alt="20170315148958570381330.png"></p>
+<h2>Convolution: Naive backward pass</h2>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170317148975203969086.png" alt="20170317148975203969086.png"></p>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170316148963253378843.png" alt="20170316148963253378843.png"></p>
+<h2>Max pooling: Naive forward</h2>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170316148963406224678.png" alt="20170316148963406224678.png"></p>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170316148963428353723.png" alt="20170316148963428353723.png"></p>
+<h2>Max pooling: Naive backward</h2>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170316148964258326970.png" alt="20170316148964258326970.png"></p>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170316148964254251995.png" alt="20170316148964254251995.png"></p>
+<h2>Fast layers</h2>
+<p>The fast convolution implementation depends on a Cython extension; to compile it you need to run the following from the cs231n directory:</p>
+<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python setup.py build_ext --inplace</div></pre></td></tr></table></figure></p>
+<p><strong>fast convolution layer</strong>
+<img src="http://ok9r0tgbx.bkt.clouddn.com/20170316148964727232111.png" alt="20170316148964727232111.png"></p>
+<p><strong>fast max pooling layer</strong>
+<img src="http://ok9r0tgbx.bkt.clouddn.com/20170316148964735397570.png" alt="20170316148964735397570.png"></p>
+<h2>Convolutional &quot;sandwich&quot; layers</h2>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/2017031614896476034704.png" alt="2017031614896476034704.png"></p>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170316148964763124871.png" alt="20170316148964763124871.png"></p>
+<h2>Three-layer ConvNet</h2>
+<h3>Sanity check loss</h3>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170316148965264443958.png" alt="20170316148965264443958.png"></p>
+<h3>Gradient check</h3>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170316148965353310217.png" alt="20170316148965353310217.png"></p>
+<h3>Overfit small data</h3>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170316148965363584288.png" alt="20170316148965363584288.png"></p>
+<p>Plotting the loss, training accuracy, and validation accuracy should show clear overfitting:</p>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170316148965366688647.png" alt="20170316148965366688647.png"></p>
+<h3>Train the net</h3>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170316148965444360505.png" alt="20170316148965444360505.png"></p>
+<h3>Visualize Filters</h3>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170316148965452092005.png" alt="20170316148965452092005.png"></p>
+<h2>Spatial Batch Normalization</h2>
+<h3>Spatial Batch Normalization: forward</h3>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170317148975217149952.png" alt="20170317148975217149952.png"></p>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170316148966101146255.png" alt="20170316148966101146255.png"></p>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170316148966120271964.png" alt="20170316148966120271964.png"></p>
+<h3>Spatial Batch Normalization: backward</h3>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170317148975219193400.png" alt="20170317148975219193400.png"></p>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170316148966168571884.png" alt="20170316148966168571884.png"></p>
 
       
     </div>
@@ -439,8 +457,8 @@ with and without batc">
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/14/CS231n_Assignment2_Dropout/" rel="next" title="CS231n Assignment 2 Learning Note —— Dropout">
-                <i class="fa fa-chevron-left"></i> CS231n Assignment 2 Learning Note —— Dropout
+              <a href="/2017/03/15/CS231n_Assignment2_BatchNormalization/" rel="next" title="CS231n Assignment 2 Learning Note —— Batch Normalization">
+                <i class="fa fa-chevron-left"></i> CS231n Assignment 2 Learning Note —— Batch Normalization
               </a>
             
           </div>
@@ -515,7 +533,7 @@ with and without batc">
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-count">14</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -578,7 +596,7 @@ with and without batc">
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Batch-Normalization-Forward"><span class="nav-number">1.</span> <span class="nav-text">Batch Normalization: Forward</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Batch-Normalization-Backward"><span class="nav-number">2.</span> <span class="nav-text">Batch Normalization: Backward</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Batch-Normalization-alternative-backward"><span class="nav-number">2.1.</span> <span class="nav-text">Batch Normalization: alternative backward</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fully-Connected-Nets-with-Batch-Normalization"><span class="nav-number">3.</span> <span class="nav-text">Fully Connected Nets with Batch Normalization</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Batchnorm-for-deep-networks"><span class="nav-number">4.</span> <span class="nav-text">Batchnorm for deep networks</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#with-and-without-batch-normalization"><span class="nav-number">4.1.</span> <span class="nav-text">with and without batch normalization</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Batch-normalization-and-initialization"><span class="nav-number">5.</span> <span class="nav-text">Batch normalization and initialization</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">Convolutional Networks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text">Convolutional: Naive forward pass</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">3.</span> <span class="nav-text">Aside: Image processing via convolutions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">4.</span> <span class="nav-text">Convolution: Naive backward pass</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">5.</span> <span class="nav-text">Max pooling: Naive forward</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">6.</span> <span class="nav-text">Max pooling: Naive backward</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">7.</span> <span class="nav-text">Fast layers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">8.</span> <span class="nav-text">Convolutional "sandwich" layers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">9.</span> <span class="nav-text">Three-layer ConvNet</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">9.1.</span> <span class="nav-text">Sanity check loss</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">9.2.</span> <span class="nav-text">Gradient check</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">9.3.</span> <span class="nav-text">Overfit small data</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">9.4.</span> <span class="nav-text">Train the net</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">9.5.</span> <span class="nav-text">Visualize Filters</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">10.</span> <span class="nav-text">Spatial Batch Normalization</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">10.1.</span> <span class="nav-text">Spatial Batch Normalization: forward</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">10.2.</span> <span class="nav-text">Spatial Batch Normalization: backward</span></a></li></ol></li></ol></div>
             
 
           </div>
