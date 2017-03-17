@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="CS231n Python," />
 
 
 
@@ -84,15 +84,45 @@
 
 
 
-<meta name="description" content="C++/ Deep Learning/ Computer Vision">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Daniel Cai's Blog">
-<meta property="og:url" content="http://yoursite.com/categories/Web/index.html">
+<meta name="description" content="DropoutDropout 层是为了防止网络的过拟合，其工作原理是在前向传播过程中，让每个神经元以一定的概率p,让其停止工作，即将神经元输出的值设为0.
+dropout的原理图如下所示：
+Dropout forward pass
+
+Dropout backward pass
+
+Fully-connected nets with Dropout
+Regularization experiment1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CS231n Assignment 2 Learning Note —— Dropout">
+<meta property="og:url" content="http://yoursite.com/2017/03/14/CS231n_Assignment2_Dropout/index.html">
 <meta property="og:site_name" content="Daniel Cai's Blog">
-<meta property="og:description" content="C++/ Deep Learning/ Computer Vision">
+<meta property="og:description" content="DropoutDropout 层是为了防止网络的过拟合，其工作原理是在前向传播过程中，让每个神经元以一定的概率p,让其停止工作，即将神经元输出的值设为0.
+dropout的原理图如下所示：
+Dropout forward pass
+
+Dropout backward pass
+
+Fully-connected nets with Dropout
+Regularization experiment1">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170313148939304538430.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170313148939323147296.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/2017031214893295752261.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170313148939327323234.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170313148939028181157.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/2017031314893902608833.png">
+<meta property="og:image" content="http://ok9r0tgbx.bkt.clouddn.com/2017031314893925061709.png">
+<meta property="og:updated_time" content="2017-03-17T10:01:14.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Daniel Cai's Blog">
-<meta name="twitter:description" content="C++/ Deep Learning/ Computer Vision">
+<meta name="twitter:title" content="CS231n Assignment 2 Learning Note —— Dropout">
+<meta name="twitter:description" content="DropoutDropout 层是为了防止网络的过拟合，其工作原理是在前向传播过程中，让每个神经元以一定的概率p,让其停止工作，即将神经元输出的值设为0.
+dropout的原理图如下所示：
+Dropout forward pass
+
+Dropout backward pass
+
+Fully-connected nets with Dropout
+Regularization experiment1">
+<meta name="twitter:image" content="http://ok9r0tgbx.bkt.clouddn.com/20170313148939304538430.png">
 
 
 
@@ -120,13 +150,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/categories/Web/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/03/14/CS231n_Assignment2_Dropout/"/>
 
 
 
 
 
-  <title> Category: Web | Daniel Cai's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> CS231n Assignment 2 Learning Note —— Dropout | Daniel Cai's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -147,7 +177,7 @@
     
   
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container one-collumn sidebar-position-left  ">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -237,47 +267,187 @@
           <div id="content" class="content">
             
 
-  <section id="posts" class="posts-collapse">
-    <div class="collection-title">
-      <h2 >
-        Web
-        <small>Category</small>
-      </h2>
-    </div>
-
+  <div id="posts" class="posts-expand">
     
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2016/12/23/htaccess_turiol/" itemprop="url">
-              
-                <span itemprop="name">.htaccess教程</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-12-23T00:00:00+08:00"
-              content="2016-12-23" >
-          12-23
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-    
-  </section>
 
   
 
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/14/CS231n_Assignment2_Dropout/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Daniel Cai">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/uploads/batman.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Daniel Cai's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Daniel Cai's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                CS231n Assignment 2 Learning Note —— Dropout
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-14T00:00:00+08:00">
+                2017-03-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Deep-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">Deep Learning</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/03/14/CS231n_Assignment2_Dropout/" class="leancloud_visitors" data-flag-title="CS231n Assignment 2 Learning Note —— Dropout">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">Visitors </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Dropout"><a href="#Dropout" class="headerlink" title="Dropout"></a>Dropout</h2><p>Dropout 层是为了防止网络的过拟合，其工作原理是在前向传播过程中，让每个神经元以一定的概率p,让其停止工作，即将神经元输出的值设为0.</p>
+<p>dropout的原理图如下所示：<br><img src="http://ok9r0tgbx.bkt.clouddn.com/20170313148939304538430.png" alt="20170313148939304538430.png"></p>
+<h2 id="Dropout-forward-pass"><a href="#Dropout-forward-pass" class="headerlink" title="Dropout forward pass"></a>Dropout forward pass</h2><p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170313148939323147296.png" alt="20170313148939323147296.png"></p>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/2017031214893295752261.png" alt="2017031214893295752261.png"></p>
+<h2 id="Dropout-backward-pass"><a href="#Dropout-backward-pass" class="headerlink" title="Dropout backward pass"></a>Dropout backward pass</h2><p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170313148939327323234.png" alt="20170313148939327323234.png"></p>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/20170313148939028181157.png" alt="20170313148939028181157.png"></p>
+<h2 id="Fully-connected-nets-with-Dropout"><a href="#Fully-connected-nets-with-Dropout" class="headerlink" title="Fully-connected nets with Dropout"></a>Fully-connected nets with Dropout</h2><p><img src="http://ok9r0tgbx.bkt.clouddn.com/2017031314893902608833.png" alt="2017031314893902608833.png"></p>
+<h2 id="Regularization-experiment"><a href="#Regularization-experiment" class="headerlink" title="Regularization experiment"></a>Regularization experiment</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dropout_choices = [<span class="number">0</span>,<span class="number">0.25</span>,<span class="number">0.75</span>]</div></pre></td></tr></table></figure>
+<p><strong>Plot train and validation accuracies of the two models</strong></p>
+<p><img src="http://ok9r0tgbx.bkt.clouddn.com/2017031314893925061709.png" alt="2017031314893925061709.png"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CS231n-Python/" rel="tag"># CS231n Python</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/12/CS231n_Assignment2_Fully-ConnectedNeuralNets/" rel="next" title="CS231n Assignment 2 Learning Note —— Fully-Connected Neural Nets">
+                <i class="fa fa-chevron-left"></i> CS231n Assignment 2 Learning Note —— Fully-Connected Neural Nets
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/16/CS231n_Assignment2_BatchNormalization/" rel="prev" title="CS231n Assignment 2 Learning Note —— Batch Normalization">
+                CS231n Assignment 2 Learning Note —— Batch Normalization <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -285,6 +455,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -304,8 +478,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/uploads/batman.png"
@@ -369,6 +552,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Dropout"><span class="nav-number">1.</span> <span class="nav-text">Dropout</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dropout-forward-pass"><span class="nav-number">2.</span> <span class="nav-text">Dropout forward pass</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dropout-backward-pass"><span class="nav-number">3.</span> <span class="nav-text">Dropout backward pass</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fully-connected-nets-with-Dropout"><span class="nav-number">4.</span> <span class="nav-text">Fully-connected nets with Dropout</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Regularization-experiment"><span class="nav-number">5.</span> <span class="nav-text">Regularization experiment</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
     </div>
@@ -467,6 +666,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
@@ -493,26 +696,6 @@
   
 
   
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
-
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
