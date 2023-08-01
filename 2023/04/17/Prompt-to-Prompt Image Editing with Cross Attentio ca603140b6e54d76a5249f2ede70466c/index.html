@@ -1,0 +1,300 @@
+<!DOCTYPE html><html><head>
+  <meta charset="utf-8">
+  
+  
+  <title>Prompt-to-Prompt Image Editing | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Prompt-to-Prompt Image Editingwith Cross Attention Control TL;DR将文本驱动的图像合成拓展到文本驱动的图像编辑是很自然的。这个方向面临的挑战是：编辑任务通常是保留未编辑的部分，保留大部分的原始图像。然而在基于文本驱动的模型中，即使是对文本本身进行微小的改动，也会导致截然不同的结果。在本文之前的STOA方法用mask来缓解这个现象，但也忽">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Prompt-to-Prompt Image Editing">
+<meta property="og:url" content="http://example.com/2023/04/17/Prompt-to-Prompt%20Image%20Editing%20with%20Cross%20Attentio%20ca603140b6e54d76a5249f2ede70466c/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Prompt-to-Prompt Image Editingwith Cross Attention Control TL;DR将文本驱动的图像合成拓展到文本驱动的图像编辑是很自然的。这个方向面临的挑战是：编辑任务通常是保留未编辑的部分，保留大部分的原始图像。然而在基于文本驱动的模型中，即使是对文本本身进行微小的改动，也会导致截然不同的结果。在本文之前的STOA方法用mask来缓解这个现象，但也忽">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/Prompt-to-Prompt%20Image%20Editing%20with%20Cross%20Attentio%20ca603140b6e54d76a5249f2ede70466c/Untitled.png">
+<meta property="og:image" content="http://example.com/Prompt-to-Prompt%20Image%20Editing%20with%20Cross%20Attentio%20ca603140b6e54d76a5249f2ede70466c/Untitled%201.png">
+<meta property="og:image" content="http://example.com/Prompt-to-Prompt%20Image%20Editing%20with%20Cross%20Attentio%20ca603140b6e54d76a5249f2ede70466c/Untitled%202.png">
+<meta property="og:image" content="http://example.com/Prompt-to-Prompt%20Image%20Editing%20with%20Cross%20Attentio%20ca603140b6e54d76a5249f2ede70466c/Untitled%203.png">
+<meta property="og:image" content="http://example.com/Prompt-to-Prompt%20Image%20Editing%20with%20Cross%20Attentio%20ca603140b6e54d76a5249f2ede70466c/Untitled%204.png">
+<meta property="og:image" content="http://example.com/Prompt-to-Prompt%20Image%20Editing%20with%20Cross%20Attentio%20ca603140b6e54d76a5249f2ede70466c/Untitled%205.png">
+<meta property="og:image" content="http://example.com/Prompt-to-Prompt%20Image%20Editing%20with%20Cross%20Attentio%20ca603140b6e54d76a5249f2ede70466c/Untitled%206.png">
+<meta property="og:image" content="http://example.com/Prompt-to-Prompt%20Image%20Editing%20with%20Cross%20Attentio%20ca603140b6e54d76a5249f2ede70466c/Untitled%207.png">
+<meta property="og:image" content="http://example.com/Prompt-to-Prompt%20Image%20Editing%20with%20Cross%20Attentio%20ca603140b6e54d76a5249f2ede70466c/Untitled%208.png">
+<meta property="og:image" content="http://example.com/Prompt-to-Prompt%20Image%20Editing%20with%20Cross%20Attentio%20ca603140b6e54d76a5249f2ede70466c/Untitled%209.png">
+<meta property="og:image" content="http://example.com/Prompt-to-Prompt%20Image%20Editing%20with%20Cross%20Attentio%20ca603140b6e54d76a5249f2ede70466c/Untitled%2010.png">
+<meta property="article:published_time" content="2023-04-17T02:23:04.000Z">
+<meta property="article:modified_time" content="2023-08-01T16:16:10.827Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/Prompt-to-Prompt%20Image%20Editing%20with%20Cross%20Attentio%20ca603140b6e54d76a5249f2ede70466c/Untitled.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Prompt-to-Prompt Image Editing with Cross Attentio ca603140b6e54d76a5249f2ede70466c" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/04/17/Prompt-to-Prompt%20Image%20Editing%20with%20Cross%20Attentio%20ca603140b6e54d76a5249f2ede70466c/" class="article-date">
+  <time class="dt-published" datetime="2023-04-17T02:23:04.000Z" itemprop="datePublished">2023-04-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Prompt-to-Prompt Image Editing
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Prompt-to-Prompt-Image-Editing"><a href="#Prompt-to-Prompt-Image-Editing" class="headerlink" title="Prompt-to-Prompt Image Editing"></a>Prompt-to-Prompt Image Editing</h1><p>with Cross Attention Control</p>
+<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><p>将文本驱动的图像合成拓展到文本驱动的图像编辑是很自然的。这个方向面临的挑战是：编辑任务通常是保留未编辑的部分，保留大部分的原始图像。然而在基于文本驱动的模型中，即使是对文本本身进行微小的改动，也会导致截然不同的结果。在本文之前的STOA方法用mask来缓解这个现象，但也忽略了Mask中间的信息。本文追求一种直观的prompt-to-prompt 仅有文本控制的图像编辑框架。经过研究发现 —— cross attention layer是控制图像空间分布和prompt 中每个单词的关键，基于这个观察，作者提出了几个应用程序，通过仅编辑文本提示来监控图像综合。这包括通过替换一个词进行局部编辑，通过添加说明进行全局编辑，甚至精细地控制一个词在图像中的反映程度</p>
+<p><img src="/Prompt-to-Prompt%20Image%20Editing%20with%20Cross%20Attentio%20ca603140b6e54d76a5249f2ede70466c/Untitled.png" alt="Untitled"></p>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><p><img src="/Prompt-to-Prompt%20Image%20Editing%20with%20Cross%20Attentio%20ca603140b6e54d76a5249f2ede70466c/Untitled%201.png" alt="Untitled"></p>
+<ul>
+<li>key observation: 生成图像的外观和结构不仅依赖于random seed, 也和 在diffusion过程中图像pixel 和 text embed 之间的关联</li>
+</ul>
+<p><img src="/Prompt-to-Prompt%20Image%20Editing%20with%20Cross%20Attentio%20ca603140b6e54d76a5249f2ede70466c/Untitled%202.png" alt="Untitled"></p>
+<ul>
+<li><p>Cross attention in text-conditioned Diffusion Models</p>
+<ul>
+<li>使用ImageGen —— text-guided 合成模型作为backbone，只在text-to-image的扩散过程进行适应，原有的SR过程保持不变</li>
+<li>noisy image $\phi(zt)$ 被映射成 Query matrix  $Q = l_Q(\phi(zt))$. textual embedding 被映射为 key matrix: $K = l_K(\phi(P ))$, value matrix $V = l_v(\phi(P))$。attention mask 如下, mask 用于衡量Q K之间的相似度，为了增加表达能力，并行也使用了multi-head attention.</li>
+</ul>
+<p>  $$<br>  M = Softmax(\frac{QK^T}{\sqrt{d}})<br>  $$
+  </p>
+</li>
+<li><p><strong>Controlling the Cross-attention</strong></p>
+<p>  <img src="/Prompt-to-Prompt%20Image%20Editing%20with%20Cross%20Attentio%20ca603140b6e54d76a5249f2ede70466c/Untitled%203.png" alt="Untitled"></p>
+<ul>
+<li><p>生成的图像的空间布局和几何形状依赖于跨注意力图。 可以看出注意力mask 随着关键词汇变换的过程，而且在早期，注意力mask 已经具有雏形。由于注意力反映了整体的组成，我们可以将从原始提示 P 的生成中获得的注意力图 M 注入到修改后的提示 P* 的第二次生成中。这允许生成一个编辑后的图像 I*，该图像不仅根据编辑后的提示进行了操控，而且还保留了输入图像 I 的结构。</p>
+<ol>
+<li>**<code>DM(zt,P,t,s)</code>**：这是一个扩散过程的单步计算，其输出是噪声图像 <strong><code>zt−1</code></strong> 和注意力图 <strong><code>Mt</code></strong> （如果没有使用则省略）。</li>
+<li>**<code>DM(zt,P,t,s){M ← M∗}</code>**：这是我们使用额外给定的图 <strong><code>M∗</code></strong> 来覆盖注意力图 <strong><code>M</code></strong> 的扩散步骤，但保持来自提供的提示的值 **<code>V∗</code>**。</li>
+<li>**<code>Mt*</code>**：这是使用编辑提示 <strong><code>P*</code></strong> 产生的注意力图。</li>
+<li>**<code>Edit(Mt, Mt*, t)</code>**：这是一个通用的编辑函数，它接收原始和编辑图像在生成过程中的第 <strong><code>t</code></strong> 个注意力图作为输入。</li>
+</ol>
+<p>  <img src="/Prompt-to-Prompt%20Image%20Editing%20with%20Cross%20Attentio%20ca603140b6e54d76a5249f2ede70466c/Untitled%204.png" alt="Untitled"></p>
+</li>
+</ul>
+</li>
+<li><p>Edition 函数的定义</p>
+<ul>
+<li>word swap</li>
+</ul>
+<p>  <img src="/Prompt-to-Prompt%20Image%20Editing%20with%20Cross%20Attentio%20ca603140b6e54d76a5249f2ede70466c/Untitled%205.png" alt="Untitled"></p>
+<ul>
+<li>Adding a new phrase 。P =“a castle next to a river” to P∗ =“children drawing of a castle next to a river”</li>
+</ul>
+<p>  <img src="/Prompt-to-Prompt%20Image%20Editing%20with%20Cross%20Attentio%20ca603140b6e54d76a5249f2ede70466c/Untitled%206.png" alt="Untitled"></p>
+<ul>
+<li>Attention re-weighting: P = “a fluffy red ball” 例如改变材质的程度</li>
+</ul>
+<p>  <img src="/Prompt-to-Prompt%20Image%20Editing%20with%20Cross%20Attentio%20ca603140b6e54d76a5249f2ede70466c/Untitled%207.png" alt="Untitled"></p>
+<h2 id="Application"><a href="#Application" class="headerlink" title="Application"></a>Application</h2><p>  文章介绍了一些应用，包括</p>
+<ul>
+<li><strong>Text-Only Localized Editing.</strong></li>
+</ul>
+<p>  <img src="/Prompt-to-Prompt%20Image%20Editing%20with%20Cross%20Attentio%20ca603140b6e54d76a5249f2ede70466c/Untitled%208.png" alt="Untitled"></p>
+<ul>
+<li><strong>Global editing.</strong></li>
+</ul>
+<p>  <img src="/Prompt-to-Prompt%20Image%20Editing%20with%20Cross%20Attentio%20ca603140b6e54d76a5249f2ede70466c/Untitled%209.png" alt="Untitled"></p>
+<ul>
+<li><strong>Fader Control using Attention Re-weighting.</strong></li>
+</ul>
+<p>  <img src="/Prompt-to-Prompt%20Image%20Editing%20with%20Cross%20Attentio%20ca603140b6e54d76a5249f2ede70466c/Untitled%2010.png" alt="Untitled"></p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/04/17/Prompt-to-Prompt%20Image%20Editing%20with%20Cross%20Attentio%20ca603140b6e54d76a5249f2ede70466c/" data-id="clksid3g70007d9lk8wjf7yf3" data-title="Prompt-to-Prompt Image Editing" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/05/15/Magic3D%20High-Resolution%20Text-to-3D%20Content%20Creatio%203124df4e1360440fbd25806433fa5167/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Magic3D-High-Resolution Text-to-3D Content Creation
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/03/23/DreamFusion%20Text-to-3D%20using%202D%20Diffusion%20c53dbb2cf5b94254b0bd32733b75085b/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">DreamFusion Text-to-3D using 2D Diffusion</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">July 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">December 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/07/04/BLIP2/">BLIP-2 Bootstrapping Language-Image Pre-trainingwith Frozen Image Encoders and Large Language Models</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/02/BLIP/">BLIP Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/01/SDXL%20Improving%20Latent%20Diffusion%20Models%20for%20High-Re%20b0dfed5065764baaa371b5b7fd7275cd/">SDXL</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/25/Segment%20Anything/">SAM</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/17/ViLT%20Vision-and-Language%20Transformer%20Without%20Convo%20ddf0a31cddb9402397b4e99fe718307a/">ViLT-Vision-and-Language Transformer</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      © 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+
+<script type="text/javascript" charset="utf-8" src="/js/lazyload-plugin/lazyload.intersectionObserver.min.js"></script></body></html>

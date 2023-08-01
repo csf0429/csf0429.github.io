@@ -1,0 +1,288 @@
+<!DOCTYPE html><html><head>
+  <meta charset="utf-8">
+  
+  
+  <title>InstructPix2Pix | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="InstructPix2Pix: Learning to Follow Image Editing InstructionsTL;DR本文提出的方法：在human instructions 和 给定图像，在指令指示下进行图像编辑。为了获取这个任务的训练数据，利用了GPT3（语言模型）和 Stable Diffusion （text2image）两个预训练模型的能力。Instruct pix2pix">
+<meta property="og:type" content="article">
+<meta property="og:title" content="InstructPix2Pix">
+<meta property="og:url" content="http://example.com/2023/02/17/InstructPix2Pix%20Learning%20to%20Follow%20Image%20Editing%20I%2050a3f447c26346a7b22fff99756d70f5/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="InstructPix2Pix: Learning to Follow Image Editing InstructionsTL;DR本文提出的方法：在human instructions 和 给定图像，在指令指示下进行图像编辑。为了获取这个任务的训练数据，利用了GPT3（语言模型）和 Stable Diffusion （text2image）两个预训练模型的能力。Instruct pix2pix">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/InstructPix2Pix%20Learning%20to%20Follow%20Image%20Editing%20I%2050a3f447c26346a7b22fff99756d70f5/Untitled.png">
+<meta property="og:image" content="http://example.com/InstructPix2Pix%20Learning%20to%20Follow%20Image%20Editing%20I%2050a3f447c26346a7b22fff99756d70f5/Untitled%201.png">
+<meta property="og:image" content="http://example.com/InstructPix2Pix%20Learning%20to%20Follow%20Image%20Editing%20I%2050a3f447c26346a7b22fff99756d70f5/Untitled%202.png">
+<meta property="og:image" content="http://example.com/InstructPix2Pix%20Learning%20to%20Follow%20Image%20Editing%20I%2050a3f447c26346a7b22fff99756d70f5/Untitled%203.png">
+<meta property="og:image" content="http://example.com/InstructPix2Pix%20Learning%20to%20Follow%20Image%20Editing%20I%2050a3f447c26346a7b22fff99756d70f5/Untitled%204.png">
+<meta property="og:image" content="http://example.com/InstructPix2Pix%20Learning%20to%20Follow%20Image%20Editing%20I%2050a3f447c26346a7b22fff99756d70f5/Untitled%205.png">
+<meta property="og:image" content="http://example.com/InstructPix2Pix%20Learning%20to%20Follow%20Image%20Editing%20I%2050a3f447c26346a7b22fff99756d70f5/Untitled%206.png">
+<meta property="og:image" content="http://example.com/InstructPix2Pix%20Learning%20to%20Follow%20Image%20Editing%20I%2050a3f447c26346a7b22fff99756d70f5/Untitled%207.png">
+<meta property="og:image" content="http://example.com/InstructPix2Pix%20Learning%20to%20Follow%20Image%20Editing%20I%2050a3f447c26346a7b22fff99756d70f5/Untitled%208.png">
+<meta property="article:published_time" content="2023-02-17T02:23:04.000Z">
+<meta property="article:modified_time" content="2023-08-01T16:12:00.483Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/InstructPix2Pix%20Learning%20to%20Follow%20Image%20Editing%20I%2050a3f447c26346a7b22fff99756d70f5/Untitled.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-InstructPix2Pix Learning to Follow Image Editing I 50a3f447c26346a7b22fff99756d70f5" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/02/17/InstructPix2Pix%20Learning%20to%20Follow%20Image%20Editing%20I%2050a3f447c26346a7b22fff99756d70f5/" class="article-date">
+  <time class="dt-published" datetime="2023-02-17T02:23:04.000Z" itemprop="datePublished">2023-02-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      InstructPix2Pix
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="InstructPix2Pix-Learning-to-Follow-Image-Editing-Instructions"><a href="#InstructPix2Pix-Learning-to-Follow-Image-Editing-Instructions" class="headerlink" title="InstructPix2Pix: Learning to Follow Image Editing Instructions"></a>InstructPix2Pix: Learning to Follow Image Editing Instructions</h1><h1 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h1><p>本文提出的方法：在human instructions 和 给定图像，在指令指示下进行图像编辑。为了获取这个任务的训练数据，利用了GPT3（语言模型）和 Stable Diffusion （text2image）两个预训练模型的能力。Instruct pix2pix是 conditional stable diffusion. 由于无需对模型进行finetune 因此可以快速inference.</p>
+<p><img src="/InstructPix2Pix%20Learning%20to%20Follow%20Image%20Editing%20I%2050a3f447c26346a7b22fff99756d70f5/Untitled.png" alt="Untitled"></p>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><ul>
+<li>image editing 的训练还是看成一个 supervised learning 的问题。(1)  生成image editing instruction 和图像  （editing before / after ）构建训练集 （2）用这个训练集训练 diffusion网络</li>
+</ul>
+<p><img src="/InstructPix2Pix%20Learning%20to%20Follow%20Image%20Editing%20I%2050a3f447c26346a7b22fff99756d70f5/Untitled%201.png" alt="Untitled"></p>
+<ul>
+<li><p>Training Data Generation</p>
+<ul>
+<li>a. 用GPT3 生成编辑的Caption</li>
+<li>b. 用Stable Diffusion&amp; Prompt2Prompt 生成图像pair。Prompt2Prompt: 该方法旨在通过在一定数量的去噪步骤中借用交叉注意力权重，使得文本到图像扩散模型中的多个生成物相似。Prompt2Prompt 中有一个参数可以控制两个图像之间的相似度，作者认为仅仅根据标题和编辑文字确定这个值是困难。本文利用clip-based metric 来衡量两个图像之间的consistency，先随机生成100个图像，然后根据这个指标进行筛选。该度量标准衡量了图像对之间的变化在CLIP空间中与标题之间的变化的一致性，这有助于最大化图像对的多样性和质量</li>
+<li>c. 生成图像example</li>
+</ul>
+<p>  <img src="/InstructPix2Pix%20Learning%20to%20Follow%20Image%20Editing%20I%2050a3f447c26346a7b22fff99756d70f5/Untitled%202.png" alt="Untitled">
+  </p>
+</li>
+<li><p><strong>InstructPix2Pix</strong></p>
+<ul>
+<li>这里采用了一种改进的Diffusion Model ——  Latent Diffusion, 它通过在pre-trained VAE 的latent space 中进行操作来提高扩散模型的数量和质量。</li>
+<li>latent diffusion 核心思想：将图像x 编码为潜在的latent 向量z, 然后在一系列的时间t 中逐渐增加噪声，产生潜在噪声变量z_t；为了预测在给定图像条件cI和文本指令条件cT下添加到噪声潜在变量zt的噪声，我们需要学习一个网络εθ。</li>
+<li>这个模型的目标是最小化潜在扩散目标（Latent Diffusion Objective），这个目标计算了网络εθ预测的噪声（εθ(zt, t, E(cI), cT)）与真实噪声ε之间的欧几里得距离（L2范数）的平方。</li>
+</ul>
+</li>
+<li><p>Classifier-free Guidance for two conditioning</p>
+</li>
+</ul>
+<p><img src="/InstructPix2Pix%20Learning%20to%20Follow%20Image%20Editing%20I%2050a3f447c26346a7b22fff99756d70f5/Untitled%203.png" alt="Untitled"></p>
+<ul>
+<li>classifier-free diffusion guidance 常用于生成样本中质量和多样性之间的tradeoff。该方法常用于类条件和文本条件图像生成</li>
+<li>classifier-free 核心思想：本质是调整概率分布，将原始的概率分布进行转移，使得它更偏向于那些条件 c 高概率的数据。</li>
+<li>训练时需要同时训练 「带条件」和「非条件」的去噪扩散模型。在推理时，则将两个预测分数进行合并。通过引导比例 s 和给定条件 c 来调整原始的概率分布，从而使得生成的数据样本更偏向于那些与条件 c 紧密相关的样本。</li>
+</ul>
+<p><img src="/InstructPix2Pix%20Learning%20to%20Follow%20Image%20Editing%20I%2050a3f447c26346a7b22fff99756d70f5/Untitled%204.png" alt="Untitled"></p>
+<ul>
+<li>在训练中，随机将5%的图像置为空，随机将5%的文本置为空，也同时把5%的文本和图像同时置为空。本人无的score network 包括两个条件，因此也要引入两个condition scale。</li>
+</ul>
+<p><img src="/InstructPix2Pix%20Learning%20to%20Follow%20Image%20Editing%20I%2050a3f447c26346a7b22fff99756d70f5/Untitled%205.png" alt="Untitled"></p>
+<h2 id="Experiment"><a href="#Experiment" class="headerlink" title="Experiment"></a>Experiment</h2><p><img src="/InstructPix2Pix%20Learning%20to%20Follow%20Image%20Editing%20I%2050a3f447c26346a7b22fff99756d70f5/Untitled%206.png" alt="Untitled"></p>
+<h3 id="Baseline-Comparison"><a href="#Baseline-Comparison" class="headerlink" title="Baseline Comparison"></a>Baseline Comparison</h3><ul>
+<li>SDEdit 和 Text2Live上做测评。text2live，指在文字prompt的提示下， 做透明和颜色的增广。从图中可以看出，这个问题难点是在保护ID和孤立物体，特别是当需要比较大范围的变化时。</li>
+<li>direction similarity: 衡量图像和文本变化一致性度量。方法是先获得两两text embed, 两两图像embed 之间的变化方向，然后计算他们的cosine距离。值也是越高越好。</li>
+<li>clip image similarity 跟 direction similarity之间是相互tradeoff的。</li>
+</ul>
+<p><img src="/InstructPix2Pix%20Learning%20to%20Follow%20Image%20Editing%20I%2050a3f447c26346a7b22fff99756d70f5/Untitled%207.png" alt="Untitled"></p>
+<p><img src="/InstructPix2Pix%20Learning%20to%20Follow%20Image%20Editing%20I%2050a3f447c26346a7b22fff99756d70f5/Untitled%208.png" alt="Untitled"></p>
+<h3 id="Ablation"><a href="#Ablation" class="headerlink" title="Ablation"></a>Ablation</h3><ul>
+<li>当减少数据集数量，模型做large edit 的能力显著降低（更大范围的变化），模型仅仅会在风格上做微小的调整。在指标上就是，图像的一致性很高，但是direction 相似度很低。</li>
+<li>Clip filtering 去掉后，输出图像和输入图像的一致性显著降低。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/02/17/InstructPix2Pix%20Learning%20to%20Follow%20Image%20Editing%20I%2050a3f447c26346a7b22fff99756d70f5/" data-id="clksid3gb000bd9lkhs9e04xb" data-title="InstructPix2Pix" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/03/04/Autoregressive%20Image%20Generation%20using%20Residual%20Qua%2084f50243875546808d6940440389fbe9/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Autoregressive Image Generation using Residual Quantization
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/01/04/High-Resolution%20Image%20Synthesis%20with%20Latent%20Diffus/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">LDM</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">July 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">December 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/07/04/BLIP2/">BLIP-2 Bootstrapping Language-Image Pre-trainingwith Frozen Image Encoders and Large Language Models</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/02/BLIP/">BLIP Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/01/SDXL%20Improving%20Latent%20Diffusion%20Models%20for%20High-Re%20b0dfed5065764baaa371b5b7fd7275cd/">SDXL</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/25/Segment%20Anything/">SAM</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/17/ViLT%20Vision-and-Language%20Transformer%20Without%20Convo%20ddf0a31cddb9402397b4e99fe718307a/">ViLT-Vision-and-Language Transformer</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      © 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+
+<script type="text/javascript" charset="utf-8" src="/js/lazyload-plugin/lazyload.intersectionObserver.min.js"></script></body></html>

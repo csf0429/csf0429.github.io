@@ -1,0 +1,281 @@
+<!DOCTYPE html><html><head>
+  <meta charset="utf-8">
+  
+  
+  <title>SAM | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Segment AnythingTL;DR 在图像分割方面定义了一种新的任务，模型（SAM），数据（SA-1B），该项目搜集了11M 图像和 1B 的mask。该模型在很多任务上完全了评估，展示出比较好的zero-shot性能。  Method   Segment Anything Model 图像编码器：使用MAE预训练的Vision transformer，可以比较好的适配高分辨率的输入。 提">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SAM">
+<meta property="og:url" content="http://example.com/2023/06/25/Segment%20Anything/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Segment AnythingTL;DR 在图像分割方面定义了一种新的任务，模型（SAM），数据（SA-1B），该项目搜集了11M 图像和 1B 的mask。该模型在很多任务上完全了评估，展示出比较好的zero-shot性能。  Method   Segment Anything Model 图像编码器：使用MAE预训练的Vision transformer，可以比较好的适配高分辨率的输入。 提">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/image/image_uEhvx1I4w0.png">
+<meta property="og:image" content="http://example.com/image/image_YADwRIRu3Z.png">
+<meta property="og:image" content="http://example.com/image/image_5aHFa97wFs.png">
+<meta property="article:published_time" content="2023-06-25T02:23:04.000Z">
+<meta property="article:modified_time" content="2023-08-01T16:15:57.415Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/image/image_uEhvx1I4w0.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Segment Anything" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/06/25/Segment%20Anything/" class="article-date">
+  <time class="dt-published" datetime="2023-06-25T02:23:04.000Z" itemprop="datePublished">2023-06-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      SAM
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Segment-Anything"><a href="#Segment-Anything" class="headerlink" title="Segment Anything"></a>Segment Anything</h1><h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><hr>
+<p>在图像分割方面定义了一种新的任务，模型（SAM），数据（SA-1B），该项目搜集了11M 图像和 1B 的mask。该模型在很多任务上完全了评估，展示出比较好的zero-shot性能。</p>
+<p><img src="/image/image_uEhvx1I4w0.png"></p>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><hr>
+<p><img src="/image/image_YADwRIRu3Z.png"></p>
+<ul>
+<li><strong>Segment Anything Model</strong><ul>
+<li>图像编码器：使用MAE预训练的Vision transformer，可以比较好的适配高分辨率的输入。</li>
+<li>提示编码器：可以是两种类型的提示：稀疏的（point, box, text）, 密集的mask。position encoding 表示点和框，加上学习到的该类型的嵌入向量；现成的CLIP编码器来提取文本；mask则用Conv来提取，并和图像的embed做逐元素的相加。</li>
+<li>Mask解码器: decoder 将 image embed 和 prompt embed 和 输出token映射到一个mask。采用的是一种修改版TF decoder模块，后接一个dynamic mask prediction head. 在提示上使用cross attention, self attention 来更新所有embed。过完上述两个模块之后，对图像嵌入进行上采样，然后使用MLP将输出token映射到分类器，该分类器在每个图像位置计算掩模前景概率。</li>
+<li>消除歧义: 对于有歧义的propmt，模型会平均多个有效的mask。本文的做法是对于同一个prompt，输出3个mask已经足够了。</li>
+<li>效率: 浏览器CPU上接近50ms,相当于实时的体验</li>
+<li>train &amp; loss: focal loss 和 dice loss 的混合。对于几何上的prompt, 采用了多种形式的混合采样来模拟交互式.</li>
+</ul>
+</li>
+<li><strong>Segment Anything Data Engine</strong><ul>
+<li>data engine: 其实就是标注工具，文中把它分为三个阶段 ：<ul>
+<li>（1）模型辅助下手工标注：这个阶段在SAM的帮助下，每张图的mask 从 22 增加到44. 标注速度仅比 bounding box 慢一半。</li>
+<li>（2）半自动，即模型自动生成 和 模型辅助下 的混合. 这个阶段标注时间又回到34s， 但是每张图像的mask增加到72</li>
+<li>（3）模型全自动生成 ：比较特别的是，在prompt 方面，用了32x32的点来</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Segment Anything Dataset<ul>
+<li>Images: 获取了一波11M的图像，将最短边缩短到1500，依然比现有数据集分辨率都高</li>
+<li>Mask:1.1B ，mask 质量也很高<br><img src="/image/image_5aHFa97wFs.png"></li>
+</ul>
+</li>
+</ul>
+<h2 id="Experiment"><a href="#Experiment" class="headerlink" title="Experiment"></a>Experiment</h2><hr>
+<ul>
+<li><strong>Zero-Shot Transfer Experiments</strong><ul>
+<li><strong>Zero-Shot Single Point Valid Mask Evaluation</strong></li>
+<li>edge detection<ul>
+<li>对于生成的mask过一个sobel filter，已经能获得质量比较高的edge map</li>
+</ul>
+</li>
+<li>物体检测和实例分割表现也很好</li>
+<li>text to mask<ul>
+<li>在训练期间，使用提取的 CLIP 图像embed 作为其第一个输入提示 SAM。由于 CLIP 的图像嵌入经过训练以与其文本embed对齐，因此我们可以使用图像embed进行训练，但使用文本embed进行推理。在推理时可以通过 CLIP 的文本编码器运行文本，然后将生成的文本embed作为提示提供给 SAM</li>
+</ul>
+<hr>
+<hr>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/25/Segment%20Anything/" data-id="clksid3g80009d9lkgiza0acv" data-title="SAM" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/07/01/SDXL%20Improving%20Latent%20Diffusion%20Models%20for%20High-Re%20b0dfed5065764baaa371b5b7fd7275cd/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          SDXL
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/05/17/ViLT%20Vision-and-Language%20Transformer%20Without%20Convo%20ddf0a31cddb9402397b4e99fe718307a/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">ViLT-Vision-and-Language Transformer</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">July 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">December 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/07/04/BLIP2/">BLIP-2 Bootstrapping Language-Image Pre-trainingwith Frozen Image Encoders and Large Language Models</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/02/BLIP/">BLIP Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/01/SDXL%20Improving%20Latent%20Diffusion%20Models%20for%20High-Re%20b0dfed5065764baaa371b5b7fd7275cd/">SDXL</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/25/Segment%20Anything/">SAM</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/17/ViLT%20Vision-and-Language%20Transformer%20Without%20Convo%20ddf0a31cddb9402397b4e99fe718307a/">ViLT-Vision-and-Language Transformer</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      © 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+
+<script type="text/javascript" charset="utf-8" src="/js/lazyload-plugin/lazyload.intersectionObserver.min.js"></script></body></html>

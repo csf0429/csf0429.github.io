@@ -1,0 +1,261 @@
+<!DOCTYPE html><html><head>
+  <meta charset="utf-8">
+  
+  
+  <title>Neural Discrete Representation Learning | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Neural Discrete Representation LearningTL;DR无监督情况下获取有用Representations 很有挑战，本文提出一种生成式模型来提取离散的representation. Vector Quantised- Variational AutoEncoder (VQ-VAE) 和 VAE 主要有两点不同：（1）encoder输出离散的codes（2）prio">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Neural Discrete Representation Learning">
+<meta property="og:url" content="http://example.com/2022/11/17/Neural%20Discrete%20Representation%20Learning%2088bab027be9c49c7824751a2f9f60c6b/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Neural Discrete Representation LearningTL;DR无监督情况下获取有用Representations 很有挑战，本文提出一种生成式模型来提取离散的representation. Vector Quantised- Variational AutoEncoder (VQ-VAE) 和 VAE 主要有两点不同：（1）encoder输出离散的codes（2）prio">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/Neural%20Discrete%20Representation%20Learning%2088bab027be9c49c7824751a2f9f60c6b/Untitled.png">
+<meta property="og:image" content="http://example.com/Neural%20Discrete%20Representation%20Learning%2088bab027be9c49c7824751a2f9f60c6b/Untitled%201.png">
+<meta property="og:image" content="http://example.com/Neural%20Discrete%20Representation%20Learning%2088bab027be9c49c7824751a2f9f60c6b/Untitled%202.png">
+<meta property="og:image" content="http://example.com/Neural%20Discrete%20Representation%20Learning%2088bab027be9c49c7824751a2f9f60c6b/Untitled%203.png">
+<meta property="og:image" content="http://example.com/Neural%20Discrete%20Representation%20Learning%2088bab027be9c49c7824751a2f9f60c6b/Untitled%204.png">
+<meta property="og:image" content="http://example.com/Neural%20Discrete%20Representation%20Learning%2088bab027be9c49c7824751a2f9f60c6b/Untitled%205.png">
+<meta property="og:image" content="http://example.com/Neural%20Discrete%20Representation%20Learning%2088bab027be9c49c7824751a2f9f60c6b/Untitled%206.png">
+<meta property="article:published_time" content="2022-11-17T02:23:04.000Z">
+<meta property="article:modified_time" content="2023-08-01T16:18:21.085Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/Neural%20Discrete%20Representation%20Learning%2088bab027be9c49c7824751a2f9f60c6b/Untitled.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Neural Discrete Representation Learning 88bab027be9c49c7824751a2f9f60c6b" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/11/17/Neural%20Discrete%20Representation%20Learning%2088bab027be9c49c7824751a2f9f60c6b/" class="article-date">
+  <time class="dt-published" datetime="2022-11-17T02:23:04.000Z" itemprop="datePublished">2022-11-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Neural Discrete Representation Learning
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Neural-Discrete-Representation-Learning"><a href="#Neural-Discrete-Representation-Learning" class="headerlink" title="Neural Discrete Representation Learning"></a>Neural Discrete Representation Learning</h1><h1 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h1><p>无监督情况下获取有用Representations 很有挑战，本文提出一种生成式模型来提取离散的representation. Vector Quantised- Variational AutoEncoder (VQ-VAE) 和 VAE 主要有两点不同：（1）encoder输出离散的codes（2）prior是学来的不是静态的。使用VQ方法能够让模型比较好的绕过「后向坍塌」问题</p>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><p>VAE主要包括以下几个部分：（1）编码器，参数化成一个后验概率分布q(z|x), x为给定的输入分量，其中z为离散潜在随机变量；（2）一个先验概率分布p(z)，（3）带有输入分量p（x|z）分布的解码器。</p>
+<h3 id="Discrete-Latent-variables"><a href="#Discrete-Latent-variables" class="headerlink" title="Discrete Latent variables"></a><strong>Discrete Latent variables</strong></h3><p><img src="/Neural%20Discrete%20Representation%20Learning%2088bab027be9c49c7824751a2f9f60c6b/Untitled.png" alt="Untitled"></p>
+<p>首先定义了一个潜在的embed 空间，空间的大小表示为K x D; K 则是种类，D是每个embedding vector的长度。给定输入x, 把它送给编码器得到 z_e(x), 然后在embedding 空间中用最近邻的方法进行搜索，得到离散潜在的变量z.  该模型的所有参数包括编码器 / 解码器 / embedding 空间的参数。</p>
+<p><img src="/Neural%20Discrete%20Representation%20Learning%2088bab027be9c49c7824751a2f9f60c6b/Untitled%201.png" alt="Untitled"></p>
+<p><img src="/Neural%20Discrete%20Representation%20Learning%2088bab027be9c49c7824751a2f9f60c6b/Untitled%202.png" alt="Untitled"></p>
+<p>在语音 / 图像 / 视频上，每个vector的分别为 1D / 2D / 3D</p>
+<h3 id="Learning"><a href="#Learning" class="headerlink" title="Learning"></a>Learning</h3><p>上述公式2中的梯度并没有定义，于是采用STE来近似得到梯度。或者将解码器的输入的梯度替换到编码器输出的梯度上。论文这里表示都可以，取决于使用场景。</p>
+<p><img src="/Neural%20Discrete%20Representation%20Learning%2088bab027be9c49c7824751a2f9f60c6b/Untitled%203.png" alt="Untitled"></p>
+<p>损失函数主要分为几个部分，reconstruct loss（data term）优化编码器和解码器；在这个过程中由于STE的存在，embedding space 部分是没有梯度的。embedding 空间的优化采用向量优化的算法，VQ项用l2 loss 来使得embeding 与编码器输出相靠齐。</p>
+<ul>
+<li>sg 表示stop gradient操作。 forward 是 identity。</li>
+</ul>
+<h3 id="Prior"><a href="#Prior" class="headerlink" title="Prior"></a>Prior</h3><p>在图像任务上，使用Pixel CNN, 语音任务上用WaveNet</p>
+<h2 id="Experiment"><a href="#Experiment" class="headerlink" title="Experiment"></a>Experiment</h2><ul>
+<li><strong>Comparison with continuous variables</strong></li>
+</ul>
+<p>和连续的隐变量做对比的实验，对比了普通的VAE，VIMCO（独立高斯 / 分类先验）和 VQ-VAE。VAE、VQ-VAE和VIMCO模型的比特/维度（bits/dim）分别为4.51、4.67和5.14。说明结果是相当的。</p>
+<ul>
+<li><strong>Images</strong></li>
+</ul>
+<p>图像上大部分的信息是冗余且带噪，实验中将128X128图像压缩至32X32 的隐空间中，压缩了大约42倍，但是重建的图像有些blur</p>
+<p><img src="/Neural%20Discrete%20Representation%20Learning%2088bab027be9c49c7824751a2f9f60c6b/Untitled%204.png" alt="Untitled"></p>
+<p><img src="/Neural%20Discrete%20Representation%20Learning%2088bab027be9c49c7824751a2f9f60c6b/Untitled%205.png" alt="Untitled"></p>
+<ul>
+<li>Video</li>
+</ul>
+<p>给定前几帧和动作，生成后续帧。</p>
+<p><img src="/Neural%20Discrete%20Representation%20Learning%2088bab027be9c49c7824751a2f9f60c6b/Untitled%206.png" alt="Untitled"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/11/17/Neural%20Discrete%20Representation%20Learning%2088bab027be9c49c7824751a2f9f60c6b/" data-id="clksid3g60006d9lk9sme51pz" data-title="Neural Discrete Representation Learning" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/12/17/MaskGIT%20Masked%20Generative%20Image%20Transformer%207f702bf8a59f49cc8e8c04e7173c05fe/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          MaskGIT-Masked Generative Image Transformer
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">July 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">December 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/07/04/BLIP2/">BLIP-2 Bootstrapping Language-Image Pre-trainingwith Frozen Image Encoders and Large Language Models</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/02/BLIP/">BLIP Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/01/SDXL%20Improving%20Latent%20Diffusion%20Models%20for%20High-Re%20b0dfed5065764baaa371b5b7fd7275cd/">SDXL</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/25/Segment%20Anything/">SAM</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/17/ViLT%20Vision-and-Language%20Transformer%20Without%20Convo%20ddf0a31cddb9402397b4e99fe718307a/">ViLT-Vision-and-Language Transformer</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      © 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+
+<script type="text/javascript" charset="utf-8" src="/js/lazyload-plugin/lazyload.intersectionObserver.min.js"></script></body></html>

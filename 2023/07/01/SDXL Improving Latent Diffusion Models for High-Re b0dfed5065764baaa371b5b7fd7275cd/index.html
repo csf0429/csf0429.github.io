@@ -1,0 +1,294 @@
+<!DOCTYPE html><html><head>
+  <meta charset="utf-8">
+  
+  
+  <title>SDXL | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="SDXL: Improving Latent Diffusion Models for High-Resolution Image SynthesisTL;DRSDXL 使用了三倍大小的UNet Backbone，主要体现在：更多的attention block, 更大的cross attention context 作为第二个text encoder。 设计了多种条件机制，并且在SDXL上使用多">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SDXL">
+<meta property="og:url" content="http://example.com/2023/07/01/SDXL%20Improving%20Latent%20Diffusion%20Models%20for%20High-Re%20b0dfed5065764baaa371b5b7fd7275cd/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="SDXL: Improving Latent Diffusion Models for High-Resolution Image SynthesisTL;DRSDXL 使用了三倍大小的UNet Backbone，主要体现在：更多的attention block, 更大的cross attention context 作为第二个text encoder。 设计了多种条件机制，并且在SDXL上使用多">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/SDXL%20Improving%20Latent%20Diffusion%20Models%20for%20High-Re%20b0dfed5065764baaa371b5b7fd7275cd/Untitled.png">
+<meta property="og:image" content="http://example.com/SDXL%20Improving%20Latent%20Diffusion%20Models%20for%20High-Re%20b0dfed5065764baaa371b5b7fd7275cd/Untitled%201.png">
+<meta property="og:image" content="http://example.com/SDXL%20Improving%20Latent%20Diffusion%20Models%20for%20High-Re%20b0dfed5065764baaa371b5b7fd7275cd/Untitled%202.png">
+<meta property="og:image" content="http://example.com/SDXL%20Improving%20Latent%20Diffusion%20Models%20for%20High-Re%20b0dfed5065764baaa371b5b7fd7275cd/Untitled%203.png">
+<meta property="og:image" content="http://example.com/SDXL%20Improving%20Latent%20Diffusion%20Models%20for%20High-Re%20b0dfed5065764baaa371b5b7fd7275cd/Untitled%204.png">
+<meta property="og:image" content="http://example.com/SDXL%20Improving%20Latent%20Diffusion%20Models%20for%20High-Re%20b0dfed5065764baaa371b5b7fd7275cd/Untitled%205.png">
+<meta property="article:published_time" content="2023-07-01T02:23:04.000Z">
+<meta property="article:modified_time" content="2023-08-01T16:21:25.816Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/SDXL%20Improving%20Latent%20Diffusion%20Models%20for%20High-Re%20b0dfed5065764baaa371b5b7fd7275cd/Untitled.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-SDXL Improving Latent Diffusion Models for High-Re b0dfed5065764baaa371b5b7fd7275cd" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/07/01/SDXL%20Improving%20Latent%20Diffusion%20Models%20for%20High-Re%20b0dfed5065764baaa371b5b7fd7275cd/" class="article-date">
+  <time class="dt-published" datetime="2023-07-01T02:23:04.000Z" itemprop="datePublished">2023-07-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      SDXL
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="SDXL-Improving-Latent-Diffusion-Models-for-High-Resolution-Image-Synthesis"><a href="#SDXL-Improving-Latent-Diffusion-Models-for-High-Resolution-Image-Synthesis" class="headerlink" title="SDXL: Improving Latent Diffusion Models for High-Resolution Image Synthesis"></a>SDXL: Improving Latent Diffusion Models for High-Resolution Image Synthesis</h1><h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><p>SDXL 使用了三倍大小的UNet Backbone，主要体现在：更多的attention block, 更大的cross attention context 作为第二个text encoder。 设计了多种条件机制，并且在SDXL上使用多种aspect ratio 进行训练，最后引入一个refine model 来给SDXL做后处理。</p>
+<p>Code: <a target="_blank" rel="noopener" href="https://github.com/Stability-AI/generative-models">https://github.com/Stability-AI/generative-models</a></p>
+<p>Model weights: <a target="_blank" rel="noopener" href="https://huggingface.co/stabilityai/">https://huggingface.co/stabilityai/</a></p>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><p><img src="/SDXL%20Improving%20Latent%20Diffusion%20Models%20for%20High-Re%20b0dfed5065764baaa371b5b7fd7275cd/Untitled.png" alt="Untitled"></p>
+<ul>
+<li>两阶段pipeline: 首先使用SDXL生成初始128 x 128 大小的latent ，其次利用一个专门的高分辨率refinement 模型，和SDEdit 方法作用在第一次输出的latent 上（使用相同的prompt）。SDXL / Refinement model 使用相同的自编码器。</li>
+</ul>
+<h2 id="Architecture-Scale"><a href="#Architecture-Scale" class="headerlink" title="Architecture &amp; Scale"></a>Architecture &amp; Scale</h2><p><img src="/SDXL%20Improving%20Latent%20Diffusion%20Models%20for%20High-Re%20b0dfed5065764baaa371b5b7fd7275cd/Untitled%201.png" alt="Untitled"></p>
+<ul>
+<li>Contrast<ul>
+<li>在UNet 参数上，几乎是以前的三倍</li>
+<li>在UNet 当中的Transformer 模块的分布做了一些调整，去掉了8X downsample, 也增加了低分辨率上transformer 的数量。这里主要的原因是因为效率</li>
+<li>Text Encoder 方面用了OpenCLIP Vit BigG 和 CLIP Vit-L</li>
+<li>context dim 的大小也增大了不少</li>
+</ul>
+</li>
+</ul>
+<h2 id="Micro-Conditioning"><a href="#Micro-Conditioning" class="headerlink" title="Micro-Conditioning"></a>Micro-Conditioning</h2><ul>
+<li><p>Conditioning the Model on Image Size</p>
+<ul>
+<li>将原始的输入输出size 当作condition 注入。利用傅立叶特征编码对每个部分单独计算嵌入。这些编码最终concat 成一个向量，然后和time embedding 相加。</li>
+</ul>
+<p>  <img src="/SDXL%20Improving%20Latent%20Diffusion%20Models%20for%20High-Re%20b0dfed5065764baaa371b5b7fd7275cd/Untitled%202.png" alt="Untitled"></p>
+<ul>
+<li>512 only 因为存在overfit 现象，效果很差；CIN-size-cond 的FID和IS都很高</li>
+</ul>
+<p>  <img src="/SDXL%20Improving%20Latent%20Diffusion%20Models%20for%20High-Re%20b0dfed5065764baaa371b5b7fd7275cd/Untitled%203.png" alt="Untitled">
+  </p>
+</li>
+<li><p>Conditioning the Model on Cropping Parameters</p>
+<ul>
+<li>可以看出SDXL相比之前的版本，Crop问题有更好的表现</li>
+<li>再设置一个condition, 一共包含top, left 两个元素。在训练神经网络时，防止随机裁剪造成的数据泄露问题：在数据加载阶段，提出了均匀采样裁剪坐标的方法，将它们通过傅立叶特征嵌入作为条件参数输入模型，从而增强了图像合成过程的控制。</li>
+</ul>
+<p>  <img src="/SDXL%20Improving%20Latent%20Diffusion%20Models%20for%20High-Re%20b0dfed5065764baaa371b5b7fd7275cd/Untitled%204.png" alt="Untitled"></p>
+</li>
+</ul>
+<p><img src="/SDXL%20Improving%20Latent%20Diffusion%20Models%20for%20High-Re%20b0dfed5065764baaa371b5b7fd7275cd/Untitled%205.png" alt="Untitled"></p>
+<ul>
+<li><p>Multi-Aspect training</p>
+<ol>
+<li>分桶训练：将数据分为不同宽高比的桶，每个训练批次由同一桶中的图像组成，并在每个训练步骤中交替使用不同大小的桶。</li>
+<li>尺寸条件化：模型接收桶大小（或目标大小）作为条件输入，以整数元组 $c_{ar}$ = ($h_{tgt}, w_{tgt}$  )的形式表示，并以类似于之前描述的尺寸和裁剪条件的方式嵌入到傅立叶空间中。</li>
+<li>多方位fintuen：在固定宽高比和分辨率的预训练模型之后，进行多方位训练作为微调阶段，并将其与第2.2节中介绍的条件技术结合，通过沿通道轴连接。</li>
+<li>裁剪条件化与多方位训练互补：裁剪条件化和多方位训练是互补的操作，裁剪条件化只在桶边界（通常为64像素）内工作。然而，为了简化实施，选择保留这个控制参数用于多方位模型。</li>
+</ol>
+</li>
+<li><p>Improved Autoencoder</p>
+<ul>
+<li>用了更大的batchsize</li>
+</ul>
+</li>
+<li><p>Putting everything together</p>
+<ul>
+<li>在latent 空间使用单独的LDM来处理高频数据</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/07/01/SDXL%20Improving%20Latent%20Diffusion%20Models%20for%20High-Re%20b0dfed5065764baaa371b5b7fd7275cd/" data-id="clksid3g70008d9lk0rr4etx0" data-title="SDXL" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/07/02/BLIP/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          BLIP Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/06/25/Segment%20Anything/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">SAM</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">July 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">December 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/07/04/BLIP2/">BLIP-2 Bootstrapping Language-Image Pre-trainingwith Frozen Image Encoders and Large Language Models</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/02/BLIP/">BLIP Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/01/SDXL%20Improving%20Latent%20Diffusion%20Models%20for%20High-Re%20b0dfed5065764baaa371b5b7fd7275cd/">SDXL</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/25/Segment%20Anything/">SAM</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/17/ViLT%20Vision-and-Language%20Transformer%20Without%20Convo%20ddf0a31cddb9402397b4e99fe718307a/">ViLT-Vision-and-Language Transformer</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      © 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+
+<script type="text/javascript" charset="utf-8" src="/js/lazyload-plugin/lazyload.intersectionObserver.min.js"></script></body></html>

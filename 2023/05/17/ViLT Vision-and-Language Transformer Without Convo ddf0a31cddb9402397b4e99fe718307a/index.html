@@ -1,0 +1,284 @@
+<!DOCTYPE html><html><head>
+  <meta charset="utf-8">
+  
+  
+  <title>ViLT-Vision-and-Language Transformer | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="ViLT: Vision-and-Language TransformerWithout Convolution or Region Supervision TL; DRVLP 大幅提升了 joint vision-language 下游任务的效果。现有方法主要依靠image feature extraction 的过程，主要包括ROI 区域的监督和卷积结构。痛点：（1）efficiency /">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ViLT-Vision-and-Language Transformer">
+<meta property="og:url" content="http://example.com/2023/05/17/ViLT%20Vision-and-Language%20Transformer%20Without%20Convo%20ddf0a31cddb9402397b4e99fe718307a/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="ViLT: Vision-and-Language TransformerWithout Convolution or Region Supervision TL; DRVLP 大幅提升了 joint vision-language 下游任务的效果。现有方法主要依靠image feature extraction 的过程，主要包括ROI 区域的监督和卷积结构。痛点：（1）efficiency /">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/ViLT%20Vision-and-Language%20Transformer%20Without%20Convo%20ddf0a31cddb9402397b4e99fe718307a/Untitled.png">
+<meta property="og:image" content="http://example.com/ViLT%20Vision-and-Language%20Transformer%20Without%20Convo%20ddf0a31cddb9402397b4e99fe718307a/Untitled%201.png">
+<meta property="og:image" content="http://example.com/ViLT%20Vision-and-Language%20Transformer%20Without%20Convo%20ddf0a31cddb9402397b4e99fe718307a/Untitled%202.png">
+<meta property="og:image" content="http://example.com/ViLT%20Vision-and-Language%20Transformer%20Without%20Convo%20ddf0a31cddb9402397b4e99fe718307a/Untitled%203.png">
+<meta property="og:image" content="http://example.com/ViLT%20Vision-and-Language%20Transformer%20Without%20Convo%20ddf0a31cddb9402397b4e99fe718307a/Untitled%204.png">
+<meta property="og:image" content="http://example.com/ViLT%20Vision-and-Language%20Transformer%20Without%20Convo%20ddf0a31cddb9402397b4e99fe718307a/Untitled%205.png">
+<meta property="article:published_time" content="2023-05-17T02:23:04.000Z">
+<meta property="article:modified_time" content="2023-08-01T16:15:36.574Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/ViLT%20Vision-and-Language%20Transformer%20Without%20Convo%20ddf0a31cddb9402397b4e99fe718307a/Untitled.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-ViLT Vision-and-Language Transformer Without Convo ddf0a31cddb9402397b4e99fe718307a" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/17/ViLT%20Vision-and-Language%20Transformer%20Without%20Convo%20ddf0a31cddb9402397b4e99fe718307a/" class="article-date">
+  <time class="dt-published" datetime="2023-05-17T02:23:04.000Z" itemprop="datePublished">2023-05-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      ViLT-Vision-and-Language Transformer
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="ViLT-Vision-and-Language-Transformer"><a href="#ViLT-Vision-and-Language-Transformer" class="headerlink" title="ViLT: Vision-and-Language Transformer"></a>ViLT: Vision-and-Language Transformer</h1><p>Without Convolution or Region Supervision</p>
+<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL; DR"></a>TL; DR</h2><p>VLP 大幅提升了 joint vision-language 下游任务的效果。现有方法主要依靠image feature extraction 的过程，主要包括ROI 区域的监督和卷积结构。痛点：（1）efficiency / speed ：直接提取图像特征需要额外的计算量（相比多模态交互）（2）表达能力的上界受限于 visual embedder 和 predeﬁned visual vocabulary（预定义好的视觉词汇）</p>
+<p><img src="/ViLT%20Vision-and-Language%20Transformer%20Without%20Convo%20ddf0a31cddb9402397b4e99fe718307a/Untitled.png" alt="Untitled"></p>
+<p><img src="/ViLT%20Vision-and-Language%20Transformer%20Without%20Convo%20ddf0a31cddb9402397b4e99fe718307a/Untitled%201.png" alt="Untitled"></p>
+<ul>
+<li>常见的四种vision language model. VE / TE / MI 分别代表视觉嵌入器 / 文本嵌入器 / 多模交互。其中越高则表示计算量越大</li>
+</ul>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><h3 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h3><ul>
+<li>ViLT(视觉语言变化器)采用了简单的视觉嵌入流程和单流方式。它和其他方法的区别是：它从预训练的ViT 而不是BERT 来初始化交互变换器的权重。这种初始化主要是为了应用交互层的视觉特征能力，而无需单独的视觉嵌入器。</li>
+<li>Vit 包括 MSA，MLP层，它和BERT比较大区别在于：BERT是 post-norm, 即 layer norm 在MSA，MLP之后，Vit 中的layer norm 则在之前。</li>
+<li>输入文本经过 word embed Matrix 和 位置编码矩阵得到词嵌入。输入图像则经过切块，展开之后，经过线性映射和位置编码，最终得到嵌入向量。text 和 image 先沿着各自模态求和，然后concat 得到一个向量z0，这个向量再经过depth transformer 反复进行迭代。p 表示对模态输入的第0维，做一次线性映射然后再取正切。</li>
+</ul>
+<p><img src="/ViLT%20Vision-and-Language%20Transformer%20Without%20Convo%20ddf0a31cddb9402397b4e99fe718307a/Untitled%202.png" alt="Untitled"></p>
+<ul>
+<li>模型使用的weight 来自于 ViT-B/32</li>
+</ul>
+<h3 id="Pre-training-Objectives"><a href="#Pre-training-Objectives" class="headerlink" title="Pre-training Objectives"></a>Pre-training Objectives</h3><ul>
+<li>模型训练ViLT 使用了两个常用的目标<ul>
+<li>ITM（Image text matching）图像文本对齐：在处理过程中，随机把原有的对齐图像以0.5的概率替换成另一张不同图像。ITM头部使用一个线性层将pool的输出特征p投影到二元类上，然后计算-log似然作为ITM损失</li>
+<li>词片对齐(word region alignment)。WPA使用不精确的近端点方法（Inexact Proximal Point method，IPOT）计算zD的两个子集（文本子集zD|t和视觉子集zD|v）之间的对齐得分</li>
+<li>MLM (Masked Language Modeling):  目标是从 $z_{masked}^{D} | t$ 去预测 $t_{mask}$(mask text token). 使用两层MLP，MLM head， 输入 $z_{masked}^{D} | t$ ， 输出词汇表上的logits值，然后计算损失。</li>
+</ul>
+</li>
+</ul>
+<h3 id="Whole-word-masking"><a href="#Whole-word-masking" class="headerlink" title="Whole word masking"></a>Whole word masking</h3><ul>
+<li>whole word masking 是指把所有连续的sub word 全部屏蔽，这个技术重要的原因是，希望可以充分利用另外模态的信息，避免直接从被部分屏蔽的sub words 中预测出整个词。</li>
+</ul>
+<h3 id="Image-Augmentation"><a href="#Image-Augmentation" class="headerlink" title="Image Augmentation"></a>Image Augmentation</h3><ul>
+<li>finetune 过程中使用了RandAugment， 避免使用颜色反转和crop</li>
+</ul>
+<h2 id="Experiment"><a href="#Experiment" class="headerlink" title="Experiment"></a>Experiment</h2><h3 id="Overview-1"><a href="#Overview-1" class="headerlink" title="Overview"></a>Overview</h3><ul>
+<li>在以下数据集中进行预训练</li>
+</ul>
+<p><img src="/ViLT%20Vision-and-Language%20Transformer%20Without%20Convo%20ddf0a31cddb9402397b4e99fe718307a/Untitled%203.png" alt="Untitled"></p>
+<h3 id="Implementation-Details"><a href="#Implementation-Details" class="headerlink" title="Implementation Details"></a>Implementation Details</h3><ul>
+<li>lr: 1e-4, weight decay: 1e-2. 前10%时进行warm up</li>
+<li>保持图像的长宽比不变，短边限制在384，长边限制在640。对于640X384的图像，ViLT-B/32 会产生12 x 20 个patch 。大部分情况patch 数量在200 左右。</li>
+<li>训练使用了64块V100，batchsize=4096；</li>
+</ul>
+<h3 id="Classification"><a href="#Classification" class="headerlink" title="Classification"></a>Classification</h3><p><img src="/ViLT%20Vision-and-Language%20Transformer%20Without%20Convo%20ddf0a31cddb9402397b4e99fe718307a/Untitled%204.png" alt="Untitled"></p>
+<ul>
+<li>与其他配备了大型视觉嵌入模块的视觉语言预训练模型相比，ViLT 在 VQA 得分上表现得略有不足。这可能是由于对象检测器生成的独立对象表示能够简化 VQA 的训练，因为在 VQA 中，问题通常是针对特定对象的。</li>
+<li>Visual Reasoning 上结果还不错</li>
+</ul>
+<p><img src="/ViLT%20Vision-and-Language%20Transformer%20Without%20Convo%20ddf0a31cddb9402397b4e99fe718307a/Untitled%205.png" alt="Untitled"></p>
+<ul>
+<li>检索</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/17/ViLT%20Vision-and-Language%20Transformer%20Without%20Convo%20ddf0a31cddb9402397b4e99fe718307a/" data-id="clksid3g9000ad9lkebauckjh" data-title="ViLT-Vision-and-Language Transformer" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/06/25/Segment%20Anything/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          SAM
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/05/15/Magic3D%20High-Resolution%20Text-to-3D%20Content%20Creatio%203124df4e1360440fbd25806433fa5167/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Magic3D-High-Resolution Text-to-3D Content Creation</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">July 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">December 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/07/04/BLIP2/">BLIP-2 Bootstrapping Language-Image Pre-trainingwith Frozen Image Encoders and Large Language Models</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/02/BLIP/">BLIP Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/01/SDXL%20Improving%20Latent%20Diffusion%20Models%20for%20High-Re%20b0dfed5065764baaa371b5b7fd7275cd/">SDXL</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/25/Segment%20Anything/">SAM</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/17/ViLT%20Vision-and-Language%20Transformer%20Without%20Convo%20ddf0a31cddb9402397b4e99fe718307a/">ViLT-Vision-and-Language Transformer</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      © 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+
+<script type="text/javascript" charset="utf-8" src="/js/lazyload-plugin/lazyload.intersectionObserver.min.js"></script></body></html>

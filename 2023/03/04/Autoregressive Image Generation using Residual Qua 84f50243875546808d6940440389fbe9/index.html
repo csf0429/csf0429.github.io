@@ -1,0 +1,305 @@
+<!DOCTYPE html><html><head>
+  <meta charset="utf-8">
+  
+  
+  <title>Autoregressive Image Generation using Residual Quantization | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Autoregressive Image Generation using Residual QuantizationTL;DR对于高分辨率图像的自回归建模，VQ方案将图像表示成离散的编码序列。短序列长度对于AR模型是非常重要，它可以减少计算开销, 因为long-range interactions of codes需要被捕捉以便于更好地预测下一个值。然而传统的VQ方案无法在减短code 序列长度">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Autoregressive Image Generation using Residual Quantization">
+<meta property="og:url" content="http://example.com/2023/03/04/Autoregressive%20Image%20Generation%20using%20Residual%20Qua%2084f50243875546808d6940440389fbe9/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Autoregressive Image Generation using Residual QuantizationTL;DR对于高分辨率图像的自回归建模，VQ方案将图像表示成离散的编码序列。短序列长度对于AR模型是非常重要，它可以减少计算开销, 因为long-range interactions of codes需要被捕捉以便于更好地预测下一个值。然而传统的VQ方案无法在减短code 序列长度">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/Autoregressive%20Image%20Generation%20using%20Residual%20Qua%2084f50243875546808d6940440389fbe9/Untitled.png">
+<meta property="og:image" content="http://example.com/Autoregressive%20Image%20Generation%20using%20Residual%20Qua%2084f50243875546808d6940440389fbe9/Untitled%201.png">
+<meta property="og:image" content="http://example.com/Autoregressive%20Image%20Generation%20using%20Residual%20Qua%2084f50243875546808d6940440389fbe9/Untitled%202.png">
+<meta property="og:image" content="http://example.com/Autoregressive%20Image%20Generation%20using%20Residual%20Qua%2084f50243875546808d6940440389fbe9/Untitled%203.png">
+<meta property="og:image" content="http://example.com/Autoregressive%20Image%20Generation%20using%20Residual%20Qua%2084f50243875546808d6940440389fbe9/Untitled%204.png">
+<meta property="og:image" content="http://example.com/Autoregressive%20Image%20Generation%20using%20Residual%20Qua%2084f50243875546808d6940440389fbe9/Untitled%205.png">
+<meta property="og:image" content="http://example.com/Autoregressive%20Image%20Generation%20using%20Residual%20Qua%2084f50243875546808d6940440389fbe9/Untitled%206.png">
+<meta property="og:image" content="http://example.com/Autoregressive%20Image%20Generation%20using%20Residual%20Qua%2084f50243875546808d6940440389fbe9/Untitled%207.png">
+<meta property="og:image" content="http://example.com/Autoregressive%20Image%20Generation%20using%20Residual%20Qua%2084f50243875546808d6940440389fbe9/Untitled%208.png">
+<meta property="article:published_time" content="2023-03-04T02:23:04.000Z">
+<meta property="article:modified_time" content="2023-08-01T16:10:25.070Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/Autoregressive%20Image%20Generation%20using%20Residual%20Qua%2084f50243875546808d6940440389fbe9/Untitled.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Autoregressive Image Generation using Residual Qua 84f50243875546808d6940440389fbe9" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/03/04/Autoregressive%20Image%20Generation%20using%20Residual%20Qua%2084f50243875546808d6940440389fbe9/" class="article-date">
+  <time class="dt-published" datetime="2023-03-04T02:23:04.000Z" itemprop="datePublished">2023-03-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Autoregressive Image Generation using Residual Quantization
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Autoregressive-Image-Generation-using-Residual-Quantization"><a href="#Autoregressive-Image-Generation-using-Residual-Quantization" class="headerlink" title="Autoregressive Image Generation using Residual Quantization"></a>Autoregressive Image Generation using Residual Quantization</h1><h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><p>对于高分辨率图像的自回归建模，VQ方案将图像表示成离散的编码序列。短序列长度对于AR模型是非常重要，它可以减少计算开销, 因为long-range interactions of codes需要被捕捉以便于更好地预测下一个值。然而传统的VQ方案无法在减短code 序列长度的同时生成保真度搞的图像。本文方法包括两个阶段：RQ-VAE /RQ-Transformer. 固定住codebook 大小，RQ-VAE 能够精确地逼近图像的特征图，并将图像表示为离散编码的堆叠图。接着，RQ模型学会预测下一个stack 的编码来预测下一个位置的量化特征向量。由于RQ-VAE将尺寸从256压缩到8，从而也降低了RQ-Transformer的计算量。</p>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><p><img src="/Autoregressive%20Image%20Generation%20using%20Residual%20Qua%2084f50243875546808d6940440389fbe9/Untitled.png" alt="Untitled"></p>
+<h3 id="Stage1-Residue-Quantized-VAE"><a href="#Stage1-Residue-Quantized-VAE" class="headerlink" title="Stage1: Residue-Quantized VAE"></a>Stage1: Residue-Quantized VAE</h3><ul>
+<li><p>Formulation of VQ and VQ-VAE</p>
+<ul>
+<li>VQ-VAE执行的是有损压缩，难免会涉及到尺寸H，W和保存信息之间的tradeoff. 如果VQ-VAE的codebook Size 是K，长度为H<em>W</em>Log2k bit. 根据 rate-distortion theory，如果要把H，W图像压缩至 H/2，W/2, 码本大小应该为 $K^4$ 才能保持重建质量。</li>
+<li>其他背景知识可以参考 Codeformer, VAE , 不再赘述</li>
+</ul>
+<p>  <img src="/Autoregressive%20Image%20Generation%20using%20Residual%20Qua%2084f50243875546808d6940440389fbe9/Untitled%201.png" alt="Untitled">
+  </p>
+</li>
+<li><p>Residual Quantization</p>
+<ul>
+<li>用RQ的方式来编码向量z，将向量z 表示为有序的深度为d的编码。注意：这里RQ的编码和Codebook 的编码不是一个东西；RQ 编码的每一个码kd，对应向量z在对应深度下的残差</li>
+<li>RQ具体的计算流程如下，RQ采用递归 / coarse-to-fine 的方式来逼近向量z。</li>
+</ul>
+<p>  $$<br>  \begin{aligned}<br>  \text{RQ}(z; C, D) &amp;= (k_1, \ldots, k_D) \in [K]^D \<br>  k_d &amp;= \text{RQ}(r_{d-1}; C, d),\ \text{for}\ d=1, \ldots, D \<br>  r_d &amp;= r_{d-1} - e(k_d),\ \text{for}\ d=1, \ldots, D \<br>  z^{\hat{ }}<em>d &amp;= \sum</em>{i=1}^d e(k_i),\ \text{for}\ d=1, \ldots, D \<br>  z^{\hat{ }} &amp;= z^{\hat{ }}_D<br>  \end{aligned}<br>  $$</p>
+<ul>
+<li>这里对于每一个深度，共享同一个codebook。如果codebook 对每个深度都是独立的，那么每个深度的codebook size会不同，会导致更加复杂的超参数搜索。当RQ和VQ codebook相同时，由于RQ存在残差编码，每个深度的空间都是D，因此聚类的数目可以是 $K^D$RQ</li>
+</ul>
+</li>
+<li><p>RQ-VAE</p>
+<p>  <img src="/Autoregressive%20Image%20Generation%20using%20Residual%20Qua%2084f50243875546808d6940440389fbe9/Untitled%202.png" alt="Untitled"></p>
+<ul>
+<li>loss 则是熟悉的重构loss + commitment loss。 sg代表stop gradient 操作</li>
+</ul>
+<p>  <img src="/Autoregressive%20Image%20Generation%20using%20Residual%20Qua%2084f50243875546808d6940440389fbe9/Untitled%203.png" alt="Untitled"></p>
+</li>
+</ul>
+<h3 id="Stage2-RQ-Transformer"><a href="#Stage2-RQ-Transformer" class="headerlink" title="Stage2: RQ-Transformer"></a>Stage2: RQ-Transformer</h3><ul>
+<li><p>AR Modeling for Codes with Depth D</p>
+<ul>
+<li>RQ-VAE提取出codemap $M \in [K]^{H \times W \times D}$, 然后 reshape 成一个二维数组 $S \in [K]^{T \times D}$, 取它的第t行表示为 $St = (St_1, \dots, St_D) \in [K]^D，t \in [T]$，每行长度为d。</li>
+</ul>
+<p>  <img src="/Autoregressive%20Image%20Generation%20using%20Residual%20Qua%2084f50243875546808d6940440389fbe9/Untitled%204.png" alt="Untitled"></p>
+<ul>
+<li>RQ Transformer 包括Spatial Transformer 和 Depth Transformer，Spatial Transformer 的输入可以表示为<br>  $u_t = \text{PET}(t) + \sum_{d=1}^D e(St_{t-1,d}) + X$</li>
+</ul>
+<p>  <img src="/Autoregressive%20Image%20Generation%20using%20Residual%20Qua%2084f50243875546808d6940440389fbe9/Untitled%205.png" alt="Untitled"></p>
+<ul>
+<li><p>Depth Transformer</p>
+<p>  $v_{td} = \text{PED}(d) + X + \sum_{d_0=1}^{d-1} e(St_{t,d_0})$</p>
+<p>  $L_{AR} = \text{ESE}<em>{t,d}[-\log p(St</em>{t,d} | S_{&lt;t,d}, St_{&lt;d})]$<br>  we</p>
+</li>
+<li><p>为了解决exposure bias问题，提出了  soft labeling 和 stochastic sampling<br>  of codes from RQ-VAE 两种方法。exposure bias 指的是训练和推理时序列生成过程中产生的偏差。训练时先前的符号都是来自GT，而推理时错误可能会被不断累积。softlabel指的是 NLL损失在这里使用 $Q_t(\cdot | rt,d-1)$作为 $S_{td}$ 的监督信号; stochastic sampling指的是从$Q_t(\cdot | rt,d-1)$采样一个编码作为残差的编码，可以增加泛化性。</p>
+</li>
+</ul>
+<h2 id="Experiment"><a href="#Experiment" class="headerlink" title="Experiment"></a>Experiment</h2><ul>
+<li>做了Unconditioned 和 Conditioned 图像生成的比较</li>
+</ul>
+</li>
+</ul>
+<p><img src="/Autoregressive%20Image%20Generation%20using%20Residual%20Qua%2084f50243875546808d6940440389fbe9/Untitled%206.png" alt="Untitled"></p>
+<p><img src="/Autoregressive%20Image%20Generation%20using%20Residual%20Qua%2084f50243875546808d6940440389fbe9/Untitled%207.png" alt="Untitled"></p>
+<ul>
+<li>对比VQ-GAN 和 RQ-Transformer 的采样速度，在batch size = 100 / 200 条件下有着四到五倍多的加速比。</li>
+</ul>
+<p><img src="/Autoregressive%20Image%20Generation%20using%20Residual%20Qua%2084f50243875546808d6940440389fbe9/Untitled%208.png" alt="Untitled"></p>
+<ul>
+<li>Ablation<ul>
+<li>提升depth比提升codebook的size更加有效</li>
+<li>通过depth share codebook机制提升了codebook的利用率</li>
+</ul>
+</li>
+</ul>
+<h2 id="Thought"><a href="#Thought" class="headerlink" title="Thought"></a>Thought</h2><p>Depth 的引入，用recursive的形式来表示表示codebook，降低冗余程度，压缩密度更高</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/03/04/Autoregressive%20Image%20Generation%20using%20Residual%20Qua%2084f50243875546808d6940440389fbe9/" data-id="clksid3fu0000d9lkba8o87ao" data-title="Autoregressive Image Generation using Residual Quantization" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/03/23/DreamFusion%20Text-to-3D%20using%202D%20Diffusion%20c53dbb2cf5b94254b0bd32733b75085b/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          DreamFusion Text-to-3D using 2D Diffusion
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/02/17/InstructPix2Pix%20Learning%20to%20Follow%20Image%20Editing%20I%2050a3f447c26346a7b22fff99756d70f5/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">InstructPix2Pix</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">July 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">December 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/07/04/BLIP2/">BLIP-2 Bootstrapping Language-Image Pre-trainingwith Frozen Image Encoders and Large Language Models</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/02/BLIP/">BLIP Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/01/SDXL%20Improving%20Latent%20Diffusion%20Models%20for%20High-Re%20b0dfed5065764baaa371b5b7fd7275cd/">SDXL</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/25/Segment%20Anything/">SAM</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/17/ViLT%20Vision-and-Language%20Transformer%20Without%20Convo%20ddf0a31cddb9402397b4e99fe718307a/">ViLT-Vision-and-Language Transformer</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      © 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+
+<script type="text/javascript" charset="utf-8" src="/js/lazyload-plugin/lazyload.intersectionObserver.min.js"></script></body></html>

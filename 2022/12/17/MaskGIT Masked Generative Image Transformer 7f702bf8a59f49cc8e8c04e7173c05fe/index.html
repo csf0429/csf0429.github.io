@@ -1,0 +1,284 @@
+<!DOCTYPE html><html><head>
+  <meta charset="utf-8">
+  
+  
+  <title>MaskGIT-Masked Generative Image Transformer | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="MaskGIT: Masked Generative Image TransformerTL;DR在此之前，最好的transformer 模型做法是把图像先编码成token 序列，然后line-by-line 的进行解码，作者认为这种方式不是最优也不是最高效的。本文提出MaskGIT, 一种的图像合成领域的新范式，使用一种双向的transformer decoder. 在训练阶段，MaskGIT从">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MaskGIT-Masked Generative Image Transformer">
+<meta property="og:url" content="http://example.com/2022/12/17/MaskGIT%20Masked%20Generative%20Image%20Transformer%207f702bf8a59f49cc8e8c04e7173c05fe/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="MaskGIT: Masked Generative Image TransformerTL;DR在此之前，最好的transformer 模型做法是把图像先编码成token 序列，然后line-by-line 的进行解码，作者认为这种方式不是最优也不是最高效的。本文提出MaskGIT, 一种的图像合成领域的新范式，使用一种双向的transformer decoder. 在训练阶段，MaskGIT从">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/MaskGIT%20Masked%20Generative%20Image%20Transformer%207f702bf8a59f49cc8e8c04e7173c05fe/Untitled.png">
+<meta property="og:image" content="http://example.com/MaskGIT%20Masked%20Generative%20Image%20Transformer%207f702bf8a59f49cc8e8c04e7173c05fe/Untitled%201.png">
+<meta property="og:image" content="http://example.com/MaskGIT%20Masked%20Generative%20Image%20Transformer%207f702bf8a59f49cc8e8c04e7173c05fe/Untitled%202.png">
+<meta property="og:image" content="http://example.com/MaskGIT%20Masked%20Generative%20Image%20Transformer%207f702bf8a59f49cc8e8c04e7173c05fe/Untitled%203.png">
+<meta property="og:image" content="http://example.com/MaskGIT%20Masked%20Generative%20Image%20Transformer%207f702bf8a59f49cc8e8c04e7173c05fe/Untitled%204.png">
+<meta property="og:image" content="http://example.com/MaskGIT%20Masked%20Generative%20Image%20Transformer%207f702bf8a59f49cc8e8c04e7173c05fe/Untitled%205.png">
+<meta property="og:image" content="http://example.com/MaskGIT%20Masked%20Generative%20Image%20Transformer%207f702bf8a59f49cc8e8c04e7173c05fe/Untitled%206.png">
+<meta property="article:published_time" content="2022-12-17T02:23:04.000Z">
+<meta property="article:modified_time" content="2023-08-01T16:16:31.324Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/MaskGIT%20Masked%20Generative%20Image%20Transformer%207f702bf8a59f49cc8e8c04e7173c05fe/Untitled.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-MaskGIT Masked Generative Image Transformer 7f702bf8a59f49cc8e8c04e7173c05fe" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/12/17/MaskGIT%20Masked%20Generative%20Image%20Transformer%207f702bf8a59f49cc8e8c04e7173c05fe/" class="article-date">
+  <time class="dt-published" datetime="2022-12-17T02:23:04.000Z" itemprop="datePublished">2022-12-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      MaskGIT-Masked Generative Image Transformer
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="MaskGIT-Masked-Generative-Image-Transformer"><a href="#MaskGIT-Masked-Generative-Image-Transformer" class="headerlink" title="MaskGIT: Masked Generative Image Transformer"></a>MaskGIT: Masked Generative Image Transformer</h1><h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><p>在此之前，最好的transformer 模型做法是把图像先编码成token 序列，然后line-by-line 的进行解码，作者认为这种方式不是最优也不是最高效的。本文提出MaskGIT, 一种的图像合成领域的新范式，使用一种双向的transformer decoder. 在训练阶段，MaskGIT从所有方向上实行attention机制，从而预测随机masked token。在推理阶段，模型先同步生成图像的所有token，然后不断refine之前生成的结果。该方法相比之前的AR方法，有64x 的加速。</p>
+<p><img src="/MaskGIT%20Masked%20Generative%20Image%20Transformer%207f702bf8a59f49cc8e8c04e7173c05fe/Untitled.png" alt="Untitled"></p>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><p><img src="/MaskGIT%20Masked%20Generative%20Image%20Transformer%207f702bf8a59f49cc8e8c04e7173c05fe/Untitled%201.png" alt="Untitled"></p>
+<ul>
+<li>MaskGit 的目标是提升二阶段的效果，一阶段和VQGAN方法保持一致</li>
+</ul>
+<h3 id="3-1-Masked-Visual-Token-Modeling（MVTM）"><a href="#3-1-Masked-Visual-Token-Modeling（MVTM）" class="headerlink" title="3.1 Masked Visual Token Modeling（MVTM）"></a>3.1 Masked Visual Token Modeling（MVTM）</h3><ul>
+<li>$<em>Y = [{y_i}]_{i=1}^N$</em>  把图像输入VQ Encoder，获得的latent tokens。 N表示把token matix reshape 后的矩阵长度。</li>
+<li>$<em>M=[{m_i}]_{i=1}^N$</em> 表示对应的binary mask</li>
+<li>在训练过程中，获得的latent token 被【Mask】token随机替换。采样过程是首先从0，1之间的均匀分布采样出一个ratio的值。然后从N个token 中采样出 $[\gamma * N]$   个token</li>
+<li>$Y_{\overline M}$ 表示把Mask apply 到token Y上</li>
+</ul>
+<p><img src="/MaskGIT%20Masked%20Generative%20Image%20Transformer%207f702bf8a59f49cc8e8c04e7173c05fe/Untitled%202.png" alt="Untitled"></p>
+<h3 id="Iterative-Decoding"><a href="#Iterative-Decoding" class="headerlink" title="Iterative Decoding"></a>Iterative Decoding</h3><ul>
+<li><p>图像压缩得到的所有token可以并行被decoder，这是提出的双向 self-attention所带来的feature。每个算法迭代，可以分为如下几个步骤</p>
+<ul>
+<li>predict：在第t 次迭代，给定masked token，模型输出所有掩模位置的概率分布 - $p^{(t)} \in R^{N \times K}$</li>
+<li>sample ：对于每个mask 位置，根据codebook中的所有token的概率分布进行</li>
+<li>mask schedule：根据上述的mask schedule function 来确定采样token 的单位</li>
+<li>mask</li>
+</ul>
+<p>  $$<br>  m_{i}^{t+1} = \begin{cases}<br>  1, &amp; \text{if } c_i \geq \operatorname*{sorted}_{j} (c_j)[n] \<br>  0, &amp; \text{otherwise}<br>  \end{cases}<br>  $$</p>
+<ul>
+<li>简单描述decoder过程，模型同时预测出所有的token，并且只保留置信度最高的一项。剩余的token 会被mask住并且重新预测。mask ratio逐步减小，直到T次迭代生成所有的token为止。</li>
+</ul>
+</li>
+</ul>
+<h3 id="Mask-Design"><a href="#Mask-Design" class="headerlink" title="Mask Design"></a>Mask Design</h3><ul>
+<li>masking design对生成图像的质量影响很大，因此mask schedule function 很关键。在测试阶段，mask ratio 分别为 $0/T，1/T, …… ,(T-1)/T$ ti</li>
+<li>提出一种新的mask schedule function，首先从性质上它必须是有界且连续，其次要单调递减。这里分别分成了三个组的function来表示这些函数。• <strong>Linear /</strong> • <strong>Concave / Convex 。</strong>后面有实验会比较</li>
+</ul>
+<h2 id="Experiment"><a href="#Experiment" class="headerlink" title="Experiment"></a>Experiment</h2><ul>
+<li>Settings:<ul>
+<li>（1）One encoder / one decoder for each dataset, 1024 token codebook. 图像尺寸256x256。这个token 尺寸在512 x 512上的图也是适用的。</li>
+<li>（2）24 layer, 8 attention head, 768 embed dimensions, 3072 hidden dimensions.</li>
+</ul>
+</li>
+<li>相比BigGAN而言效果提升不少</li>
+</ul>
+<p><img src="/MaskGIT%20Masked%20Generative%20Image%20Transformer%207f702bf8a59f49cc8e8c04e7173c05fe/Untitled%203.png" alt="Untitled"></p>
+<p><img src="/MaskGIT%20Masked%20Generative%20Image%20Transformer%207f702bf8a59f49cc8e8c04e7173c05fe/Untitled%204.png" alt="Untitled"></p>
+<h2 id="Image-Editing"><a href="#Image-Editing" class="headerlink" title="Image Editing"></a>Image Editing</h2><ul>
+<li>一些 inpainting / outpainting的应用</li>
+</ul>
+<p><img src="/MaskGIT%20Masked%20Generative%20Image%20Transformer%207f702bf8a59f49cc8e8c04e7173c05fe/Untitled%205.png" alt="Untitled"></p>
+<p><img src="/MaskGIT%20Masked%20Generative%20Image%20Transformer%207f702bf8a59f49cc8e8c04e7173c05fe/Untitled%206.png" alt="Untitled"></p>
+<h2 id="Thoughts"><a href="#Thoughts" class="headerlink" title="Thoughts"></a>Thoughts</h2><p>有限次数去逐渐decoder token, 替代了line-by-line的方式。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/12/17/MaskGIT%20Masked%20Generative%20Image%20Transformer%207f702bf8a59f49cc8e8c04e7173c05fe/" data-id="clksid3g50004d9lkewtgdbru" data-title="MaskGIT-Masked Generative Image Transformer" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/12/31/Towards%20Robust%20Blind%20Face%20Restoration%20with%20Codeboo%2062ecc6a10cae42ad8830c07e1fbb56a2/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Towards Robust Blind Face Restoration with Codebook Lookup Transformer
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/11/17/Neural%20Discrete%20Representation%20Learning%2088bab027be9c49c7824751a2f9f60c6b/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Neural Discrete Representation Learning</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">July 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">December 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/07/04/BLIP2/">BLIP-2 Bootstrapping Language-Image Pre-trainingwith Frozen Image Encoders and Large Language Models</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/02/BLIP/">BLIP Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/01/SDXL%20Improving%20Latent%20Diffusion%20Models%20for%20High-Re%20b0dfed5065764baaa371b5b7fd7275cd/">SDXL</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/25/Segment%20Anything/">SAM</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/17/ViLT%20Vision-and-Language%20Transformer%20Without%20Convo%20ddf0a31cddb9402397b4e99fe718307a/">ViLT-Vision-and-Language Transformer</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      © 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+
+<script type="text/javascript" charset="utf-8" src="/js/lazyload-plugin/lazyload.intersectionObserver.min.js"></script></body></html>
