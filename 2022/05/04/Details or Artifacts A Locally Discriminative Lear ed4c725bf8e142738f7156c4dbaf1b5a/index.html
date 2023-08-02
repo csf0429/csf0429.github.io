@@ -1,0 +1,269 @@
+<!DOCTYPE html><html><head>
+  <meta charset="utf-8">
+  
+  
+  <title>Details or Artifacts A Locally Discriminative Learning Approach to | Daniel Cai</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Realistic Image Super-Resolution TL;DRGAN-based 的方法在生成details的同时也会引入artifacts。作者发现在artifacts area的 residue variance 和 visual-friendly 的区域有显著的不同，设计上利用生成的artifacts map 来对训练过程进行正则。  MethodGAN-SR induced">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Details or Artifacts A Locally Discriminative Learning Approach to">
+<meta property="og:url" content="http://example.com/2022/05/04/Details%20or%20Artifacts%20A%20Locally%20Discriminative%20Lear%20ed4c725bf8e142738f7156c4dbaf1b5a/index.html">
+<meta property="og:site_name" content="Daniel Cai">
+<meta property="og:description" content="Realistic Image Super-Resolution TL;DRGAN-based 的方法在生成details的同时也会引入artifacts。作者发现在artifacts area的 residue variance 和 visual-friendly 的区域有显著的不同，设计上利用生成的artifacts map 来对训练过程进行正则。  MethodGAN-SR induced">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/Details%20or%20Artifacts%20A%20Locally%20Discriminative%20Lear%20ed4c725bf8e142738f7156c4dbaf1b5a/Untitled.png">
+<meta property="og:image" content="http://example.com/Details%20or%20Artifacts%20A%20Locally%20Discriminative%20Lear%20ed4c725bf8e142738f7156c4dbaf1b5a/Untitled%201.png">
+<meta property="og:image" content="http://example.com/Details%20or%20Artifacts%20A%20Locally%20Discriminative%20Lear%20ed4c725bf8e142738f7156c4dbaf1b5a/Untitled%202.png">
+<meta property="og:image" content="http://example.com/Details%20or%20Artifacts%20A%20Locally%20Discriminative%20Lear%20ed4c725bf8e142738f7156c4dbaf1b5a/Untitled%203.png">
+<meta property="og:image" content="http://example.com/Details%20or%20Artifacts%20A%20Locally%20Discriminative%20Lear%20ed4c725bf8e142738f7156c4dbaf1b5a/Untitled%204.png">
+<meta property="og:image" content="http://example.com/Details%20or%20Artifacts%20A%20Locally%20Discriminative%20Lear%20ed4c725bf8e142738f7156c4dbaf1b5a/Untitled%205.png">
+<meta property="og:image" content="http://example.com/Details%20or%20Artifacts%20A%20Locally%20Discriminative%20Lear%20ed4c725bf8e142738f7156c4dbaf1b5a/Untitled%206.png">
+<meta property="og:image" content="http://example.com/Details%20or%20Artifacts%20A%20Locally%20Discriminative%20Lear%20ed4c725bf8e142738f7156c4dbaf1b5a/Untitled%207.png">
+<meta property="og:image" content="http://example.com/Details%20or%20Artifacts%20A%20Locally%20Discriminative%20Lear%20ed4c725bf8e142738f7156c4dbaf1b5a/Untitled%208.png">
+<meta property="article:published_time" content="2022-05-04T02:23:04.000Z">
+<meta property="article:modified_time" content="2023-08-02T05:16:52.673Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/Details%20or%20Artifacts%20A%20Locally%20Discriminative%20Lear%20ed4c725bf8e142738f7156c4dbaf1b5a/Untitled.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Daniel Cai" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Daniel Cai</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Share my paper reading about AIGC &amp; Multimodal &amp; LLM</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Details or Artifacts A Locally Discriminative Lear ed4c725bf8e142738f7156c4dbaf1b5a" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/05/04/Details%20or%20Artifacts%20A%20Locally%20Discriminative%20Lear%20ed4c725bf8e142738f7156c4dbaf1b5a/" class="article-date">
+  <time class="dt-published" datetime="2022-05-04T02:23:04.000Z" itemprop="datePublished">2022-05-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Details or Artifacts A Locally Discriminative Learning Approach to
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>Realistic Image Super-Resolution</p>
+<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><p>GAN-based 的方法在生成details的同时也会引入artifacts。作者发现在artifacts area的 residue variance 和 visual-friendly 的区域有显著的不同，设计上利用生成的artifacts map 来对训练过程进行正则。</p>
+<p><img src="/Details%20or%20Artifacts%20A%20Locally%20Discriminative%20Lear%20ed4c725bf8e142738f7156c4dbaf1b5a/Untitled.png" alt="Untitled"></p>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><h3 id="GAN-SR-induced-visual-artifacts"><a href="#GAN-SR-induced-visual-artifacts" class="headerlink" title="GAN-SR induced visual artifacts"></a>GAN-SR induced visual artifacts</h3><p><img src="/Details%20or%20Artifacts%20A%20Locally%20Discriminative%20Lear%20ed4c725bf8e142738f7156c4dbaf1b5a/Untitled%201.png" alt="Untitled"></p>
+<ul>
+<li>Reconstruct loss 使得结果趋于blurred average， Adv loss 会产生更多细节。由于从一个blur image 开始，SR存在多组解。GAN loss 会把结果引入多个方向。</li>
+</ul>
+<p><img src="/Details%20or%20Artifacts%20A%20Locally%20Discriminative%20Lear%20ed4c725bf8e142738f7156c4dbaf1b5a/Untitled%202.png" alt="Untitled"></p>
+<ul>
+<li>对于type B 的texture，由于在小区域内的分布是相对随机的，因此很难看出差别</li>
+<li>对于type C 的texture，包含 regular &amp; sharp transitions, 在降质后这些pattern 在LR patch 中就消失了。采用原先的GAN方法，它在训练当中的variation 是相当高的</li>
+</ul>
+<p><img src="/Details%20or%20Artifacts%20A%20Locally%20Discriminative%20Lear%20ed4c725bf8e142738f7156c4dbaf1b5a/Untitled%203.png" alt="Untitled"></p>
+<h3 id="Discriminating-artifacts-from-realistic-details"><a href="#Discriminating-artifacts-from-realistic-details" class="headerlink" title="Discriminating artifacts from realistic details"></a>Discriminating artifacts from realistic details</h3><p><img src="/Details%20or%20Artifacts%20A%20Locally%20Discriminative%20Lear%20ed4c725bf8e142738f7156c4dbaf1b5a/Untitled%204.png" alt="Untitled"></p>
+<ul>
+<li>生成一张artifacts map, 它的通道数为1. 首先将SR的结果和GT做差，提取出high frequency的部分</li>
+<li>type B / C 的 Residue 图赏可以看出，他们的差异很大。type B 的Residue 分布依然比较随机，本文采用如下方式计算Residue的方差。经验上把这个窗口的大小设为7.</li>
+</ul>
+<p><img src="/Details%20or%20Artifacts%20A%20Locally%20Discriminative%20Lear%20ed4c725bf8e142738f7156c4dbaf1b5a/Untitled%205.png" alt="Untitled"></p>
+<ul>
+<li>为了使得训练过程更加稳定，用指数对方差进行scale 上的调整</li>
+<li>用moving average方法来使的训练过程更稳定。该方法有两个输出，其中用EMA方法输出的结果更稳定，用原SR结果生成的细节则更多。当R1 &gt; R2时，则用Refinment map 对结果进行惩罚。</li>
+</ul>
+<p><img src="/Details%20or%20Artifacts%20A%20Locally%20Discriminative%20Lear%20ed4c725bf8e142738f7156c4dbaf1b5a/Untitled%206.png" alt="Untitled"></p>
+<h3 id="Loss"><a href="#Loss" class="headerlink" title="Loss"></a>Loss</h3><p><img src="/Details%20or%20Artifacts%20A%20Locally%20Discriminative%20Lear%20ed4c725bf8e142738f7156c4dbaf1b5a/Untitled%207.png" alt="Untitled"></p>
+<h2 id="Experiment"><a href="#Experiment" class="headerlink" title="Experiment"></a>Experiment</h2><p><img src="/Details%20or%20Artifacts%20A%20Locally%20Discriminative%20Lear%20ed4c725bf8e142738f7156c4dbaf1b5a/Untitled%208.png" alt="Untitled"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/05/04/Details%20or%20Artifacts%20A%20Locally%20Discriminative%20Lear%20ed4c725bf8e142738f7156c4dbaf1b5a/" data-id="clktabfn00007fbree2z49v94" data-title="Details or Artifacts A Locally Discriminative Learning Approach to" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/05/25/SwinIR%20Image%20Restoration%20Using%20Swin%20Transformer%201304af242ae249c99bc8240bb5298e39/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          SwinIR Image Restoration Using Swin Transformer
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/04/04/ClassSR%20A%20General%20Framework%20to%20Accelerate%20Super-Re%207b62788ea6354524a183401ca1a57572/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">ClassSR A General Framework to Accelerate Super-Resolution Networks by Data Characteristic</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">July 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">December 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/09/">September 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">February 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/07/04/BLIP2/">BLIP-2 Bootstrapping Language-Image Pre-trainingwith Frozen Image Encoders and Large Language Models</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/02/BLIP/">BLIP Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/01/SDXL%20Improving%20Latent%20Diffusion%20Models%20for%20High-Re%20b0dfed5065764baaa371b5b7fd7275cd/">SDXL</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/25/Segment%20Anything/">SAM</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/17/ViLT%20Vision-and-Language%20Transformer%20Without%20Convo%20ddf0a31cddb9402397b4e99fe718307a/">ViLT-Vision-and-Language Transformer</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      © 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+
+<script type="text/javascript" charset="utf-8" src="/js/lazyload-plugin/lazyload.intersectionObserver.min.js"></script></body></html>

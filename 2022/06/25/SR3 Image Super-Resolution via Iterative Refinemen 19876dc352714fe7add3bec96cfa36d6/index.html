@@ -1,0 +1,263 @@
+<!DOCTYPE html><html><head>
+  <meta charset="utf-8">
+  
+  
+  <title>SR3 Image Super-Resolution via Iterative Refinement | Daniel Cai</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="TL；DR通过Repeated Refinement 来实现SR。SR3 采用的是 denoising diffusion probabilistic models来进行图片生成，通过随机迭代降噪点过程来进行超分。从纯高斯噪声模型起步，用不同降噪力度的降噪模型来经过不断迭代Noisy 图像，从而生成图像 Method  生成范式 conditional DDPM经过T个步骤生成最终图像，首先从一个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SR3 Image Super-Resolution via Iterative Refinement">
+<meta property="og:url" content="http://example.com/2022/06/25/SR3%20Image%20Super-Resolution%20via%20Iterative%20Refinemen%2019876dc352714fe7add3bec96cfa36d6/index.html">
+<meta property="og:site_name" content="Daniel Cai">
+<meta property="og:description" content="TL；DR通过Repeated Refinement 来实现SR。SR3 采用的是 denoising diffusion probabilistic models来进行图片生成，通过随机迭代降噪点过程来进行超分。从纯高斯噪声模型起步，用不同降噪力度的降噪模型来经过不断迭代Noisy 图像，从而生成图像 Method  生成范式 conditional DDPM经过T个步骤生成最终图像，首先从一个">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/SR3%20Image%20Super-Resolution%20via%20Iterative%20Refinemen%2019876dc352714fe7add3bec96cfa36d6/Untitled.png">
+<meta property="og:image" content="http://example.com/SR3%20Image%20Super-Resolution%20via%20Iterative%20Refinemen%2019876dc352714fe7add3bec96cfa36d6/Untitled%201.png">
+<meta property="og:image" content="http://example.com/SR3%20Image%20Super-Resolution%20via%20Iterative%20Refinemen%2019876dc352714fe7add3bec96cfa36d6/Untitled%202.png">
+<meta property="og:image" content="http://example.com/SR3%20Image%20Super-Resolution%20via%20Iterative%20Refinemen%2019876dc352714fe7add3bec96cfa36d6/Untitled%203.png">
+<meta property="article:published_time" content="2022-06-25T02:23:04.000Z">
+<meta property="article:modified_time" content="2023-08-02T05:23:11.947Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/SR3%20Image%20Super-Resolution%20via%20Iterative%20Refinemen%2019876dc352714fe7add3bec96cfa36d6/Untitled.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Daniel Cai" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Daniel Cai</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Share my paper reading about AIGC &amp; Multimodal &amp; LLM</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-SR3 Image Super-Resolution via Iterative Refinemen 19876dc352714fe7add3bec96cfa36d6" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/06/25/SR3%20Image%20Super-Resolution%20via%20Iterative%20Refinemen%2019876dc352714fe7add3bec96cfa36d6/" class="article-date">
+  <time class="dt-published" datetime="2022-06-25T02:23:04.000Z" itemprop="datePublished">2022-06-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      SR3 Image Super-Resolution via Iterative Refinement
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="TL；DR"><a href="#TL；DR" class="headerlink" title="TL；DR"></a>TL；DR</h2><p>通过Repeated Refinement 来实现SR。SR3 采用的是 denoising diffusion probabilistic models来进行图片生成，通过随机迭代降噪点过程来进行超分。从纯高斯噪声模型起步，用不同降噪力度的降噪模型来经过不断迭代Noisy 图像，从而生成图像</p>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><p><img src="/SR3%20Image%20Super-Resolution%20via%20Iterative%20Refinemen%2019876dc352714fe7add3bec96cfa36d6/Untitled.png" alt="Untitled"></p>
+<ul>
+<li>生成范式<ul>
+<li>conditional DDPM经过T个步骤生成最终图像，首先从一个pure gaussian images开发，经过T个步骤连续的迭代。每个迭代都需要学习conditional transition distributions. 前向过程：通过固定的马尔可夫链将高斯噪声不断地添加至信号当中。 反向过程：是主要需要学习的部分，即从噪声中逆转得到信号的过程。使用神经去噪模型fθ学习反向链，该模型将源图像和噪声目标图像作为输入，并估计噪声。</li>
+</ul>
+</li>
+<li>训练<ul>
+<li>输入：低分辨率图像； 带噪声图像，尺寸和高分辨率图像一致。</li>
+<li>损失函数：使得模型输出的噪声和随机的高斯噪声分布尽可能一致。</li>
+</ul>
+</li>
+</ul>
+<p><img src="/SR3%20Image%20Super-Resolution%20via%20Iterative%20Refinemen%2019876dc352714fe7add3bec96cfa36d6/Untitled%201.png" alt="Untitled"></p>
+<p><img src="/SR3%20Image%20Super-Resolution%20via%20Iterative%20Refinemen%2019876dc352714fe7add3bec96cfa36d6/Untitled%202.png" alt="Untitled"></p>
+<ul>
+<li>Inference 阶段：输入为低分辨率图像x以及&nbsp;yt高斯噪声，输出为高分辨率图像。输入通过公式重复迭代T次得到SR图像。可以理解为迭代的从图像中去除噪声，当迭代的次数足够多，就能将噪声都去除，得到一个效果较好的SR结果。</li>
+</ul>
+<p><img src="/SR3%20Image%20Super-Resolution%20via%20Iterative%20Refinemen%2019876dc352714fe7add3bec96cfa36d6/Untitled%203.png" alt="Untitled"></p>
+<ul>
+<li>Model Arch:<ul>
+<li>UNet 架构，用迭代的方式从输出去除各level的噪声。将低分辨率图像upsample到高分辨率，再和噪声图concat，作为网络的输入。</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/06/25/SR3%20Image%20Super-Resolution%20via%20Iterative%20Refinemen%2019876dc352714fe7add3bec96cfa36d6/" data-id="clktabfn6000hfbreg2owgc61" data-title="SR3 Image Super-Resolution via Iterative Refinement" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/04/Composer%20Creative%20and%20Controllable%20Image%20Synthesis%20042ebfdf568947d8985f976292d62981/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Composer Creative and Controllable Image Synthesis with Composable Conditions
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/06/04/Dancing%20under%20the%20stars%20video%20denoising%20in%20starlig%20c87061a266df4697b65001f72ffdfbb3/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Dancing under the stars video denoising in starlight</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">July 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">December 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/09/">September 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">February 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/07/04/BLIP2/">BLIP-2 Bootstrapping Language-Image Pre-trainingwith Frozen Image Encoders and Large Language Models</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/02/BLIP/">BLIP Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/01/SDXL%20Improving%20Latent%20Diffusion%20Models%20for%20High-Re%20b0dfed5065764baaa371b5b7fd7275cd/">SDXL</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/25/Segment%20Anything/">SAM</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/17/ViLT%20Vision-and-Language%20Transformer%20Without%20Convo%20ddf0a31cddb9402397b4e99fe718307a/">ViLT-Vision-and-Language Transformer</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      © 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+
+<script type="text/javascript" charset="utf-8" src="/js/lazyload-plugin/lazyload.intersectionObserver.min.js"></script></body></html>

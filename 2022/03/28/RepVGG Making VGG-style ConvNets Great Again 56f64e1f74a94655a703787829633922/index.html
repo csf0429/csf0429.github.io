@@ -1,0 +1,260 @@
+<!DOCTYPE html><html><head>
+  <meta charset="utf-8">
+  
+  
+  <title>RepVGG Making VGG-style ConvNets Great Again | Daniel Cai</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="TL；DR本文提出了一个结构简单但功能强大的卷积神经网络架构，该结构在推理时候具有类似于VGG的backbone，仅由3 x 3 conv和ReLU堆叠组成。但在训练时，它却有着多分支的拓扑结构，它通过重参数化技术实现了训练和推理方面的解耦，因此该模型被称作Rep-VGG. RepVGG 在Image Net 上的top-1 准确率超过了80%，在NVIDIA 1080Ti 上推理速度更快，远快于">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RepVGG Making VGG-style ConvNets Great Again">
+<meta property="og:url" content="http://example.com/2022/03/28/RepVGG%20Making%20VGG-style%20ConvNets%20Great%20Again%2056f64e1f74a94655a703787829633922/index.html">
+<meta property="og:site_name" content="Daniel Cai">
+<meta property="og:description" content="TL；DR本文提出了一个结构简单但功能强大的卷积神经网络架构，该结构在推理时候具有类似于VGG的backbone，仅由3 x 3 conv和ReLU堆叠组成。但在训练时，它却有着多分支的拓扑结构，它通过重参数化技术实现了训练和推理方面的解耦，因此该模型被称作Rep-VGG. RepVGG 在Image Net 上的top-1 准确率超过了80%，在NVIDIA 1080Ti 上推理速度更快，远快于">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/RepVGG%20Making%20VGG-style%20ConvNets%20Great%20Again%2056f64e1f74a94655a703787829633922/Untitled.png">
+<meta property="og:image" content="http://example.com/RepVGG%20Making%20VGG-style%20ConvNets%20Great%20Again%2056f64e1f74a94655a703787829633922/Untitled%201.png">
+<meta property="og:image" content="http://example.com/RepVGG%20Making%20VGG-style%20ConvNets%20Great%20Again%2056f64e1f74a94655a703787829633922/Untitled%202.png">
+<meta property="og:image" content="http://example.com/RepVGG%20Making%20VGG-style%20ConvNets%20Great%20Again%2056f64e1f74a94655a703787829633922/Untitled%203.png">
+<meta property="og:image" content="http://example.com/RepVGG%20Making%20VGG-style%20ConvNets%20Great%20Again%2056f64e1f74a94655a703787829633922/Untitled%204.png">
+<meta property="article:published_time" content="2022-03-28T02:23:04.000Z">
+<meta property="article:modified_time" content="2023-08-02T05:25:10.948Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/RepVGG%20Making%20VGG-style%20ConvNets%20Great%20Again%2056f64e1f74a94655a703787829633922/Untitled.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Daniel Cai" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Daniel Cai</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Share my paper reading about AIGC &amp; Multimodal &amp; LLM</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-RepVGG Making VGG-style ConvNets Great Again 56f64e1f74a94655a703787829633922" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/03/28/RepVGG%20Making%20VGG-style%20ConvNets%20Great%20Again%2056f64e1f74a94655a703787829633922/" class="article-date">
+  <time class="dt-published" datetime="2022-03-28T02:23:04.000Z" itemprop="datePublished">2022-03-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      RepVGG Making VGG-style ConvNets Great Again
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="TL；DR"><a href="#TL；DR" class="headerlink" title="TL；DR"></a>TL；DR</h2><p>本文提出了一个结构简单但功能强大的卷积神经网络架构，该结构在推理时候具有类似于VGG的backbone，仅由3 x 3 conv和ReLU堆叠组成。但在训练时，它却有着多分支的拓扑结构，它通过重参数化技术实现了训练和推理方面的解耦，因此该模型被称作Rep-VGG. RepVGG 在Image Net 上的top-1 准确率超过了80%，在NVIDIA 1080Ti 上推理速度更快，远快于ResNet-50 / 100 。与新模型相比，也展现了比较好的速度 / 准确率的trade-off</p>
+<p><img src="/RepVGG%20Making%20VGG-style%20ConvNets%20Great%20Again%2056f64e1f74a94655a703787829633922/Untitled.png" alt="Untitled"></p>
+<p><img src="/RepVGG%20Making%20VGG-style%20ConvNets%20Great%20Again%2056f64e1f74a94655a703787829633922/Untitled%201.png" alt="Untitled"></p>
+<p>上图展示的是训练和测试如何实现解耦，中间部分为训练中网络结构，吸收了ResNet 的优点</p>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><h3 id="Simple-is-Fast-Memory-economical-Flexible"><a href="#Simple-is-Fast-Memory-economical-Flexible" class="headerlink" title="Simple is Fast, Memory-economical, Flexible"></a>Simple is Fast, Memory-economical, Flexible</h3><ul>
+<li>有两个因素会导致Flops和速度之间的Gap: MAC 和 并行度。在相同的FLOPs下，具有高并行度的模型可能比具有低并行度的模型快得多。堆叠结构拥有更高的并行度。</li>
+</ul>
+<p><img src="/RepVGG%20Making%20VGG-style%20ConvNets%20Great%20Again%2056f64e1f74a94655a703787829633922/Untitled%202.png" alt="Untitled"></p>
+<ul>
+<li>多分支拓扑结构由于需要保留每个分支的结果，直到相加或串联为止，分支中的特征图尺寸保持不变时，需要两倍的内存。</li>
+<li>在简单的堆叠结构中，允许计算完改层后立即释放该层的输入所占用的内存。因此这种计算方式也对硬件更加友好。</li>
+<li>多分支结构也会造成剪枝上的困难</li>
+</ul>
+<h2 id="Re-param-for-Plain-Inference-time-Model"><a href="#Re-param-for-Plain-Inference-time-Model" class="headerlink" title=".Re-param for Plain Inference-time Model"></a>.Re-param for Plain Inference-time Model</h2><p><img src="/RepVGG%20Making%20VGG-style%20ConvNets%20Great%20Again%2056f64e1f74a94655a703787829633922/Untitled%203.png" alt="Untitled"></p>
+<ul>
+<li>如果大kernel 卷积和小kernel 卷积的步长相同，那么就可以用简单叠加的方法合多个分支的卷积核，用单个卷积来替代，小kernel卷积通过补零的方式padding成大卷积的尺寸</li>
+<li>对于3x3的图层，将输入填充一个像素，则1 x 1的图层应具有padding = 0</li>
+<li>总结起来一共两步变化：把所有卷积变化成3X3，紧接着把多分支合并成一个。</li>
+<li>对BN参数进行融合</li>
+</ul>
+<p><img src="/RepVGG%20Making%20VGG-style%20ConvNets%20Great%20Again%2056f64e1f74a94655a703787829633922/Untitled%204.png" alt="Untitled"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/03/28/RepVGG%20Making%20VGG-style%20ConvNets%20Great%20Again%2056f64e1f74a94655a703787829633922/" data-id="clktabfn5000ffbre6cr8d7mj" data-title="RepVGG Making VGG-style ConvNets Great Again" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/04/04/ClassSR%20A%20General%20Framework%20to%20Accelerate%20Super-Re%207b62788ea6354524a183401ca1a57572/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          ClassSR A General Framework to Accelerate Super-Resolution Networks by Data Characteristic
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/02/03/Attentive%20Fine-Grained%20Structured%20Sparsity%20for%20Ima%20d881abc7a35646ffaddfd1f15c94b51b/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Attentive Fine-Grained Structured Sparsity for Image Restoration</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">July 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">December 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/09/">September 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">February 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/07/04/BLIP2/">BLIP-2 Bootstrapping Language-Image Pre-trainingwith Frozen Image Encoders and Large Language Models</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/02/BLIP/">BLIP Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/01/SDXL%20Improving%20Latent%20Diffusion%20Models%20for%20High-Re%20b0dfed5065764baaa371b5b7fd7275cd/">SDXL</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/25/Segment%20Anything/">SAM</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/17/ViLT%20Vision-and-Language%20Transformer%20Without%20Convo%20ddf0a31cddb9402397b4e99fe718307a/">ViLT-Vision-and-Language Transformer</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      © 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+
+<script type="text/javascript" charset="utf-8" src="/js/lazyload-plugin/lazyload.intersectionObserver.min.js"></script></body></html>

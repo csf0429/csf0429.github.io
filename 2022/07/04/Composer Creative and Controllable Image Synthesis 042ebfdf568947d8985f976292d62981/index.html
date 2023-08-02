@@ -1,0 +1,269 @@
+<!DOCTYPE html><html><head>
+  <meta charset="utf-8">
+  
+  
+  <title>Composer Creative and Controllable Image Synthesis with Composable Conditions | Daniel Cai</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="TL；DR这篇论文介绍了一种新的生成模型的范式，称为“Composer”，该范式可以在保持合成质量和模型创造力的同时，灵活地控制输出图像，如空间布局（layout）和调色板（platte）。该模型的核心思想是分解图像为代表性的factor，并使用所有这些factor作为条件来训练扩散模型以重新组合输入。在推理阶段，由于中间表示丰富，从而可以产生巨大的生成设计空间。该方法支持各种级别的条件，例如文本">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Composer Creative and Controllable Image Synthesis with Composable Conditions">
+<meta property="og:url" content="http://example.com/2022/07/04/Composer%20Creative%20and%20Controllable%20Image%20Synthesis%20042ebfdf568947d8985f976292d62981/index.html">
+<meta property="og:site_name" content="Daniel Cai">
+<meta property="og:description" content="TL；DR这篇论文介绍了一种新的生成模型的范式，称为“Composer”，该范式可以在保持合成质量和模型创造力的同时，灵活地控制输出图像，如空间布局（layout）和调色板（platte）。该模型的核心思想是分解图像为代表性的factor，并使用所有这些factor作为条件来训练扩散模型以重新组合输入。在推理阶段，由于中间表示丰富，从而可以产生巨大的生成设计空间。该方法支持各种级别的条件，例如文本">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/Composer%20Creative%20and%20Controllable%20Image%20Synthesis%20042ebfdf568947d8985f976292d62981/Untitled.png">
+<meta property="og:image" content="http://example.com/Composer%20Creative%20and%20Controllable%20Image%20Synthesis%20042ebfdf568947d8985f976292d62981/Untitled%201.png">
+<meta property="og:image" content="http://example.com/Composer%20Creative%20and%20Controllable%20Image%20Synthesis%20042ebfdf568947d8985f976292d62981/Untitled%202.png">
+<meta property="og:image" content="http://example.com/Composer%20Creative%20and%20Controllable%20Image%20Synthesis%20042ebfdf568947d8985f976292d62981/Untitled%203.png">
+<meta property="article:published_time" content="2022-07-04T02:23:04.000Z">
+<meta property="article:modified_time" content="2023-08-02T05:15:23.910Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/Composer%20Creative%20and%20Controllable%20Image%20Synthesis%20042ebfdf568947d8985f976292d62981/Untitled.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Daniel Cai" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Daniel Cai</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Share my paper reading about AIGC &amp; Multimodal &amp; LLM</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Composer Creative and Controllable Image Synthesis 042ebfdf568947d8985f976292d62981" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/07/04/Composer%20Creative%20and%20Controllable%20Image%20Synthesis%20042ebfdf568947d8985f976292d62981/" class="article-date">
+  <time class="dt-published" datetime="2022-07-04T02:23:04.000Z" itemprop="datePublished">2022-07-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Composer Creative and Controllable Image Synthesis with Composable Conditions
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="TL；DR"><a href="#TL；DR" class="headerlink" title="TL；DR"></a>TL；DR</h2><p>这篇论文介绍了一种新的生成模型的范式，称为“Composer”，该范式可以在保持合成质量和模型创造力的同时，灵活地控制输出图像，如空间布局（layout）和调色板（platte）。该模型的核心思想是分解图像为代表性的factor，并使用所有这些factor作为条件来训练扩散模型以重新组合输入。在推理阶段，由于中间表示丰富，从而可以产生巨大的生成设计空间。该方法支持各种级别的条件，例如文本描述作为全局信息，深度图和草图作为局部指导，颜色直方图用于低级细节等。除了改善可控性外，该方法还证实了作为通用框架的优势，可以方便地支持各种经典生成任务而无需重新训练。</p>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><p><img src="/Composer%20Creative%20and%20Controllable%20Image%20Synthesis%20042ebfdf568947d8985f976292d62981/Untitled.png" alt="Untitled"></p>
+<ul>
+<li>Composer是一种扩散模型，可接受多个条件，从而实现无分类器指导的各种方向.</li>
+</ul>
+<p><img src="/Composer%20Creative%20and%20Controllable%20Image%20Synthesis%20042ebfdf568947d8985f976292d62981/Untitled%201.png" alt="Untitled"></p>
+<ul>
+<li>通过指定一个权重参数 ω 来控制这些条件。属于 c2 但不属于 c1 的条件会被赋予权重 ω，属于 c1 但不属于 c2 的条件会被赋予权重 (1-ω)，而属于 c1 与 c2 的交集的条件会被赋予权重 1.0</li>
+<li>通过对图像x0进行反向编码，得到其潜在表示xT，然后使用另一个条件c2对xT进行采样，可以以一种解耦的方式操纵图像，其中操纵方向由c2和c1之间的差异定义。</li>
+</ul>
+<p><img src="/Composer%20Creative%20and%20Controllable%20Image%20Synthesis%20042ebfdf568947d8985f976292d62981/Untitled%202.png" alt="Untitled"></p>
+<h3 id="Decomposition"><a href="#Decomposition" class="headerlink" title="Decomposition"></a>Decomposition</h3><ul>
+<li><p>将图像分为8个方面，每个方面都可以在训练中动态提取。</p>
+<ul>
+<li>Caption：直接使用文本-图像的训练数据，或者从预训练的模型中获得。</li>
+<li>Semantics and style</li>
+<li>Color：CIELab histogram</li>
+<li>Sketch</li>
+<li>Instance： Yolov5</li>
+<li>Depthmap</li>
+<li>Intensity: 灰度图</li>
+<li>Masking：ROI区域</li>
+</ul>
+<p>  <img src="/Composer%20Creative%20and%20Controllable%20Image%20Synthesis%20042ebfdf568947d8985f976292d62981/Untitled%203.png" alt="Untitled"></p>
+</li>
+</ul>
+<h3 id="Composition"><a href="#Composition" class="headerlink" title="Composition"></a>Composition</h3><ul>
+<li>全局化条件：including CLIP sentence embeddings, image embeddings and color palettes</li>
+<li>局部化条件：sketches、segmentation masks、depthmaps、intensity images和masked images等本地表示，将它们投影到与噪声潜变量xt相同空间大小的统一维度嵌入中，使用堆叠的卷积层进行处理。然后计算这些嵌入的总和，并将结果连接到xt之前，将其送到UNet中</li>
+<li>联合训练：在每个条件的训练采取类似dropout的策略</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/07/04/Composer%20Creative%20and%20Controllable%20Image%20Synthesis%20042ebfdf568947d8985f976292d62981/" data-id="clktabfmz0005fbrebw613tzx" data-title="Composer Creative and Controllable Image Synthesis with Composable Conditions" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/08/16/MuLUT%20Cooperating%20Multiple%20Look-Up%20Tables%20for%20Effi%20bee54a3f97d7486886f3965337bcf9a4/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          MuLUT Cooperating Multiple Look-Up Tables for Efficient Image Super-Resolution
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/06/25/SR3%20Image%20Super-Resolution%20via%20Iterative%20Refinemen%2019876dc352714fe7add3bec96cfa36d6/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">SR3 Image Super-Resolution via Iterative Refinement</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">July 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">December 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/09/">September 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">February 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/07/04/BLIP2/">BLIP-2 Bootstrapping Language-Image Pre-trainingwith Frozen Image Encoders and Large Language Models</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/02/BLIP/">BLIP Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/01/SDXL%20Improving%20Latent%20Diffusion%20Models%20for%20High-Re%20b0dfed5065764baaa371b5b7fd7275cd/">SDXL</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/25/Segment%20Anything/">SAM</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/17/ViLT%20Vision-and-Language%20Transformer%20Without%20Convo%20ddf0a31cddb9402397b4e99fe718307a/">ViLT-Vision-and-Language Transformer</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      © 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+
+<script type="text/javascript" charset="utf-8" src="/js/lazyload-plugin/lazyload.intersectionObserver.min.js"></script></body></html>

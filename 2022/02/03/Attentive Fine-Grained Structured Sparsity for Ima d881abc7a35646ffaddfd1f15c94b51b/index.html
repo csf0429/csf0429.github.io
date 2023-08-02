@@ -1,0 +1,276 @@
+<!DOCTYPE html><html><head>
+  <meta charset="utf-8">
+  
+  
+  <title>Attentive Fine-Grained Structured Sparsity for Image Restoration | Daniel Cai</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Attentive Fine-Grained Structured Sparsity for Image RestorationTL;DRN:M structured pruning 是目前比较有效的模型压缩技术，本文提出了对每一层实现不同的sturtured sparsity的pruning方法，进而实现准确性和效率之间的tradeoff Method  一个满足N：M sparsity的ten">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Attentive Fine-Grained Structured Sparsity for Image Restoration">
+<meta property="og:url" content="http://example.com/2022/02/03/Attentive%20Fine-Grained%20Structured%20Sparsity%20for%20Ima%20d881abc7a35646ffaddfd1f15c94b51b/index.html">
+<meta property="og:site_name" content="Daniel Cai">
+<meta property="og:description" content="Attentive Fine-Grained Structured Sparsity for Image RestorationTL;DRN:M structured pruning 是目前比较有效的模型压缩技术，本文提出了对每一层实现不同的sturtured sparsity的pruning方法，进而实现准确性和效率之间的tradeoff Method  一个满足N：M sparsity的ten">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/Attentive%20Fine-Grained%20Structured%20Sparsity%20for%20Ima%20d881abc7a35646ffaddfd1f15c94b51b/Untitled.png">
+<meta property="og:image" content="http://example.com/Attentive%20Fine-Grained%20Structured%20Sparsity%20for%20Ima%20d881abc7a35646ffaddfd1f15c94b51b/Untitled%201.png">
+<meta property="og:image" content="http://example.com/Attentive%20Fine-Grained%20Structured%20Sparsity%20for%20Ima%20d881abc7a35646ffaddfd1f15c94b51b/Untitled%202.png">
+<meta property="og:image" content="http://example.com/Attentive%20Fine-Grained%20Structured%20Sparsity%20for%20Ima%20d881abc7a35646ffaddfd1f15c94b51b/Untitled%203.png">
+<meta property="og:image" content="http://example.com/Attentive%20Fine-Grained%20Structured%20Sparsity%20for%20Ima%20d881abc7a35646ffaddfd1f15c94b51b/Untitled%204.png">
+<meta property="og:image" content="http://example.com/Attentive%20Fine-Grained%20Structured%20Sparsity%20for%20Ima%20d881abc7a35646ffaddfd1f15c94b51b/Untitled%205.png">
+<meta property="og:image" content="http://example.com/Attentive%20Fine-Grained%20Structured%20Sparsity%20for%20Ima%20d881abc7a35646ffaddfd1f15c94b51b/Untitled%206.png">
+<meta property="article:published_time" content="2022-02-03T02:23:04.000Z">
+<meta property="article:modified_time" content="2023-08-02T05:13:35.105Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/Attentive%20Fine-Grained%20Structured%20Sparsity%20for%20Ima%20d881abc7a35646ffaddfd1f15c94b51b/Untitled.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Daniel Cai" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Daniel Cai</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Share my paper reading about AIGC &amp; Multimodal &amp; LLM</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Attentive Fine-Grained Structured Sparsity for Ima d881abc7a35646ffaddfd1f15c94b51b" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/02/03/Attentive%20Fine-Grained%20Structured%20Sparsity%20for%20Ima%20d881abc7a35646ffaddfd1f15c94b51b/" class="article-date">
+  <time class="dt-published" datetime="2022-02-03T02:23:04.000Z" itemprop="datePublished">2022-02-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Attentive Fine-Grained Structured Sparsity for Image Restoration
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Attentive-Fine-Grained-Structured-Sparsity-for-Image-Restoration"><a href="#Attentive-Fine-Grained-Structured-Sparsity-for-Image-Restoration" class="headerlink" title="Attentive Fine-Grained Structured Sparsity for Image Restoration"></a>Attentive Fine-Grained Structured Sparsity for Image Restoration</h1><h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><p>N:M structured pruning 是目前比较有效的模型压缩技术，本文提出了对每一层实现不同的sturtured sparsity的pruning方法，进而实现准确性和效率之间的tradeoff</p>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><p><img src="/Attentive%20Fine-Grained%20Structured%20Sparsity%20for%20Ima%20d881abc7a35646ffaddfd1f15c94b51b/Untitled.png" alt="Untitled"></p>
+<ul>
+<li><p>一个满足N：M sparsity的tensor应该满足如下性质。（1）input channel 可以被M整除 （2）每组M个连续weights至少有N个非零权重。weight，input tensor的压缩方法如图（a）所示。两者都能有N：M的压缩空间</p>
+</li>
+<li><p>可导的N：M Sparsity Search</p>
+<ul>
+<li>首先将weight表示为M组 1:M sparisity的稀疏weight之和。每一个weight的重要性都用 一个强度参数来衡量</li>
+<li>b是一个二值参数，表示该组参数是否被保留还是丢弃，梯度下降中通过STE来优化这个值. B 中p表示weight的优先级分数，用于决定pruning ratio</li>
+</ul>
+<p>  <img src="/Attentive%20Fine-Grained%20Structured%20Sparsity%20for%20Ima%20d881abc7a35646ffaddfd1f15c94b51b/Untitled%201.png" alt="Untitled">
+  </p>
+</li>
+<li><p>Priority - Ordered Pruning</p>
+<ul>
+<li>上述一共有两种度量方式来决定pruning ratio。当两者产生mis alignment时，容易造成性能下降。通过使得Pi+i &lt; Pi, 优先移除强度参数小的权重</li>
+</ul>
+<p>  <img src="/Attentive%20Fine-Grained%20Structured%20Sparsity%20for%20Ima%20d881abc7a35646ffaddfd1f15c94b51b/Untitled%202.png" alt="Untitled"></p>
+<p>  <img src="/Attentive%20Fine-Grained%20Structured%20Sparsity%20for%20Ima%20d881abc7a35646ffaddfd1f15c94b51b/Untitled%203.png" alt="Untitled">
+  </p>
+</li>
+<li><p><strong>Loss Function</strong></p>
+</li>
+</ul>
+<p>pruned Loss 表示压缩后模型的MACS，通过如下形式实现算法性能和模型大小之间的tradeoff</p>
+<p><img src="/Attentive%20Fine-Grained%20Structured%20Sparsity%20for%20Ima%20d881abc7a35646ffaddfd1f15c94b51b/Untitled%204.png" alt="Untitled"></p>
+<ul>
+<li><p>Adaptive Inference</p>
+<ul>
+<li>通过图像patch的难度，来自适应使用剪枝模型。为了量化图像块的恢复难度，假设图像块越难恢复，GT与恢复结果之间的误差越大。由于在推理时无法获得GT，我们使用了一种轻型卷积神经网络，可以估计GT和目标模型恢复结果之间的均方误差（MSE）。给定由具有不同目标计算预算的SLS训练的多个模型，来给候选模型来打分。</li>
+</ul>
+<p>  <img src="/Attentive%20Fine-Grained%20Structured%20Sparsity%20for%20Ima%20d881abc7a35646ffaddfd1f15c94b51b/Untitled%205.png" alt="Untitled"></p>
+<p>  <img src="/Attentive%20Fine-Grained%20Structured%20Sparsity%20for%20Ima%20d881abc7a35646ffaddfd1f15c94b51b/Untitled%206.png" alt="Untitled"></p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/02/03/Attentive%20Fine-Grained%20Structured%20Sparsity%20for%20Ima%20d881abc7a35646ffaddfd1f15c94b51b/" data-id="clktabfmv0001fbre0l8ne8al" data-title="Attentive Fine-Grained Structured Sparsity for Image Restoration" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/03/28/RepVGG%20Making%20VGG-style%20ConvNets%20Great%20Again%2056f64e1f74a94655a703787829633922/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          RepVGG Making VGG-style ConvNets Great Again
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/01/02/Accelerating%20Video%20Object%20Segmentation%20with%20Compre%20b5e88a9f118147648a5c28ad61b5ff27/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Accelerating Video Object Segmentation with Compressed Video</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">July 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">December 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/09/">September 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">February 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/07/04/BLIP2/">BLIP-2 Bootstrapping Language-Image Pre-trainingwith Frozen Image Encoders and Large Language Models</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/02/BLIP/">BLIP Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/01/SDXL%20Improving%20Latent%20Diffusion%20Models%20for%20High-Re%20b0dfed5065764baaa371b5b7fd7275cd/">SDXL</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/25/Segment%20Anything/">SAM</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/17/ViLT%20Vision-and-Language%20Transformer%20Without%20Convo%20ddf0a31cddb9402397b4e99fe718307a/">ViLT-Vision-and-Language Transformer</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      © 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+
+<script type="text/javascript" charset="utf-8" src="/js/lazyload-plugin/lazyload.intersectionObserver.min.js"></script></body></html>

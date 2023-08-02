@@ -1,0 +1,268 @@
+<!DOCTYPE html><html><head>
+  <meta charset="utf-8">
+  
+  
+  <title>MuLUT Cooperating Multiple Look-Up Tables for Efficient Image Super-Resolution | Daniel Cai</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="TL;DR将LUT 和 SR相结合，为了解决single lut 感受野不足的问题，将SR-Lut扩展至 Mutiple-luts。（1）设计了两种互补的pattern ，同时构造multiple luts （2）re-indexing 机制来实现 hierachical indexing 。 这种做法使得mulut 的size 和 本身的index capacity 呈线性关系。  contri">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MuLUT Cooperating Multiple Look-Up Tables for Efficient Image Super-Resolution">
+<meta property="og:url" content="http://example.com/2022/08/16/MuLUT%20Cooperating%20Multiple%20Look-Up%20Tables%20for%20Effi%20bee54a3f97d7486886f3965337bcf9a4/index.html">
+<meta property="og:site_name" content="Daniel Cai">
+<meta property="og:description" content="TL;DR将LUT 和 SR相结合，为了解决single lut 感受野不足的问题，将SR-Lut扩展至 Mutiple-luts。（1）设计了两种互补的pattern ，同时构造multiple luts （2）re-indexing 机制来实现 hierachical indexing 。 这种做法使得mulut 的size 和 本身的index capacity 呈线性关系。  contri">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/MuLUT%20Cooperating%20Multiple%20Look-Up%20Tables%20for%20Effi%20bee54a3f97d7486886f3965337bcf9a4/Untitled.png">
+<meta property="og:image" content="http://example.com/MuLUT%20Cooperating%20Multiple%20Look-Up%20Tables%20for%20Effi%20bee54a3f97d7486886f3965337bcf9a4/Untitled%201.png">
+<meta property="og:image" content="http://example.com/MuLUT%20Cooperating%20Multiple%20Look-Up%20Tables%20for%20Effi%20bee54a3f97d7486886f3965337bcf9a4/Untitled%202.png">
+<meta property="og:image" content="http://example.com/MuLUT%20Cooperating%20Multiple%20Look-Up%20Tables%20for%20Effi%20bee54a3f97d7486886f3965337bcf9a4/Untitled%203.png">
+<meta property="og:image" content="http://example.com/MuLUT%20Cooperating%20Multiple%20Look-Up%20Tables%20for%20Effi%20bee54a3f97d7486886f3965337bcf9a4/Untitled%204.png">
+<meta property="article:published_time" content="2022-08-16T02:23:04.000Z">
+<meta property="article:modified_time" content="2023-08-02T05:22:33.941Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/MuLUT%20Cooperating%20Multiple%20Look-Up%20Tables%20for%20Effi%20bee54a3f97d7486886f3965337bcf9a4/Untitled.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Daniel Cai" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Daniel Cai</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Share my paper reading about AIGC &amp; Multimodal &amp; LLM</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-MuLUT Cooperating Multiple Look-Up Tables for Effi bee54a3f97d7486886f3965337bcf9a4" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/08/16/MuLUT%20Cooperating%20Multiple%20Look-Up%20Tables%20for%20Effi%20bee54a3f97d7486886f3965337bcf9a4/" class="article-date">
+  <time class="dt-published" datetime="2022-08-16T02:23:04.000Z" itemprop="datePublished">2022-08-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      MuLUT Cooperating Multiple Look-Up Tables for Efficient Image Super-Resolution
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><p>将LUT 和 SR相结合，为了解决single lut 感受野不足的问题，将SR-Lut扩展至 Mutiple-luts。（1）设计了两种互补的pattern ，同时构造multiple luts （2）re-indexing 机制来实现 hierachical indexing 。 这种做法使得mulut 的size 和 本身的index capacity 呈线性关系。</p>
+<ul>
+<li>contributions<ul>
+<li>casecade 方法 + re-index 机制，实现多级index</li>
+<li>Mulut 用在 demosaicing 任务上，证明其优于SR-LUT</li>
+</ul>
+</li>
+</ul>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><p><img src="/MuLUT%20Cooperating%20Multiple%20Look-Up%20Tables%20for%20Effi%20bee54a3f97d7486886f3965337bcf9a4/Untitled.png" alt="Untitled"></p>
+<ul>
+<li>SR-lut 的获取方式，基于一个训练好的SR网络，带着有限的感受野。LR pixels 作为query，从Lut 中恢复出HR的像素</li>
+<li>通过Multi-Lut， 把感受野从3X3 → 9X9. 由于Lut 的size 是指数级增长的，因此本方法在这里进行了约束。</li>
+</ul>
+<p><img src="/MuLUT%20Cooperating%20Multiple%20Look-Up%20Tables%20for%20Effi%20bee54a3f97d7486886f3965337bcf9a4/Untitled%201.png" alt="Untitled"></p>
+<ul>
+<li>Mulut 包含三个平行的branch， 并且2个casecade阶段。训练是 end-to-end 进行的</li>
+</ul>
+<p><img src="/MuLUT%20Cooperating%20Multiple%20Look-Up%20Tables%20for%20Effi%20bee54a3f97d7486886f3965337bcf9a4/Untitled%202.png" alt="Untitled"></p>
+<ul>
+<li>Parallelizing Lut . 分别代表三个index pattern。  indexing pixels<br>of MuLUT-S, MuLUT-D, and MuLUT-Y are (I0, I1, I3, I4), (I0, I2, I6, I8), and<br>(I0, I4, I5, I7),</li>
+</ul>
+<p><img src="/MuLUT%20Cooperating%20Multiple%20Look-Up%20Tables%20for%20Effi%20bee54a3f97d7486886f3965337bcf9a4/Untitled%203.png" alt="Untitled"></p>
+<ul>
+<li>图像中的index 是采样的，并且存在int8的数据格式里。previous Mulut 的值会在forward时quantize成整数</li>
+</ul>
+<p><img src="/MuLUT%20Cooperating%20Multiple%20Look-Up%20Tables%20for%20Effi%20bee54a3f97d7486886f3965337bcf9a4/Untitled%204.png" alt="Untitled"></p>
+<ul>
+<li>Lut-aware finetune策略。 一方面是lut 中的值是trainable的，另一方面在训练过程中，lut值适应了这种采样和插值过程</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/08/16/MuLUT%20Cooperating%20Multiple%20Look-Up%20Tables%20for%20Effi%20bee54a3f97d7486886f3965337bcf9a4/" data-id="clktabfn3000cfbred8l2aisu" data-title="MuLUT Cooperating Multiple Look-Up Tables for Efficient Image Super-Resolution" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/09/28/Restormer%20Efficient%20Transformer%20for%20High-Resolutio%20da02239cf52645caad24521eac507eff/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Restormer Efficient Transformer for High-Resolution Image Restoration
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/04/Composer%20Creative%20and%20Controllable%20Image%20Synthesis%20042ebfdf568947d8985f976292d62981/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Composer Creative and Controllable Image Synthesis with Composable Conditions</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">July 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">December 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/09/">September 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">February 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/07/04/BLIP2/">BLIP-2 Bootstrapping Language-Image Pre-trainingwith Frozen Image Encoders and Large Language Models</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/02/BLIP/">BLIP Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/01/SDXL%20Improving%20Latent%20Diffusion%20Models%20for%20High-Re%20b0dfed5065764baaa371b5b7fd7275cd/">SDXL</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/25/Segment%20Anything/">SAM</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/17/ViLT%20Vision-and-Language%20Transformer%20Without%20Convo%20ddf0a31cddb9402397b4e99fe718307a/">ViLT-Vision-and-Language Transformer</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      © 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+
+<script type="text/javascript" charset="utf-8" src="/js/lazyload-plugin/lazyload.intersectionObserver.min.js"></script></body></html>

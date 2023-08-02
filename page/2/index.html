@@ -138,7 +138,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/01/04/High-Resolution%20Image%20Synthesis%20with%20Latent%20Diffus/" data-id="clksjbjwk0003yqlkhb4i67em" data-title="LDM" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/01/04/High-Resolution%20Image%20Synthesis%20with%20Latent%20Diffus/" data-id="clktabfn10009fbred5xahemc" data-title="LDM" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -222,7 +222,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/12/31/Towards%20Robust%20Blind%20Face%20Restoration%20with%20Codeboo%2062ecc6a10cae42ad8830c07e1fbb56a2/" data-id="clksjbjws000dyqlkew1w4xow" data-title="Towards Robust Blind Face Restoration with Codebook Lookup Transformer" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2022/12/31/Towards%20Robust%20Blind%20Face%20Restoration%20with%20Codeboo%2062ecc6a10cae42ad8830c07e1fbb56a2/" data-id="clktabfna000nfbre1wjtafjm" data-title="Towards Robust Blind Face Restoration with Codebook Lookup Transformer" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -307,7 +307,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/12/17/MaskGIT%20Masked%20Generative%20Image%20Transformer%207f702bf8a59f49cc8e8c04e7173c05fe/" data-id="clksjbjwm0005yqlk9p57c3yj" data-title="MaskGIT-Masked Generative Image Transformer" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2022/12/17/MaskGIT%20Masked%20Generative%20Image%20Transformer%207f702bf8a59f49cc8e8c04e7173c05fe/" data-id="clktabfn3000bfbrebqu98a35" data-title="MaskGIT-Masked Generative Image Transformer" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -374,7 +374,384 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/17/Neural%20Discrete%20Representation%20Learning%2088bab027be9c49c7824751a2f9f60c6b/" data-id="clksjbjwn0006yqlk97xiee5h" data-title="Neural Discrete Representation Learning" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2022/11/17/Neural%20Discrete%20Representation%20Learning%2088bab027be9c49c7824751a2f9f60c6b/" data-id="clktabfn4000dfbred6jqasnn" data-title="Neural Discrete Representation Learning" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Restormer Efficient Transformer for High-Resolutio da02239cf52645caad24521eac507eff" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/09/28/Restormer%20Efficient%20Transformer%20for%20High-Resolutio%20da02239cf52645caad24521eac507eff/" class="article-date">
+  <time class="dt-published" datetime="2022-09-28T02:23:04.000Z" itemprop="datePublished">2022-09-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/09/28/Restormer%20Efficient%20Transformer%20for%20High-Resolutio%20da02239cf52645caad24521eac507eff/">Restormer Efficient Transformer for High-Resolution Image Restoration</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="TL；DR"><a href="#TL；DR" class="headerlink" title="TL；DR"></a>TL；DR</h2><p>CNN方案有如下缺陷：limited receptive field, 随着高分辨率暴增的算力。本文提出 Restormer - Restoration Transformer, 在去雨，去噪，去模糊任务上取得了不错的效果</p>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><p>目标是设计一种efficient transformer 来处理高分辨率图像的图像复原任务。Key Design: Multi-head SA layer &amp; multi-scale hierarchical, 相比single - scale 的网络可以显著减少计算量。</p>
+<p><img src="/Restormer%20Efficient%20Transformer%20for%20High-Resolutio%20da02239cf52645caad24521eac507eff/Untitled.png" alt="Untitled"></p>
+<ul>
+<li><p><strong>Multi-Dconv Head Transposed Attention</strong></p>
+<ul>
+<li>主要开销来自于self-attention layer，其中key-query dot- product interaction 随着分辨率的增大而增大，为$O（W^2H^2）$。 因此，本文提出MDTA模块，复杂度是线性的。主要做法是self-attention 作用在channel上而不是空间分辨率上，channel 上产生的是global context,因此又同时引入了depth-wise conv来增强local context，这里用的conv都是不带bias的。</li>
+</ul>
+<p>  <img src="/Restormer%20Efficient%20Transformer%20for%20High-Resolutio%20da02239cf52645caad24521eac507eff/Untitled%201.png" alt="Untitled">
+  </p>
+</li>
+<li><p><strong>Gated-Dconv Feed-Forward Network</strong></p>
+<ul>
+<li>常规的transformer 前向网络： 1X1 扩大channel数，减少回原始channel数。</li>
+<li>本文做法：（1）引入gate机制 （2）可分离卷积。 将输入分为两路，每路是1X1 + 3X3 D-conv，其中一路使用GRelu作为激活函数</li>
+</ul>
+</li>
+<li><p>Progressive Learning</p>
+<ul>
+<li>传统训练方法：从CNN中crop 一个小patch，然后进行训练</li>
+<li>在early epoch使用小patch训练，然后逐步增大训练图像的尺寸。类似不断用大尺寸finetune。这样的好处使得transformer可以encoder整个大图的feature。训练过程中尺寸变大，batchsize也相应变小，从而维持相同的训练时间</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/09/28/Restormer%20Efficient%20Transformer%20for%20High-Resolutio%20da02239cf52645caad24521eac507eff/" data-id="clktabfn6000gfbreeh8ahn9c" data-title="Restormer Efficient Transformer for High-Resolution Image Restoration" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-MuLUT Cooperating Multiple Look-Up Tables for Effi bee54a3f97d7486886f3965337bcf9a4" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/08/16/MuLUT%20Cooperating%20Multiple%20Look-Up%20Tables%20for%20Effi%20bee54a3f97d7486886f3965337bcf9a4/" class="article-date">
+  <time class="dt-published" datetime="2022-08-16T02:23:04.000Z" itemprop="datePublished">2022-08-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/08/16/MuLUT%20Cooperating%20Multiple%20Look-Up%20Tables%20for%20Effi%20bee54a3f97d7486886f3965337bcf9a4/">MuLUT Cooperating Multiple Look-Up Tables for Efficient Image Super-Resolution</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><p>将LUT 和 SR相结合，为了解决single lut 感受野不足的问题，将SR-Lut扩展至 Mutiple-luts。（1）设计了两种互补的pattern ，同时构造multiple luts （2）re-indexing 机制来实现 hierachical indexing 。 这种做法使得mulut 的size 和 本身的index capacity 呈线性关系。</p>
+<ul>
+<li>contributions<ul>
+<li>casecade 方法 + re-index 机制，实现多级index</li>
+<li>Mulut 用在 demosaicing 任务上，证明其优于SR-LUT</li>
+</ul>
+</li>
+</ul>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><p><img src="/MuLUT%20Cooperating%20Multiple%20Look-Up%20Tables%20for%20Effi%20bee54a3f97d7486886f3965337bcf9a4/Untitled.png" alt="Untitled"></p>
+<ul>
+<li>SR-lut 的获取方式，基于一个训练好的SR网络，带着有限的感受野。LR pixels 作为query，从Lut 中恢复出HR的像素</li>
+<li>通过Multi-Lut， 把感受野从3X3 → 9X9. 由于Lut 的size 是指数级增长的，因此本方法在这里进行了约束。</li>
+</ul>
+<p><img src="/MuLUT%20Cooperating%20Multiple%20Look-Up%20Tables%20for%20Effi%20bee54a3f97d7486886f3965337bcf9a4/Untitled%201.png" alt="Untitled"></p>
+<ul>
+<li>Mulut 包含三个平行的branch， 并且2个casecade阶段。训练是 end-to-end 进行的</li>
+</ul>
+<p><img src="/MuLUT%20Cooperating%20Multiple%20Look-Up%20Tables%20for%20Effi%20bee54a3f97d7486886f3965337bcf9a4/Untitled%202.png" alt="Untitled"></p>
+<ul>
+<li>Parallelizing Lut . 分别代表三个index pattern。  indexing pixels<br>of MuLUT-S, MuLUT-D, and MuLUT-Y are (I0, I1, I3, I4), (I0, I2, I6, I8), and<br>(I0, I4, I5, I7),</li>
+</ul>
+<p><img src="/MuLUT%20Cooperating%20Multiple%20Look-Up%20Tables%20for%20Effi%20bee54a3f97d7486886f3965337bcf9a4/Untitled%203.png" alt="Untitled"></p>
+<ul>
+<li>图像中的index 是采样的，并且存在int8的数据格式里。previous Mulut 的值会在forward时quantize成整数</li>
+</ul>
+<p><img src="/MuLUT%20Cooperating%20Multiple%20Look-Up%20Tables%20for%20Effi%20bee54a3f97d7486886f3965337bcf9a4/Untitled%204.png" alt="Untitled"></p>
+<ul>
+<li>Lut-aware finetune策略。 一方面是lut 中的值是trainable的，另一方面在训练过程中，lut值适应了这种采样和插值过程</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/08/16/MuLUT%20Cooperating%20Multiple%20Look-Up%20Tables%20for%20Effi%20bee54a3f97d7486886f3965337bcf9a4/" data-id="clktabfn3000cfbred8l2aisu" data-title="MuLUT Cooperating Multiple Look-Up Tables for Efficient Image Super-Resolution" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Composer Creative and Controllable Image Synthesis 042ebfdf568947d8985f976292d62981" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/07/04/Composer%20Creative%20and%20Controllable%20Image%20Synthesis%20042ebfdf568947d8985f976292d62981/" class="article-date">
+  <time class="dt-published" datetime="2022-07-04T02:23:04.000Z" itemprop="datePublished">2022-07-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/07/04/Composer%20Creative%20and%20Controllable%20Image%20Synthesis%20042ebfdf568947d8985f976292d62981/">Composer Creative and Controllable Image Synthesis with Composable Conditions</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="TL；DR"><a href="#TL；DR" class="headerlink" title="TL；DR"></a>TL；DR</h2><p>这篇论文介绍了一种新的生成模型的范式，称为“Composer”，该范式可以在保持合成质量和模型创造力的同时，灵活地控制输出图像，如空间布局（layout）和调色板（platte）。该模型的核心思想是分解图像为代表性的factor，并使用所有这些factor作为条件来训练扩散模型以重新组合输入。在推理阶段，由于中间表示丰富，从而可以产生巨大的生成设计空间。该方法支持各种级别的条件，例如文本描述作为全局信息，深度图和草图作为局部指导，颜色直方图用于低级细节等。除了改善可控性外，该方法还证实了作为通用框架的优势，可以方便地支持各种经典生成任务而无需重新训练。</p>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><p><img src="/Composer%20Creative%20and%20Controllable%20Image%20Synthesis%20042ebfdf568947d8985f976292d62981/Untitled.png" alt="Untitled"></p>
+<ul>
+<li>Composer是一种扩散模型，可接受多个条件，从而实现无分类器指导的各种方向.</li>
+</ul>
+<p><img src="/Composer%20Creative%20and%20Controllable%20Image%20Synthesis%20042ebfdf568947d8985f976292d62981/Untitled%201.png" alt="Untitled"></p>
+<ul>
+<li>通过指定一个权重参数 ω 来控制这些条件。属于 c2 但不属于 c1 的条件会被赋予权重 ω，属于 c1 但不属于 c2 的条件会被赋予权重 (1-ω)，而属于 c1 与 c2 的交集的条件会被赋予权重 1.0</li>
+<li>通过对图像x0进行反向编码，得到其潜在表示xT，然后使用另一个条件c2对xT进行采样，可以以一种解耦的方式操纵图像，其中操纵方向由c2和c1之间的差异定义。</li>
+</ul>
+<p><img src="/Composer%20Creative%20and%20Controllable%20Image%20Synthesis%20042ebfdf568947d8985f976292d62981/Untitled%202.png" alt="Untitled"></p>
+<h3 id="Decomposition"><a href="#Decomposition" class="headerlink" title="Decomposition"></a>Decomposition</h3><ul>
+<li><p>将图像分为8个方面，每个方面都可以在训练中动态提取。</p>
+<ul>
+<li>Caption：直接使用文本-图像的训练数据，或者从预训练的模型中获得。</li>
+<li>Semantics and style</li>
+<li>Color：CIELab histogram</li>
+<li>Sketch</li>
+<li>Instance： Yolov5</li>
+<li>Depthmap</li>
+<li>Intensity: 灰度图</li>
+<li>Masking：ROI区域</li>
+</ul>
+<p>  <img src="/Composer%20Creative%20and%20Controllable%20Image%20Synthesis%20042ebfdf568947d8985f976292d62981/Untitled%203.png" alt="Untitled"></p>
+</li>
+</ul>
+<h3 id="Composition"><a href="#Composition" class="headerlink" title="Composition"></a>Composition</h3><ul>
+<li>全局化条件：including CLIP sentence embeddings, image embeddings and color palettes</li>
+<li>局部化条件：sketches、segmentation masks、depthmaps、intensity images和masked images等本地表示，将它们投影到与噪声潜变量xt相同空间大小的统一维度嵌入中，使用堆叠的卷积层进行处理。然后计算这些嵌入的总和，并将结果连接到xt之前，将其送到UNet中</li>
+<li>联合训练：在每个条件的训练采取类似dropout的策略</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/07/04/Composer%20Creative%20and%20Controllable%20Image%20Synthesis%20042ebfdf568947d8985f976292d62981/" data-id="clktabfmz0005fbrebw613tzx" data-title="Composer Creative and Controllable Image Synthesis with Composable Conditions" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-SR3 Image Super-Resolution via Iterative Refinemen 19876dc352714fe7add3bec96cfa36d6" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/06/25/SR3%20Image%20Super-Resolution%20via%20Iterative%20Refinemen%2019876dc352714fe7add3bec96cfa36d6/" class="article-date">
+  <time class="dt-published" datetime="2022-06-25T02:23:04.000Z" itemprop="datePublished">2022-06-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/06/25/SR3%20Image%20Super-Resolution%20via%20Iterative%20Refinemen%2019876dc352714fe7add3bec96cfa36d6/">SR3 Image Super-Resolution via Iterative Refinement</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="TL；DR"><a href="#TL；DR" class="headerlink" title="TL；DR"></a>TL；DR</h2><p>通过Repeated Refinement 来实现SR。SR3 采用的是 denoising diffusion probabilistic models来进行图片生成，通过随机迭代降噪点过程来进行超分。从纯高斯噪声模型起步，用不同降噪力度的降噪模型来经过不断迭代Noisy 图像，从而生成图像</p>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><p><img src="/SR3%20Image%20Super-Resolution%20via%20Iterative%20Refinemen%2019876dc352714fe7add3bec96cfa36d6/Untitled.png" alt="Untitled"></p>
+<ul>
+<li>生成范式<ul>
+<li>conditional DDPM经过T个步骤生成最终图像，首先从一个pure gaussian images开发，经过T个步骤连续的迭代。每个迭代都需要学习conditional transition distributions. 前向过程：通过固定的马尔可夫链将高斯噪声不断地添加至信号当中。 反向过程：是主要需要学习的部分，即从噪声中逆转得到信号的过程。使用神经去噪模型fθ学习反向链，该模型将源图像和噪声目标图像作为输入，并估计噪声。</li>
+</ul>
+</li>
+<li>训练<ul>
+<li>输入：低分辨率图像； 带噪声图像，尺寸和高分辨率图像一致。</li>
+<li>损失函数：使得模型输出的噪声和随机的高斯噪声分布尽可能一致。</li>
+</ul>
+</li>
+</ul>
+<p><img src="/SR3%20Image%20Super-Resolution%20via%20Iterative%20Refinemen%2019876dc352714fe7add3bec96cfa36d6/Untitled%201.png" alt="Untitled"></p>
+<p><img src="/SR3%20Image%20Super-Resolution%20via%20Iterative%20Refinemen%2019876dc352714fe7add3bec96cfa36d6/Untitled%202.png" alt="Untitled"></p>
+<ul>
+<li>Inference 阶段：输入为低分辨率图像x以及&nbsp;yt高斯噪声，输出为高分辨率图像。输入通过公式重复迭代T次得到SR图像。可以理解为迭代的从图像中去除噪声，当迭代的次数足够多，就能将噪声都去除，得到一个效果较好的SR结果。</li>
+</ul>
+<p><img src="/SR3%20Image%20Super-Resolution%20via%20Iterative%20Refinemen%2019876dc352714fe7add3bec96cfa36d6/Untitled%203.png" alt="Untitled"></p>
+<ul>
+<li>Model Arch:<ul>
+<li>UNet 架构，用迭代的方式从输出去除各level的噪声。将低分辨率图像upsample到高分辨率，再和噪声图concat，作为网络的输入。</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/06/25/SR3%20Image%20Super-Resolution%20via%20Iterative%20Refinemen%2019876dc352714fe7add3bec96cfa36d6/" data-id="clktabfn6000hfbreg2owgc61" data-title="SR3 Image Super-Resolution via Iterative Refinement" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Dancing under the stars video denoising in starlig c87061a266df4697b65001f72ffdfbb3" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/06/04/Dancing%20under%20the%20stars%20video%20denoising%20in%20starlig%20c87061a266df4697b65001f72ffdfbb3/" class="article-date">
+  <time class="dt-published" datetime="2022-06-04T02:23:04.000Z" itemprop="datePublished">2022-06-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/06/04/Dancing%20under%20the%20stars%20video%20denoising%20in%20starlig%20c87061a266df4697b65001f72ffdfbb3/">Dancing under the stars video denoising in starlight</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Dancing-under-the-stars-video-denoising-in-starlight"><a href="#Dancing-under-the-stars-video-denoising-in-starlight" class="headerlink" title="Dancing under the stars: video denoising in starlight"></a>Dancing under the stars: video denoising in starlight</h1><h2 id="TL；DR"><a href="#TL；DR" class="headerlink" title="TL；DR"></a>TL；DR</h2><p>A GAN-tuned physics-based 噪声建模来表示暗光下的噪声，文章表示高斯-泊松噪声在极暗条件下并不是很受用，这种条件下的噪声经常是sensor-specific的，比较难被建模。</p>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><p><img src="/Dancing%20under%20the%20stars%20video%20denoising%20in%20starlig%20c87061a266df4697b65001f72ffdfbb3/Untitled.png" alt="Untitled"></p>
+<ul>
+<li>第一个步骤是训练 noise generator 和 discriminator, 它用于区分 real noise &amp; synthetic noise. 文章用长曝 + low gain 获得noiseless 的图片， 短曝光 + 高gain 来获取noisy 的图像。 经过训练后，该noise geerator 可以获取合成的realistic noise。</li>
+<li>第二个步骤是训练denoiser，训练数据同时使用 synthetic clean 和 noisy video. 其中motion 数据是由 noise generator 生成的，noisy still是由 数据获得的。</li>
+</ul>
+<p><img src="/Dancing%20under%20the%20stars%20video%20denoising%20in%20starlig%20c87061a266df4697b65001f72ffdfbb3/Untitled%201.png" alt="Untitled"></p>
+<ul>
+<li>Noise Generator 包括一些比较经典的噪声建模。例如random 的 read noise 和 shot noise, FPN , 行噪声，量化噪声，周期性噪声等等。在这些噪声的基础上，再由一个UNet 来做一个调整。</li>
+</ul>
+<p><img src="/Dancing%20under%20the%20stars%20video%20denoising%20in%20starlig%20c87061a266df4697b65001f72ffdfbb3/Untitled%202.png" alt="Untitled"></p>
+<ul>
+<li>GAN 训练：为了使得在每一次forward中生成不同的噪声sample，选取了GAN的训练方法。文章选取了WGAN作为框架。</li>
+</ul>
+<p><img src="/Dancing%20under%20the%20stars%20video%20denoising%20in%20starlig%20c87061a266df4697b65001f72ffdfbb3/Untitled%203.png" alt="Untitled"></p>
+<ul>
+<li>降噪的架构，每一个HRNET的输入是三帧图像，类似二叉树一样两两融合。</li>
+</ul>
+<p><img src="/Dancing%20under%20the%20stars%20video%20denoising%20in%20starlig%20c87061a266df4697b65001f72ffdfbb3/Untitled%204.png" alt="Untitled"></p>
+<h2 id="Experiment"><a href="#Experiment" class="headerlink" title="Experiment"></a>Experiment</h2><p><img src="/Dancing%20under%20the%20stars%20video%20denoising%20in%20starlig%20c87061a266df4697b65001f72ffdfbb3/Untitled%205.png" alt="Untitled"></p>
+<ul>
+<li>最后两列的比较是是否采用residue来学习，residue 增加了overfit 的风险。指标用的是KL distance。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/06/04/Dancing%20under%20the%20stars%20video%20denoising%20in%20starlig%20c87061a266df4697b65001f72ffdfbb3/" data-id="clktabfmz0006fbrehgvwcsj3" data-title="Dancing under the stars video denoising in starlight" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-SwinIR Image Restoration Using Swin Transformer 1304af242ae249c99bc8240bb5298e39" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/05/25/SwinIR%20Image%20Restoration%20Using%20Swin%20Transformer%201304af242ae249c99bc8240bb5298e39/" class="article-date">
+  <time class="dt-published" datetime="2022-05-25T02:23:04.000Z" itemprop="datePublished">2022-05-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/05/25/SwinIR%20Image%20Restoration%20Using%20Swin%20Transformer%201304af242ae249c99bc8240bb5298e39/">SwinIR Image Restoration Using Swin Transformer</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><p>为Image Restoration 任务提供了一种Baseline 的 Transformer Based 方法</p>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><p><img src="/SwinIR%20Image%20Restoration%20Using%20Swin%20Transformer%201304af242ae249c99bc8240bb5298e39/Untitled.png" alt="Untitled"></p>
+<ul>
+<li>主要由三部分构成：shallow feature extraction / deep feature extraction and highquality (HQ) image reconstruction</li>
+<li>shallown feature extraction 由 3X3 的conv 构成</li>
+<li>deep feature feature由若干RSTB模块构成，RSTB模块其实就是若干组Swin Transformer Blocks 和 Conv。外围有一个大的Residue</li>
+<li>最后一个模块则是把高频和低频feature整合到一块</li>
+<li>Swin Transformer Layer：给定 H x W x C 的输入，把它reshape 成若干 M x M 的block。然后对每一个window 计算self-attention, 其中 query， key, value等三个vector的计算方式如下</li>
+</ul>
+<p><img src="/SwinIR%20Image%20Restoration%20Using%20Swin%20Transformer%201304af242ae249c99bc8240bb5298e39/Untitled%201.png" alt="Untitled"></p>
+<ul>
+<li>MLP / MSA之前有LayerNorm层</li>
+</ul>
+<p><img src="/SwinIR%20Image%20Restoration%20Using%20Swin%20Transformer%201304af242ae249c99bc8240bb5298e39/Untitled%202.png" alt="Untitled"></p>
+<h2 id="Experiment"><a href="#Experiment" class="headerlink" title="Experiment"></a>Experiment</h2><h2 id="Ablation-Study"><a href="#Ablation-Study" class="headerlink" title="Ablation Study"></a>Ablation Study</h2><p><img src="/SwinIR%20Image%20Restoration%20Using%20Swin%20Transformer%201304af242ae249c99bc8240bb5298e39/Untitled%203.png" alt="Untitled"></p>
+<p><img src="/SwinIR%20Image%20Restoration%20Using%20Swin%20Transformer%201304af242ae249c99bc8240bb5298e39/Untitled%204.png" alt="Untitled"></p>
+<p><img src="/SwinIR%20Image%20Restoration%20Using%20Swin%20Transformer%201304af242ae249c99bc8240bb5298e39/Untitled%205.png" alt="Untitled"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/05/25/SwinIR%20Image%20Restoration%20Using%20Swin%20Transformer%201304af242ae249c99bc8240bb5298e39/" data-id="clktabfn8000kfbreh2rm5vlc" data-title="SwinIR Image Restoration Using Swin Transformer" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -390,7 +767,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/">« Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/">« Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next »</a>
   </nav>
 
 </section>
@@ -409,7 +786,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">July 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">December 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">July 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">December 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/09/">September 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">February 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li></ul>
     </div>
   </div>
 

@@ -1,0 +1,284 @@
+<!DOCTYPE html><html><head>
+  <meta charset="utf-8">
+  
+  
+  <title>ClassSR A General Framework to Accelerate Super-Resolution Networks by Data Characteristic | Daniel Cai</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="ClassSR: A General Framework to Accelerate Super-Resolution Networks by Data CharacteristicTL;DR核心加速方案是：不同的图像区域进行恢复的难度不同，可以用不同capacity的网络结构来处理。提出一种新的pipeline，ClassSR，即先将图像划分为不同大小的sub images，再根据restora">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ClassSR A General Framework to Accelerate Super-Resolution Networks by Data Characteristic">
+<meta property="og:url" content="http://example.com/2022/04/04/ClassSR%20A%20General%20Framework%20to%20Accelerate%20Super-Re%207b62788ea6354524a183401ca1a57572/index.html">
+<meta property="og:site_name" content="Daniel Cai">
+<meta property="og:description" content="ClassSR: A General Framework to Accelerate Super-Resolution Networks by Data CharacteristicTL;DR核心加速方案是：不同的图像区域进行恢复的难度不同，可以用不同capacity的网络结构来处理。提出一种新的pipeline，ClassSR，即先将图像划分为不同大小的sub images，再根据restora">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/ClassSR%20A%20General%20Framework%20to%20Accelerate%20Super-Re%207b62788ea6354524a183401ca1a57572/Untitled.png">
+<meta property="og:image" content="http://example.com/ClassSR%20A%20General%20Framework%20to%20Accelerate%20Super-Re%207b62788ea6354524a183401ca1a57572/Untitled%201.png">
+<meta property="og:image" content="http://example.com/ClassSR%20A%20General%20Framework%20to%20Accelerate%20Super-Re%207b62788ea6354524a183401ca1a57572/Untitled%202.png">
+<meta property="og:image" content="http://example.com/ClassSR%20A%20General%20Framework%20to%20Accelerate%20Super-Re%207b62788ea6354524a183401ca1a57572/Untitled%203.png">
+<meta property="og:image" content="http://example.com/ClassSR%20A%20General%20Framework%20to%20Accelerate%20Super-Re%207b62788ea6354524a183401ca1a57572/Untitled%204.png">
+<meta property="og:image" content="http://example.com/ClassSR%20A%20General%20Framework%20to%20Accelerate%20Super-Re%207b62788ea6354524a183401ca1a57572/Untitled%205.png">
+<meta property="og:image" content="http://example.com/ClassSR%20A%20General%20Framework%20to%20Accelerate%20Super-Re%207b62788ea6354524a183401ca1a57572/Untitled%206.png">
+<meta property="og:image" content="http://example.com/ClassSR%20A%20General%20Framework%20to%20Accelerate%20Super-Re%207b62788ea6354524a183401ca1a57572/Untitled%207.png">
+<meta property="og:image" content="http://example.com/ClassSR%20A%20General%20Framework%20to%20Accelerate%20Super-Re%207b62788ea6354524a183401ca1a57572/Untitled%208.png">
+<meta property="og:image" content="http://example.com/ClassSR%20A%20General%20Framework%20to%20Accelerate%20Super-Re%207b62788ea6354524a183401ca1a57572/Untitled%209.png">
+<meta property="article:published_time" content="2022-04-04T02:23:04.000Z">
+<meta property="article:modified_time" content="2023-08-02T05:14:35.523Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/ClassSR%20A%20General%20Framework%20to%20Accelerate%20Super-Re%207b62788ea6354524a183401ca1a57572/Untitled.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Daniel Cai" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Daniel Cai</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Share my paper reading about AIGC &amp; Multimodal &amp; LLM</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-ClassSR A General Framework to Accelerate Super-Re 7b62788ea6354524a183401ca1a57572" class="h-entry article article-type-post" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/04/04/ClassSR%20A%20General%20Framework%20to%20Accelerate%20Super-Re%207b62788ea6354524a183401ca1a57572/" class="article-date">
+  <time class="dt-published" datetime="2022-04-04T02:23:04.000Z" itemprop="datePublished">2022-04-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      ClassSR A General Framework to Accelerate Super-Resolution Networks by Data Characteristic
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="ClassSR-A-General-Framework-to-Accelerate-Super-Resolution-Networks-by-Data-Characteristic"><a href="#ClassSR-A-General-Framework-to-Accelerate-Super-Resolution-Networks-by-Data-Characteristic" class="headerlink" title="ClassSR: A General Framework to Accelerate Super-Resolution Networks by Data Characteristic"></a>ClassSR: A General Framework to Accelerate Super-Resolution Networks by Data Characteristic</h1><h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><p>核心加速方案是：不同的图像区域进行恢复的难度不同，可以用不同capacity的网络结构来处理。提出一种新的pipeline，ClassSR，即先将图像划分为不同大小的sub images，再根据restoration的难度做分类，再做SR。</p>
+<p><img src="/ClassSR%20A%20General%20Framework%20to%20Accelerate%20Super-Re%207b62788ea6354524a183401ca1a57572/Untitled.png" alt="Untitled"></p>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><ul>
+<li>作者首先进行了一组观察，问了获取32X32 LR图像的统计特性，先将sub image 过一个网络（MSRResNet）, 再根据各自的PSNR值做一个排序。如图所示，分为三档难度，simple, medium, hard。 使用3种的网络来处理不同种类的sub-images, 3种网络的区别主要在于first / last conv layer的通道数量不一致。分别为16， 36 ， 56.</li>
+</ul>
+<p><img src="/ClassSR%20A%20General%20Framework%20to%20Accelerate%20Super-Re%207b62788ea6354524a183401ca1a57572/Untitled%201.png" alt="Untitled"></p>
+<ul>
+<li>Class Module 通过low-level feature来分辨sub image 是否容易恢复。结构上 5 conv + 1 avg pooling + 1 fc</li>
+<li>SR-Module: 包含多个独立的分支，它的结构可以是任何想被加速的对象。本文为了简化，仅用通道数量来表达网络的复杂程度。</li>
+</ul>
+<p><img src="/ClassSR%20A%20General%20Framework%20to%20Accelerate%20Super-Re%207b62788ea6354524a183401ca1a57572/Untitled%202.png" alt="Untitled"></p>
+<ul>
+<li>Classification Method: 在训练阶段，input sub image会经过所有的SR分支，从而保证Class Module 能够接受从不同SR分支返回到提督。最终生成的结果如下：</li>
+</ul>
+<p><img src="/ClassSR%20A%20General%20Framework%20to%20Accelerate%20Super-Re%207b62788ea6354524a183401ca1a57572/Untitled%203.png" alt="Untitled"></p>
+<ul>
+<li>Loss：Class loss, 不同难度分类之间的置信度。Average Loss 是为了避免网络总是选择最复杂的branch，这样 Class Module 就会失效。</li>
+</ul>
+<p><img src="/ClassSR%20A%20General%20Framework%20to%20Accelerate%20Super-Re%207b62788ea6354524a183401ca1a57572/Untitled%204.png" alt="Untitled"></p>
+<p><img src="/ClassSR%20A%20General%20Framework%20to%20Accelerate%20Super-Re%207b62788ea6354524a183401ca1a57572/Untitled%205.png" alt="Untitled"></p>
+<ul>
+<li>训练总共分为三个阶段：pretrain SR-Module; Fix SR训练分类分支。 最后同时finetune两个部分。</li>
+</ul>
+<h2 id="Experiment"><a href="#Experiment" class="headerlink" title="Experiment"></a>Experiment</h2><p><img src="/ClassSR%20A%20General%20Framework%20to%20Accelerate%20Super-Re%207b62788ea6354524a183401ca1a57572/Untitled%206.png" alt="Untitled"></p>
+<ul>
+<li>图像越大，加速比越大。到8K时加速比接近50%</li>
+</ul>
+<h3 id="Ablation-Study"><a href="#Ablation-Study" class="headerlink" title="Ablation Study"></a>Ablation Study</h3><ul>
+<li>如果没有Class Loss，则难以收敛。原因是会随机选择三个分支中的一个，导致训练不稳定。</li>
+</ul>
+<p><img src="/ClassSR%20A%20General%20Framework%20to%20Accelerate%20Super-Re%207b62788ea6354524a183401ca1a57572/Untitled%207.png" alt="Untitled"></p>
+<ul>
+<li>Average Loss 的引入可以带来Flops的下降，能够在两者之间做好权衡。</li>
+</ul>
+<p><img src="/ClassSR%20A%20General%20Framework%20to%20Accelerate%20Super-Re%207b62788ea6354524a183401ca1a57572/Untitled%208.png" alt="Untitled"></p>
+<ul>
+<li>采用减少channel数量来减少flops，不减少middle层数量的原因是，这部分计算量占比很小</li>
+<li>在NR上不太省算力，原因是没有足够多的simple sub images</li>
+</ul>
+<p><img src="/ClassSR%20A%20General%20Framework%20to%20Accelerate%20Super-Re%207b62788ea6354524a183401ca1a57572/Untitled%209.png" alt="Untitled"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/04/04/ClassSR%20A%20General%20Framework%20to%20Accelerate%20Super-Re%207b62788ea6354524a183401ca1a57572/" data-id="clktabfmy0004fbre4r56cgao" data-title="ClassSR A General Framework to Accelerate Super-Resolution Networks by Data Characteristic" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/05/04/Details%20or%20Artifacts%20A%20Locally%20Discriminative%20Lear%20ed4c725bf8e142738f7156c4dbaf1b5a/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Details or Artifacts A Locally Discriminative Learning Approach to
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/03/28/RepVGG%20Making%20VGG-style%20ConvNets%20Great%20Again%2056f64e1f74a94655a703787829633922/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">RepVGG Making VGG-style ConvNets Great Again</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">July 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">December 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/09/">September 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">February 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/07/04/BLIP2/">BLIP-2 Bootstrapping Language-Image Pre-trainingwith Frozen Image Encoders and Large Language Models</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/02/BLIP/">BLIP Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/01/SDXL%20Improving%20Latent%20Diffusion%20Models%20for%20High-Re%20b0dfed5065764baaa371b5b7fd7275cd/">SDXL</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/25/Segment%20Anything/">SAM</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/17/ViLT%20Vision-and-Language%20Transformer%20Without%20Convo%20ddf0a31cddb9402397b4e99fe718307a/">ViLT-Vision-and-Language Transformer</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      © 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+
+<script type="text/javascript" charset="utf-8" src="/js/lazyload-plugin/lazyload.intersectionObserver.min.js"></script></body></html>
